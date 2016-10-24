@@ -4,7 +4,10 @@
     color: white;
 }
 
-
+.nav-login{
+  padding-top: 10px;
+  padding-right: 10px;
+}
 
 .navbar-default .navbar-brand {
     color: #d6d6d6;

@@ -1,0 +1,10 @@
+{{#if isLoggedIn}} {{! Display user name and logout button}}
+	<p class="auth-form">
+		Hello {{username}}
+		<button type="button" class="btn btn-default" {{action 'logout'}}>Log out</button>
+	</p>
+{{else}}
+  <p>
+    <button type="button" class="btn btn-default" {{action 'login'}}>Log in</button>
+  </p>
+{{/if}}
