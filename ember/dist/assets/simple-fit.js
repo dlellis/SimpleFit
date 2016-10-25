@@ -34,7 +34,7 @@ define('simple-fit/components/app-version', ['exports', 'ember-cli-app-version/c
 });
 define('simple-fit/components/auth-manager', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
-    isLoggedIn: true,
+    isLoggedIn: false,
     username: 'Test',
     actions: {
       login: function login() {},
@@ -611,6 +611,9 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
 define('simple-fit/routes/application', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
 });
+define('simple-fit/routes/index', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({});
+});
 define('simple-fit/routes/login', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
 });
@@ -689,7 +692,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
               "column": 0
             },
             "end": {
-              "line": 6,
+              "line": 7,
               "column": 0
             }
           },
@@ -722,16 +725,16 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
           var el2 = dom.createTextNode("\n	");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
+          var el1 = dom.createTextNode("\n\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [2]);
-          var element2 = dom.childAt(element1, [3]);
+          var element0 = dom.childAt(fragment, [2]);
+          var element1 = dom.childAt(element0, [3]);
           var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(element1, 1, 1);
-          morphs[1] = dom.createElementMorph(element2);
+          morphs[0] = dom.createMorphAt(element0, 1, 1);
+          morphs[1] = dom.createElementMorph(element1);
           return morphs;
         },
         statements: [["content", "username", ["loc", [null, [3, 8], [3, 20]]], 0, 0, 0, 0], ["element", "action", ["logout"], [], ["loc", [null, [4, 48], [4, 67]]], 0, 0]],
@@ -740,17 +743,52 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
       };
     })();
     var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+7d7779a6",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 10,
+                "column": 2
+              },
+              "end": {
+                "line": 12,
+                "column": 2
+              }
+            },
+            "moduleName": "simple-fit/templates/components/auth-manager.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("		Login\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
       return {
         meta: {
           "revision": "Ember@2.8.2+7d7779a6",
           "loc": {
             "source": null,
             "start": {
-              "line": 6,
+              "line": 7,
               "column": 0
             },
             "end": {
-              "line": 10,
+              "line": 16,
               "column": 0
             }
           },
@@ -762,33 +800,28 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("  ");
+          var el1 = dom.createTextNode("\n	");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("\n    ");
+          var el2 = dom.createTextNode("\n");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("button");
-          dom.setAttribute(el2, "type", "button");
-          dom.setAttribute(el2, "class", "btn btn-default");
-          var el3 = dom.createTextNode("Log in");
-          dom.appendChild(el2, el3);
+          var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n  ");
+          var el2 = dom.createTextNode("	");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
+          var el1 = dom.createTextNode("\n\n\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1, 1]);
           var morphs = new Array(1);
-          morphs[0] = dom.createElementMorph(element0);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
           return morphs;
         },
-        statements: [["element", "action", ["login"], [], ["loc", [null, [8, 50], [8, 68]]], 0, 0]],
+        statements: [["block", "link-to", ["login"], ["class", "btn btn-default"], 0, null, ["loc", [null, [10, 2], [12, 14]]]]],
         locals: [],
-        templates: []
+        templates: [child0]
       };
     })();
     return {
@@ -801,7 +834,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 11,
+            "line": 17,
             "column": 0
           }
         },
@@ -824,7 +857,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["get", "isLoggedIn", ["loc", [null, [1, 6], [1, 16]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [10, 7]]]]],
+      statements: [["block", "if", [["get", "isLoggedIn", ["loc", [null, [1, 6], [1, 16]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [16, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -4675,6 +4708,55 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
     };
   })());
 });
+define("simple-fit/templates/index", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+7d7779a6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 6
+          }
+        },
+        "moduleName": "simple-fit/templates/index.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "id", "logo");
+        dom.setAttribute(el1, "class", "col-md-4 col-md-offset-3");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("img");
+        dom.setAttribute(el2, "alt", "Logo");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [0, 1]);
+        var morphs = new Array(1);
+        morphs[0] = dom.createAttrMorph(element0, 'src');
+        return morphs;
+      },
+      statements: [["attribute", "src", "images/simple.jpg", 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 define("simple-fit/templates/login", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
@@ -4687,8 +4769,8 @@ define("simple-fit/templates/login", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 1,
-            "column": 46
+            "line": 23,
+            "column": 0
           }
         },
         "moduleName": "simple-fit/templates/login.hbs"
@@ -4699,14 +4781,75 @@ define("simple-fit/templates/login", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createTextNode("Register or Login information here.. depending");
+        var el1 = dom.createComment(" Eventually add some if statements ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "form-group");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "form-group");
+        var el3 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "col-md-4 col-md-offset-4");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("label");
+        var el5 = dom.createTextNode("Username");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("label");
+        var el5 = dom.createTextNode("Password");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("br");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("button");
+        dom.setAttribute(el4, "type", "submit");
+        dom.setAttribute(el4, "class", "btn");
+        var el5 = dom.createTextNode("Log in!");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
-      buildRenderNodes: function buildRenderNodes() {
-        return [];
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [2]);
+        var element1 = dom.childAt(element0, [1, 1]);
+        var morphs = new Array(3);
+        morphs[0] = dom.createElementMorph(element0);
+        morphs[1] = dom.createMorphAt(element1, 3, 3);
+        morphs[2] = dom.createMorphAt(element1, 7, 7);
+        return morphs;
       },
-      statements: [],
+      statements: [["element", "action", ["login"], ["on", "submit"], ["loc", [null, [2, 25], [2, 55]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "username", ["loc", [null, [8, 20], [8, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "type", "text"], ["loc", [null, [8, 6], [8, 63]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "password", ["loc", [null, [13, 20], [13, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "type", "password"], ["loc", [null, [13, 6], [13, 67]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -4748,7 +4891,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+39fb779d"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+d6012eb4"});
 }
 
 /* jshint ignore:end */

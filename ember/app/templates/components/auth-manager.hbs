@@ -3,8 +3,14 @@
 		Hello {{username}}
 		<button type="button" class="btn btn-default" {{action 'logout'}}>Log out</button>
 	</p>
+
 {{else}}
-  <p>
-    <button type="button" class="btn btn-default" {{action 'login'}}>Log in</button>
-  </p>
+
+	<p>
+		{{#link-to 'login' class="btn btn-default"}}
+		Login
+		{{/link-to}}
+	</p>
+
+
 {{/if}}

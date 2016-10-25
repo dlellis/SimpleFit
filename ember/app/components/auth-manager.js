@@ -1,14 +1,15 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  isLoggedIn: true,
+  isLoggedIn: false,
   username: 'Test',
   actions: {
     login: function(){
 
+
     },
     logout: function(){
-      
+
 
     }
   },
