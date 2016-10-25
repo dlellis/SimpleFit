@@ -1,0 +1,16 @@
+{{#if isLoggedIn}} {{! Display user name and logout button}}
+	<p class="auth-form">
+		Hello {{username}}
+		<button type="button" class="btn btn-default" {{action 'logout'}}>Log out</button>
+	</p>
+
+{{else}}
+
+	<p>
+		{{#link-to 'login' class="btn btn-default"}}
+		Login
+		{{/link-to}}
+	</p>
+
+
+{{/if}}
