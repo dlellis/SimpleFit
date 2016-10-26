@@ -27,6 +27,15 @@ define('simple-fit/tests/components/navigation-menu.jshint', ['exports'], functi
     assert.ok(true, 'components/navigation-menu.js should pass jshint.');
   });
 });
+define('simple-fit/tests/controllers/application.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | controllers/application.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/application.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = destroyApp;
 
@@ -450,6 +459,24 @@ define('simple-fit/tests/routes/login.jshint', ['exports'], function (exports) {
     assert.ok(true, 'routes/login.js should pass jshint.');
   });
 });
+define('simple-fit/tests/routes/trainer.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/trainer.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/trainer.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/services/session.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | services/session.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'services/session.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/test-helper', ['exports', 'simple-fit/tests/helpers/resolver', 'ember-qunit'], function (exports, _simpleFitTestsHelpersResolver, _emberQunit) {
 
   (0, _emberQunit.setResolver)(_simpleFitTestsHelpersResolver['default']);
@@ -461,6 +488,28 @@ define('simple-fit/tests/test-helper.jshint', ['exports'], function (exports) {
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'test-helper.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/controllers/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('controller:application', 'Unit | Controller | application', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var controller = this.subject();
+    assert.ok(controller);
+  });
+});
+define('simple-fit/tests/unit/controllers/application-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/controllers/application-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/application-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/routes/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -524,6 +573,49 @@ define('simple-fit/tests/unit/routes/login-test.jshint', ['exports'], function (
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/login-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/trainer-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:trainer', 'Unit | Route | trainer', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/trainer-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/trainer-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/trainer-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/services/session-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('service:session', 'Unit | Service | session', {
+    // Specify the other units that are required for this test.
+    // needs: ['service:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var service = this.subject();
+    assert.ok(service);
+  });
+});
+define('simple-fit/tests/unit/services/session-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/services/session-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/services/session-test.js should pass jshint.');
   });
 });
 /* jshint ignore:start */

@@ -34,8 +34,7 @@ define('simple-fit/components/app-version', ['exports', 'ember-cli-app-version/c
 });
 define('simple-fit/components/auth-manager', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
-    isLoggedIn: false,
-    username: 'Test',
+    session: _ember['default'].inject.service('session'),
     actions: {
       login: function login() {},
       logout: function logout() {}
@@ -332,6 +331,11 @@ define('simple-fit/components/ember-wormhole', ['exports', 'ember-wormhole/compo
 define('simple-fit/components/navigation-menu', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({});
 });
+define('simple-fit/controllers/application', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend({
+    session: _ember['default'].inject.service('session')
+  });
+});
 define('simple-fit/helpers/bs-contains', ['exports', 'ember-bootstrap/helpers/bs-contains'], function (exports, _emberBootstrapHelpersBsContains) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -604,6 +608,7 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
 
   Router.map(function () {
     this.route('login');
+    this.route('trainer');
   });
 
   exports['default'] = Router;
@@ -617,12 +622,23 @@ define('simple-fit/routes/index', ['exports', 'ember'], function (exports, _embe
 define('simple-fit/routes/login', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
 });
+define('simple-fit/routes/trainer', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({});
+});
 define('simple-fit/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _emberAjaxServicesAjax) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
     get: function get() {
       return _emberAjaxServicesAjax['default'];
     }
+  });
+});
+define('simple-fit/services/session', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Service.extend({
+    isLoggedIn: true,
+    id: 1,
+    username: 'Dobby',
+    membertype: 'trainer'
   });
 });
 define("simple-fit/templates/application", ["exports"], function (exports) {
@@ -737,7 +753,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
           morphs[1] = dom.createElementMorph(element1);
           return morphs;
         },
-        statements: [["content", "username", ["loc", [null, [3, 8], [3, 20]]], 0, 0, 0, 0], ["element", "action", ["logout"], [], ["loc", [null, [4, 48], [4, 67]]], 0, 0]],
+        statements: [["content", "session.username", ["loc", [null, [3, 8], [3, 28]]], 0, 0, 0, 0], ["element", "action", ["logout"], [], ["loc", [null, [4, 48], [4, 67]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -857,7 +873,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["get", "isLoggedIn", ["loc", [null, [1, 6], [1, 16]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [16, 7]]]]],
+      statements: [["block", "if", [["get", "session.isLoggedIn", ["loc", [null, [1, 6], [1, 24]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [16, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -4624,6 +4640,41 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         templates: []
       };
     })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+7d7779a6",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 10,
+              "column": 6
+            },
+            "end": {
+              "line": 12,
+              "column": 6
+            }
+          },
+          "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("      Trainer\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.8.2+7d7779a6",
@@ -4634,7 +4685,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             "column": 0
           },
           "end": {
-            "line": 19,
+            "line": 28,
             "column": 6
           }
         },
@@ -4660,10 +4711,28 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         dom.appendChild(el3, el4);
         var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("ul");
+        dom.setAttribute(el4, "class", "nav navbar-nav");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("li");
+        dom.setAttribute(el5, "class", "nav-item active");
+        var el6 = dom.createTextNode("\n");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createComment("");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("      ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n    ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
+        var el3 = dom.createTextNode("\n\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "nav-login");
@@ -4687,7 +4756,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         var el4 = dom.createTextNode("\n\n  ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
+        var el3 = dom.createTextNode("\n\n\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -4697,14 +4766,16 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [0, 1]);
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [3, 1, 1]), 1, 1);
+        var element1 = dom.childAt(element0, [1]);
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(element1, 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element1, [3, 1]), 1, 1);
+        morphs[2] = dom.createMorphAt(dom.childAt(element0, [3, 1, 1]), 1, 1);
         return morphs;
       },
-      statements: [["block", "link-to", ["application"], ["class", "navbar-brand"], 0, null, ["loc", [null, [5, 6], [7, 18]]]], ["content", "auth-manager", ["loc", [null, [13, 10], [13, 26]]], 0, 0, 0, 0]],
+      statements: [["block", "link-to", ["application"], ["class", "navbar-brand"], 0, null, ["loc", [null, [5, 6], [7, 18]]]], ["block", "link-to", ["trainer"], ["class", "nav-link"], 1, null, ["loc", [null, [10, 6], [12, 18]]]], ["content", "auth-manager", ["loc", [null, [20, 10], [20, 26]]], 0, 0, 0, 0]],
       locals: [],
-      templates: [child0]
+      templates: [child0, child1]
     };
   })());
 });
@@ -4855,6 +4926,48 @@ define("simple-fit/templates/login", ["exports"], function (exports) {
     };
   })());
 });
+define("simple-fit/templates/trainer", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+7d7779a6",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/trainer.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["content", "outlet", ["loc", [null, [1, 0], [1, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 /* jshint ignore:start */
 
 
@@ -4891,7 +5004,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+d6012eb4"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+0a9b8632"});
 }
 
 /* jshint ignore:end */

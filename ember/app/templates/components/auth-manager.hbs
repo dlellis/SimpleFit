@@ -1,6 +1,6 @@
-{{#if isLoggedIn}} {{! Display user name and logout button}}
+{{#if session.isLoggedIn}} {{! Display user name and logout button}}
 	<p class="auth-form">
-		Hello {{username}}
+		Hello {{session.username}}
 		<button type="button" class="btn btn-default" {{action 'logout'}}>Log out</button>
 	</p>
 
