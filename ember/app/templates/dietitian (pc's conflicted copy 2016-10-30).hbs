@@ -1,0 +1,17 @@
+<h1>Dietitian Home Page</h1>
+
+<h2>Client List</h2>
+<ul class="row-fluid block-grid-3">
+  {{#each model as |client|}}
+    <li class="client">
+      <h4>{{client.firstName}} {{client.lastName}}</h4>
+      <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT1rl4Z6ILcLQiePkQDJE273zAnrGj1E5gsUa6qNEiGuj1Jqy38bIbHmg" height="80" widtch="80">
+      <p>
+        Cool graphing and tracking and stuff
+      </p>
+      <a href="/users/{{client.url}}">User Profile</a>
+    </li>
+  {{/each}}
+</ul>
+
+{{outlet}}

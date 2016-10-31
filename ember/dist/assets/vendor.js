@@ -10539,7 +10539,7 @@ return jQuery;
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   2.8.2+7d7779a6
+ * @version   2.8.2+31ba4c74
  */
 
 var enifed, requireModule, require, Ember;
@@ -20898,7 +20898,7 @@ enifed('ember-htmlbars/hooks/component', ['exports', 'ember-metal/debug', 'ember
          */
         var newAttrs = _emberMetalAssign.default(new _emberMetalEmpty_object.default(), attrs);
         _emberHtmlbarsKeywordsClosureComponent.processPositionalParamsFromCell(componentCell, params, newAttrs);
-        attrs = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], newAttrs, componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_POSITIONAL_PARAMS], params);
+        attrs = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], newAttrs, env, componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_POSITIONAL_PARAMS], params);
         params = [];
       }
     }
@@ -21460,7 +21460,7 @@ enifed('ember-htmlbars/hooks/link-render-node', ['exports', 'ember-htmlbars/util
       var componentCell = stream.value();
 
       if (_emberHtmlbarsKeywordsClosureComponent.isComponentCell(componentCell)) {
-        var closureAttrs = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], hash);
+        var closureAttrs = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], hash, env);
 
         for (var key in closureAttrs) {
           _emberHtmlbarsUtilsSubscribe.default(renderNode, env, scope, closureAttrs[key]);
@@ -22319,7 +22319,7 @@ enifed('ember-htmlbars/keywords/closure-component', ['exports', 'ember-metal/deb
     var newHash = _emberMetalAssign.default(new _emberMetalEmpty_object.default(), hash);
 
     if (isComponentCell(componentPath)) {
-      return createNestedClosureComponentCell(componentPath, params, newHash);
+      return createNestedClosureComponentCell(componentPath, params, newHash, env);
     } else {
       _emberMetalDebug.assert('The component helper cannot be used without a valid component name. You used "' + componentPath + '" via ' + label, isValidComponentPath(env, componentPath));
       return createNewClosureComponentCell(env, componentPath, params, newHash);
@@ -22336,13 +22336,13 @@ enifed('ember-htmlbars/keywords/closure-component', ['exports', 'ember-metal/deb
     return component && component[COMPONENT_CELL];
   }
 
-  function createNestedClosureComponentCell(componentCell, params, hash) {
+  function createNestedClosureComponentCell(componentCell, params, hash, env) {
     var _ref;
 
     // This needs to be done in each nesting level to avoid raising assertions.
     processPositionalParamsFromCell(componentCell, params, hash);
 
-    return _ref = {}, _ref[COMPONENT_PATH] = componentCell[COMPONENT_PATH], _ref[COMPONENT_SOURCE] = componentCell[COMPONENT_SOURCE], _ref[COMPONENT_HASH] = mergeInNewHash(componentCell[COMPONENT_HASH], hash, componentCell[COMPONENT_POSITIONAL_PARAMS], params), _ref[COMPONENT_POSITIONAL_PARAMS] = componentCell[COMPONENT_POSITIONAL_PARAMS], _ref[COMPONENT_CELL] = true, _ref;
+    return _ref = {}, _ref[COMPONENT_PATH] = componentCell[COMPONENT_PATH], _ref[COMPONENT_SOURCE] = componentCell[COMPONENT_SOURCE], _ref[COMPONENT_HASH] = mergeInNewHash(componentCell[COMPONENT_HASH], hash, env, componentCell[COMPONENT_POSITIONAL_PARAMS], params), _ref[COMPONENT_POSITIONAL_PARAMS] = componentCell[COMPONENT_POSITIONAL_PARAMS], _ref[COMPONENT_CELL] = true, _ref;
   }
 
   function processPositionalParamsFromCell(componentCell, params, hash) {
@@ -22416,15 +22416,18 @@ enifed('ember-htmlbars/keywords/closure-component', ['exports', 'ember-metal/deb
    * a string (rest positional parameters), we keep the parameters from the
    * `original` hash.
    *
+   * Now we need to consider also the case where the positional params are being
+   * passed as a named parameter.
+   *
    */
 
-  function mergeInNewHash(original, updates) {
-    var positionalParams = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
-    var params = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+  function mergeInNewHash(original, updates, env) {
+    var positionalParams = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+    var params = arguments.length <= 4 || arguments[4] === undefined ? [] : arguments[4];
 
     var newHash = _emberMetalAssign.default({}, original, updates);
 
-    if (_emberHtmlbarsUtilsExtractPositionalParams.isRestPositionalParams(positionalParams) && _emberMetalIs_empty.default(params)) {
+    if (_emberHtmlbarsUtilsExtractPositionalParams.isRestPositionalParams(positionalParams) && _emberMetalIs_empty.default(params) && _emberMetalIs_empty.default(env.hooks.getValue(updates[positionalParams]))) {
       var propName = positionalParams;
       newHash[propName] = original[propName];
     }
@@ -22818,7 +22821,7 @@ enifed('ember-htmlbars/keywords/element-component', ['exports', 'ember-metal/ass
 
       // This needs to be done in each nesting level to avoid raising assertions
       _emberHtmlbarsKeywordsClosureComponent.processPositionalParamsFromCell(closureComponent, params, hash);
-      hash = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], hash, closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_POSITIONAL_PARAMS], params);
+      hash = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], hash, env, closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_POSITIONAL_PARAMS], params);
       params = [];
       env = env.childWithMeta(_emberMetalAssign.default({}, env.meta, { moduleName: closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_SOURCE] }));
     }
@@ -25192,12 +25195,12 @@ enifed('ember-htmlbars/renderer', ['exports', 'ember-metal/run_loop', 'ember-met
   };
 
   Renderer.prototype._register = function Renderer_register(view) {
-    _emberMetalDebug.assert('Attempted to register a view with an id already in use: ' + view.elementId, !this._viewRegistry[this.elementId]);
+    _emberMetalDebug.assert('Attempted to register a view with an id already in use: ' + view.elementId, !this._viewRegistry[view.elementId]);
     this._viewRegistry[view.elementId] = view;
   };
 
   Renderer.prototype._unregister = function Renderer_unregister(view) {
-    delete this._viewRegistry[this.elementId];
+    delete this._viewRegistry[view.elementId];
   };
 
   var InertRenderer = {
@@ -34453,12 +34456,13 @@ enifed('ember-metal/run_loop', ['exports', 'ember-metal/debug', 'ember-metal/tes
       will be resolved on the target object at the time the scheduled item is
       invoked allowing you to change the target function.
     @param {Object} [arguments*] Optional arguments to be passed to the queued method.
-    @return {void}
+    @return {*} Timer information for use in cancelling, see `run.cancel`.
     @public
   */
   run.schedule = function () /* queue, target, method */{
     _emberMetalDebug.assert('You have turned on testing mode, which disabled the run-loop\'s autorun. ' + 'You will need to wrap any code with asynchronous side-effects in a run', run.currentRunLoop || !_emberMetalTesting.isTesting());
-    backburner.schedule.apply(backburner, arguments);
+
+    return backburner.schedule.apply(backburner, arguments);
   };
 
   // Used by global test teardown
@@ -55060,7 +55064,7 @@ enifed('ember/index', ['exports', 'require', 'ember-metal', 'ember-runtime', 'em
 enifed("ember/version", ["exports"], function (exports) {
   "use strict";
 
-  exports.default = "2.8.2+7d7779a6";
+  exports.default = "2.8.2+31ba4c74";
 });
 enifed('htmlbars-runtime', ['exports', 'htmlbars-runtime/hooks', 'htmlbars-runtime/render', 'htmlbars-util/morph-utils', 'htmlbars-util/template-utils'], function (exports, _htmlbarsRuntimeHooks, _htmlbarsRuntimeRender, _htmlbarsUtilMorphUtils, _htmlbarsUtilTemplateUtils) {
   'use strict';
@@ -71783,7 +71787,7 @@ define("ember-bootstrap/templates/components/bs-nav-item", ["exports"], function
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -71827,7 +71831,7 @@ define("ember-bootstrap/templates/components/bs-nav", ["exports"], function (exp
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -71871,7 +71875,7 @@ define("ember-bootstrap/templates/components/bs-navbar-content", ["exports"], fu
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -71915,7 +71919,7 @@ define("ember-bootstrap/templates/components/bs-navbar-nav", ["exports"], functi
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -71959,7 +71963,7 @@ define("ember-bootstrap/templates/components/bs-navbar-toggle", ["exports"], fun
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72003,7 +72007,7 @@ define("ember-bootstrap/templates/components/bs-navbar", ["exports"], function (
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72055,7 +72059,7 @@ define("ember-bootstrap/templates/components/bs-popover-element", ["exports"], f
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -72096,7 +72100,7 @@ define("ember-bootstrap/templates/components/bs-popover-element", ["exports"], f
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72152,7 +72156,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
           var child0 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -72193,7 +72197,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
           var child1 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -72233,7 +72237,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
           })();
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -72271,7 +72275,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
         })();
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -72311,7 +72315,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -72351,7 +72355,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72394,7 +72398,7 @@ define("ember-bootstrap/templates/components/bs-tab-pane", ["exports"], function
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72439,7 +72443,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -72485,7 +72489,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
               var child0 = (function () {
                 return {
                   meta: {
-                    "revision": "Ember@2.8.2+7d7779a6",
+                    "revision": "Ember@2.8.2+31ba4c74",
                     "loc": {
                       "source": null,
                       "start": {
@@ -72529,7 +72533,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
                 var child0 = (function () {
                   return {
                     meta: {
-                      "revision": "Ember@2.8.2+7d7779a6",
+                      "revision": "Ember@2.8.2+31ba4c74",
                       "loc": {
                         "source": null,
                         "start": {
@@ -72579,7 +72583,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
                 })();
                 return {
                   meta: {
-                    "revision": "Ember@2.8.2+7d7779a6",
+                    "revision": "Ember@2.8.2+31ba4c74",
                     "loc": {
                       "source": null,
                       "start": {
@@ -72617,7 +72621,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
               })();
               return {
                 meta: {
-                  "revision": "Ember@2.8.2+7d7779a6",
+                  "revision": "Ember@2.8.2+31ba4c74",
                   "loc": {
                     "source": null,
                     "start": {
@@ -72661,7 +72665,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
             })();
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -72701,7 +72705,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
             var child0 = (function () {
               return {
                 meta: {
-                  "revision": "Ember@2.8.2+7d7779a6",
+                  "revision": "Ember@2.8.2+31ba4c74",
                   "loc": {
                     "source": null,
                     "start": {
@@ -72743,7 +72747,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
             })();
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -72783,7 +72787,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
           })();
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -72821,7 +72825,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
         })();
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -72859,7 +72863,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -72910,7 +72914,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72953,7 +72957,7 @@ define("ember-bootstrap/templates/components/bs-tooltip-element", ["exports"], f
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -73010,7 +73014,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
           var child0 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -73051,7 +73055,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
           var child1 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -73091,7 +73095,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
           })();
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -73129,7 +73133,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
         })();
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -73169,7 +73173,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -73209,7 +73213,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -73352,7 +73356,7 @@ define("ember-cli-app-version/templates/app-version", ["exports"], function (exp
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -91853,7 +91857,7 @@ define("ember-wormhole/templates/components/ember-wormhole", ["exports"], functi
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {

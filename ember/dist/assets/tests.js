@@ -1,5 +1,14 @@
 'use strict';
 
+define('simple-fit/tests/adapters/trainer.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | adapters/trainer.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'adapters/trainer.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/app.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -34,6 +43,15 @@ define('simple-fit/tests/controllers/application.jshint', ['exports'], function 
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/application.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/controllers/trainer.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | controllers/trainer.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/trainer.js should pass jshint.');
   });
 });
 define('simple-fit/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
@@ -147,7 +165,7 @@ define('simple-fit/tests/integration/components/auth-manager-test', ['exports', 
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.8.2+7d7779a6',
+          'revision': 'Ember@2.8.2+31ba4c74',
           'loc': {
             'source': null,
             'start': {
@@ -190,7 +208,7 @@ define('simple-fit/tests/integration/components/auth-manager-test', ['exports', 
       var child0 = (function () {
         return {
           meta: {
-            'revision': 'Ember@2.8.2+7d7779a6',
+            'revision': 'Ember@2.8.2+31ba4c74',
             'loc': {
               'source': null,
               'start': {
@@ -224,7 +242,7 @@ define('simple-fit/tests/integration/components/auth-manager-test', ['exports', 
 
       return {
         meta: {
-          'revision': 'Ember@2.8.2+7d7779a6',
+          'revision': 'Ember@2.8.2+31ba4c74',
           'loc': {
             'source': null,
             'start': {
@@ -287,7 +305,7 @@ define('simple-fit/tests/integration/components/navigation-menu-test', ['exports
     this.render(Ember.HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.8.2+7d7779a6',
+          'revision': 'Ember@2.8.2+31ba4c74',
           'loc': {
             'source': null,
             'start': {
@@ -330,7 +348,7 @@ define('simple-fit/tests/integration/components/navigation-menu-test', ['exports
       var child0 = (function () {
         return {
           meta: {
-            'revision': 'Ember@2.8.2+7d7779a6',
+            'revision': 'Ember@2.8.2+31ba4c74',
             'loc': {
               'source': null,
               'start': {
@@ -364,7 +382,7 @@ define('simple-fit/tests/integration/components/navigation-menu-test', ['exports
 
       return {
         meta: {
-          'revision': 'Ember@2.8.2+7d7779a6',
+          'revision': 'Ember@2.8.2+31ba4c74',
           'loc': {
             'source': null,
             'start': {
@@ -414,6 +432,15 @@ define('simple-fit/tests/integration/components/navigation-menu-test.jshint', ['
     assert.ok(true, 'integration/components/navigation-menu-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/models/clients.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/clients.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/clients.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/resolver.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -441,6 +468,15 @@ define('simple-fit/tests/routes/application.jshint', ['exports'], function (expo
     assert.ok(true, 'routes/application.js should pass jshint.');
   });
 });
+define('simple-fit/tests/routes/dietitian.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/dietitian.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'routes/dietitian.js should pass jshint.\nroutes/dietitian.js: line 4, col 9, \'clients\' is defined but never used.\n\n1 error');
+  });
+});
 define('simple-fit/tests/routes/index.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -457,6 +493,24 @@ define('simple-fit/tests/routes/login.jshint', ['exports'], function (exports) {
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/login.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/routes/market.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/market.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/market.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/routes/recipes.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/recipes.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/recipes.js should pass jshint.');
   });
 });
 define('simple-fit/tests/routes/trainer.jshint', ['exports'], function (exports) {
@@ -512,6 +566,28 @@ define('simple-fit/tests/unit/controllers/application-test.jshint', ['exports'],
     assert.ok(true, 'unit/controllers/application-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/unit/controllers/trainer-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('controller:trainer', 'Unit | Controller | trainer', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var controller = this.subject();
+    assert.ok(controller);
+  });
+});
+define('simple-fit/tests/unit/controllers/trainer-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/controllers/trainer-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/trainer-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/unit/routes/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('route:application', 'Unit | Route | application', {
@@ -531,6 +607,27 @@ define('simple-fit/tests/unit/routes/application-test.jshint', ['exports'], func
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/application-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/dietitian-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:dietitian', 'Unit | Route | dietitian', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/dietitian-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/dietitian-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/dietitian-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/routes/index-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -573,6 +670,48 @@ define('simple-fit/tests/unit/routes/login-test.jshint', ['exports'], function (
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/login-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/market-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:market', 'Unit | Route | market', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/market-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/market-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/market-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/recipes-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:recipes', 'Unit | Route | recipes', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/recipes-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/recipes-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/recipes-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/routes/trainer-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {

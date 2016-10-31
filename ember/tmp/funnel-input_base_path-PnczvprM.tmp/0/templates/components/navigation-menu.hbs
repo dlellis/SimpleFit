@@ -1,0 +1,35 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+
+      {{#link-to 'application' class="navbar-brand"}}
+      Simple
+      {{/link-to}}
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+      {{#link-to 'trainer' class="nav-link"}}
+      Trainer
+      {{/link-to}}
+      </li>
+    </ul>
+    <ul class="nav navbar-nav">
+      <li class="nav-item active">
+      {{#link-to 'dietitian' class="nav-link"}}
+      FOOD SHIT
+      {{/link-to}}
+      </li>
+    </ul>
+    </div>
+
+    <div class="nav-login">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          {{auth-manager}}
+        </li>
+      </ul>
+
+  </div>
+
+
+  </div>
+</nav>

@@ -13,6 +13,10 @@
     color: #d6d6d6;
 }
 
+.auth{
+  color: white;
+}
+
 .navbar-default .navbar-header .navbar-brand:hover {
     color: white;
 }
@@ -29,4 +33,27 @@
 
 body{
   padding-top: 70px;
+}
+
+/* client grid */
+ul.block-grid-3 {
+   display: block;
+   overflow: hidden;
+   padding: 0;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+ul.block-grid-3 > li {
+   width: 33.33333%;
+   float: left;
+   padding: 0 12px 12px;
+   display: block;
+   height: auto;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+ul.block-grid-3 > li:nth-of-type(3n+1) {
+   clear: left;
 }

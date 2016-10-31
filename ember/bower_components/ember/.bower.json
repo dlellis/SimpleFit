@@ -13,14 +13,13 @@
   "dependencies": {
     "jquery": ">= 1.7.0 < 4.0.0"
   },
-  "_release": "41a067bc17",
+  "_release": "75b29b57b8",
   "_resolution": {
     "type": "branch",
     "branch": "lts-2-8",
-    "commit": "41a067bc17dc1d30a5b6decdb60f98eb8c01e2f0"
+    "commit": "75b29b57b8b51f3ec27cbc463d51eeca6c8c4004"
   },
   "_source": "https://github.com/components/ember.git",
   "_target": "lts-2-8",
-  "_originalSource": "ember",
-  "_direct": true
+  "_originalSource": "ember"
 }

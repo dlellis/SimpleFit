@@ -336,6 +336,9 @@ define('simple-fit/controllers/application', ['exports', 'ember'], function (exp
     session: _ember['default'].inject.service('session')
   });
 });
+define('simple-fit/controllers/trainer', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend();
+});
 define('simple-fit/helpers/bs-contains', ['exports', 'ember-bootstrap/helpers/bs-contains'], function (exports, _emberBootstrapHelpersBsContains) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -596,6 +599,13 @@ define("simple-fit/instance-initializers/ember-data", ["exports", "ember-data/-p
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
   };
 });
+define('simple-fit/models/clients', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		//return Ember.$.get('/clients/clients.json')
+		firstName: _emberData['default'].attr(),
+		lastName: _emberData['default'].attr()
+	});
+});
 define('simple-fit/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
   exports['default'] = _emberResolver['default'];
 });
@@ -609,12 +619,64 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
   Router.map(function () {
     this.route('login');
     this.route('trainer');
+    this.route('dietitian');
+    this.route('market');
+    this.route('recipes');
   });
 
   exports['default'] = Router;
 });
 define('simple-fit/routes/application', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({});
+  exports['default'] = _ember['default'].Route.extend({
+    model: function model() {
+      this.get('store').push({
+        data: [{
+          id: 1,
+          type: 'clients',
+          attributes: {
+            firstName: "tom",
+            lastName: "tomingson",
+            services: "trainer, dietitian"
+          },
+          relationships: {}
+        }, {
+          id: 2,
+          type: 'clients',
+          attributes: {
+            firstName: "mary",
+            lastName: "jane",
+            services: "dietitian"
+          },
+          relationships: {}
+        }, {
+          id: 3,
+          type: 'clients',
+          attributes: {
+            firstName: "jane",
+            lastName: "doe",
+            services: "trainer"
+          },
+          relationships: {}
+        }, {
+          id: 4,
+          type: 'clients',
+          attributes: {
+            firstName: "jon",
+            lastName: "doe",
+            services: "trainer, dietitian"
+          },
+          relationships: {}
+        }]
+      });
+    }
+  });
+});
+define('simple-fit/routes/dietitian', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({
+    model: function model(clients) {
+      return this.store.findAll('clients');
+    }
+  });
 });
 define('simple-fit/routes/index', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -622,8 +684,18 @@ define('simple-fit/routes/index', ['exports', 'ember'], function (exports, _embe
 define('simple-fit/routes/login', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
 });
-define('simple-fit/routes/trainer', ['exports', 'ember'], function (exports, _ember) {
+define('simple-fit/routes/market', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
+});
+define('simple-fit/routes/recipes', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({});
+});
+define('simple-fit/routes/trainer', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({
+    model: function model() {
+      return this.store.findAll('clients');
+    }
+  });
 });
 define('simple-fit/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _emberAjaxServicesAjax) {
   Object.defineProperty(exports, 'default', {
@@ -645,7 +717,7 @@ define("simple-fit/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -700,7 +772,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -762,7 +834,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -796,7 +868,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -842,7 +914,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -884,7 +956,7 @@ define("simple-fit/templates/components/bs-accordion-item", ["exports"], functio
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -931,7 +1003,7 @@ define("simple-fit/templates/components/bs-accordion-item", ["exports"], functio
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -1002,7 +1074,7 @@ define("simple-fit/templates/components/bs-alert", ["exports"], function (export
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -1051,7 +1123,7 @@ define("simple-fit/templates/components/bs-alert", ["exports"], function (export
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1093,7 +1165,7 @@ define("simple-fit/templates/components/bs-alert", ["exports"], function (export
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -1135,7 +1207,7 @@ define("simple-fit/templates/components/bs-button", ["exports"], function (expor
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1174,7 +1246,7 @@ define("simple-fit/templates/components/bs-button", ["exports"], function (expor
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -1221,7 +1293,7 @@ define("simple-fit/templates/components/bs-form-element", ["exports"], function 
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -1263,7 +1335,7 @@ define("simple-fit/templates/components/bs-form-group", ["exports"], function (e
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1305,7 +1377,7 @@ define("simple-fit/templates/components/bs-form-group", ["exports"], function (e
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -1351,7 +1423,7 @@ define("simple-fit/templates/components/bs-form", ["exports"], function (exports
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -1393,7 +1465,7 @@ define("simple-fit/templates/components/bs-modal-dialog", ["exports"], function 
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1435,7 +1507,7 @@ define("simple-fit/templates/components/bs-modal-dialog", ["exports"], function 
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -1475,7 +1547,7 @@ define("simple-fit/templates/components/bs-modal-dialog", ["exports"], function 
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1514,7 +1586,7 @@ define("simple-fit/templates/components/bs-modal-dialog", ["exports"], function 
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1555,7 +1627,7 @@ define("simple-fit/templates/components/bs-modal-dialog", ["exports"], function 
     var child3 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1595,7 +1667,7 @@ define("simple-fit/templates/components/bs-modal-dialog", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -1659,7 +1731,7 @@ define("simple-fit/templates/components/bs-modal-footer", ["exports"], function 
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1702,7 +1774,7 @@ define("simple-fit/templates/components/bs-modal-footer", ["exports"], function 
         var child0 = (function () {
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -1741,7 +1813,7 @@ define("simple-fit/templates/components/bs-modal-footer", ["exports"], function 
         var child1 = (function () {
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -1779,7 +1851,7 @@ define("simple-fit/templates/components/bs-modal-footer", ["exports"], function 
         })();
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -1826,7 +1898,7 @@ define("simple-fit/templates/components/bs-modal-footer", ["exports"], function 
         var child0 = (function () {
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -1864,7 +1936,7 @@ define("simple-fit/templates/components/bs-modal-footer", ["exports"], function 
         })();
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -1904,7 +1976,7 @@ define("simple-fit/templates/components/bs-modal-footer", ["exports"], function 
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -1942,7 +2014,7 @@ define("simple-fit/templates/components/bs-modal-footer", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -1984,7 +2056,7 @@ define("simple-fit/templates/components/bs-modal-header", ["exports"], function 
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2034,7 +2106,7 @@ define("simple-fit/templates/components/bs-modal-header", ["exports"], function 
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2075,7 +2147,7 @@ define("simple-fit/templates/components/bs-modal-header", ["exports"], function 
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2118,7 +2190,7 @@ define("simple-fit/templates/components/bs-modal-header", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -2164,7 +2236,7 @@ define("simple-fit/templates/components/bs-modal", ["exports"], function (export
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -2205,7 +2277,7 @@ define("simple-fit/templates/components/bs-modal", ["exports"], function (export
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -2247,7 +2319,7 @@ define("simple-fit/templates/components/bs-modal", ["exports"], function (export
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2296,7 +2368,7 @@ define("simple-fit/templates/components/bs-modal", ["exports"], function (export
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -2339,7 +2411,7 @@ define("simple-fit/templates/components/bs-progress-bar", ["exports"], function 
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -2380,7 +2452,7 @@ define("simple-fit/templates/components/bs-progress-bar", ["exports"], function 
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -2420,7 +2492,7 @@ define("simple-fit/templates/components/bs-progress-bar", ["exports"], function 
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2460,7 +2532,7 @@ define("simple-fit/templates/components/bs-progress-bar", ["exports"], function 
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -2504,7 +2576,7 @@ define("simple-fit/templates/components/bs-progress-bar", ["exports"], function 
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -2549,7 +2621,7 @@ define("simple-fit/templates/components/bs-progress-bar", ["exports"], function 
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2588,7 +2660,7 @@ define("simple-fit/templates/components/bs-progress-bar", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -2630,7 +2702,7 @@ define("simple-fit/templates/components/bs-progress", ["exports"], function (exp
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -2673,7 +2745,7 @@ define("simple-fit/templates/components/bs-select", ["exports"], function (expor
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2723,7 +2795,7 @@ define("simple-fit/templates/components/bs-select", ["exports"], function (expor
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2772,7 +2844,7 @@ define("simple-fit/templates/components/bs-select", ["exports"], function (expor
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -2819,7 +2891,7 @@ define("simple-fit/templates/components/form-element/errors", ["exports"], funct
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2862,7 +2934,7 @@ define("simple-fit/templates/components/form-element/errors", ["exports"], funct
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -2904,7 +2976,7 @@ define("simple-fit/templates/components/form-element/feedback-icon", ["exports"]
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -2946,7 +3018,7 @@ define("simple-fit/templates/components/form-element/feedback-icon", ["exports"]
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -2987,7 +3059,7 @@ define("simple-fit/templates/components/form-element/horizontal/checkbox", ["exp
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -3060,7 +3132,7 @@ define("simple-fit/templates/components/form-element/horizontal/default", ["expo
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -3101,7 +3173,7 @@ define("simple-fit/templates/components/form-element/horizontal/default", ["expo
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -3141,7 +3213,7 @@ define("simple-fit/templates/components/form-element/horizontal/default", ["expo
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3211,7 +3283,7 @@ define("simple-fit/templates/components/form-element/horizontal/default", ["expo
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -3252,7 +3324,7 @@ define("simple-fit/templates/components/form-element/horizontal/default", ["expo
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -3292,7 +3364,7 @@ define("simple-fit/templates/components/form-element/horizontal/default", ["expo
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3350,7 +3422,7 @@ define("simple-fit/templates/components/form-element/horizontal/default", ["expo
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -3392,7 +3464,7 @@ define("simple-fit/templates/components/form-element/horizontal/select", ["expor
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3461,7 +3533,7 @@ define("simple-fit/templates/components/form-element/horizontal/select", ["expor
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3519,7 +3591,7 @@ define("simple-fit/templates/components/form-element/horizontal/select", ["expor
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -3561,7 +3633,7 @@ define("simple-fit/templates/components/form-element/horizontal/textarea", ["exp
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3630,7 +3702,7 @@ define("simple-fit/templates/components/form-element/horizontal/textarea", ["exp
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3688,7 +3760,7 @@ define("simple-fit/templates/components/form-element/horizontal/textarea", ["exp
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -3729,7 +3801,7 @@ define("simple-fit/templates/components/form-element/inline/checkbox", ["exports
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -3788,7 +3860,7 @@ define("simple-fit/templates/components/form-element/inline/default", ["exports"
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3834,7 +3906,7 @@ define("simple-fit/templates/components/form-element/inline/default", ["exports"
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3875,7 +3947,7 @@ define("simple-fit/templates/components/form-element/inline/default", ["exports"
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -3915,7 +3987,7 @@ define("simple-fit/templates/components/form-element/inline/default", ["exports"
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -3964,7 +4036,7 @@ define("simple-fit/templates/components/form-element/inline/select", ["exports"]
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -4009,7 +4081,7 @@ define("simple-fit/templates/components/form-element/inline/select", ["exports"]
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4060,7 +4132,7 @@ define("simple-fit/templates/components/form-element/inline/textarea", ["exports
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -4105,7 +4177,7 @@ define("simple-fit/templates/components/form-element/inline/textarea", ["exports
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4160,7 +4232,7 @@ define("simple-fit/templates/components/form-element/vertical/checkbox", ["expor
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4225,7 +4297,7 @@ define("simple-fit/templates/components/form-element/vertical/default", ["export
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -4271,7 +4343,7 @@ define("simple-fit/templates/components/form-element/vertical/default", ["export
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -4312,7 +4384,7 @@ define("simple-fit/templates/components/form-element/vertical/default", ["export
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -4352,7 +4424,7 @@ define("simple-fit/templates/components/form-element/vertical/default", ["export
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4406,7 +4478,7 @@ define("simple-fit/templates/components/form-element/vertical/select", ["exports
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -4451,7 +4523,7 @@ define("simple-fit/templates/components/form-element/vertical/select", ["exports
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4507,7 +4579,7 @@ define("simple-fit/templates/components/form-element/vertical/textarea", ["expor
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -4552,7 +4624,7 @@ define("simple-fit/templates/components/form-element/vertical/textarea", ["expor
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4608,15 +4680,15 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
-              "line": 5,
+              "line": 6,
               "column": 6
             },
             "end": {
-              "line": 7,
+              "line": 8,
               "column": 6
             }
           },
@@ -4641,18 +4713,176 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
       };
     })();
     var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 11,
+                "column": 8
+              },
+              "end": {
+                "line": 11,
+                "column": 66
+              }
+            },
+            "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("Trainer ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("span");
+            dom.setAttribute(el1, "class", "caret");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 13,
+                  "column": 14
+                },
+                "end": {
+                  "line": 13,
+                  "column": 48
+                }
+              },
+              "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Trainer Home");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 14,
+                  "column": 14
+                },
+                "end": {
+                  "line": 14,
+                  "column": 45
+                }
+              },
+              "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Client Home");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 12,
+                "column": 8
+              },
+              "end": {
+                "line": 15,
+                "column": 8
+              }
+            },
+            "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("li");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("li");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+            morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
+            return morphs;
+          },
+          statements: [["block", "link-to", ["trainer"], [], 0, null, ["loc", [null, [13, 14], [13, 60]]]], ["block", "link-to", ["index"], [], 1, null, ["loc", [null, [14, 14], [14, 57]]]]],
+          locals: [],
+          templates: [child0, child1]
+        };
+      })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
               "line": 10,
-              "column": 6
+              "column": 8
             },
             "end": {
-              "line": 12,
-              "column": 6
+              "line": 16,
+              "column": 8
             }
           },
           "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
@@ -4663,7 +4893,297 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      Trainer\n");
+          var el1 = dom.createTextNode("        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "bs-dropdown-toggle", [], [], 0, null, ["loc", [null, [11, 8], [11, 89]]]], ["block", "bs-dropdown-menu", [], [], 1, null, ["loc", [null, [12, 8], [15, 29]]]]],
+        locals: [],
+        templates: [child0, child1]
+      };
+    })();
+    var child2 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 19,
+                "column": 8
+              },
+              "end": {
+                "line": 19,
+                "column": 68
+              }
+            },
+            "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("Dietitian ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("span");
+            dom.setAttribute(el1, "class", "caret");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 21,
+                  "column": 14
+                },
+                "end": {
+                  "line": 21,
+                  "column": 52
+                }
+              },
+              "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Dietitian Home");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 22,
+                  "column": 14
+                },
+                "end": {
+                  "line": 22,
+                  "column": 45
+                }
+              },
+              "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Client Home");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child2 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 23,
+                  "column": 14
+                },
+                "end": {
+                  "line": 23,
+                  "column": 43
+                }
+              },
+              "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Recipes");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 20,
+                "column": 8
+              },
+              "end": {
+                "line": 24,
+                "column": 8
+              }
+            },
+            "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("li");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("li");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("li");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(3);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+            morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
+            morphs[2] = dom.createMorphAt(dom.childAt(fragment, [5]), 0, 0);
+            return morphs;
+          },
+          statements: [["block", "link-to", ["dietitian"], [], 0, null, ["loc", [null, [21, 14], [21, 64]]]], ["block", "link-to", ["index"], [], 1, null, ["loc", [null, [22, 14], [22, 57]]]], ["block", "link-to", ["recipes"], [], 2, null, ["loc", [null, [23, 14], [23, 55]]]]],
+          locals: [],
+          templates: [child0, child1, child2]
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 18,
+              "column": 8
+            },
+            "end": {
+              "line": 25,
+              "column": 8
+            }
+          },
+          "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "bs-dropdown-toggle", [], [], 0, null, ["loc", [null, [19, 8], [19, 91]]]], ["block", "bs-dropdown-menu", [], [], 1, null, ["loc", [null, [20, 8], [24, 29]]]]],
+        locals: [],
+        templates: [child0, child1]
+      };
+    })();
+    var child3 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 28,
+              "column": 10
+            },
+            "end": {
+              "line": 30,
+              "column": 10
+            }
+          },
+          "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          Marketplace\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -4677,7 +5197,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4685,8 +5205,8 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             "column": 0
           },
           "end": {
-            "line": 28,
-            "column": 6
+            "line": 43,
+            "column": 0
           }
         },
         "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
@@ -4697,8 +5217,10 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("nav");
-        dom.setAttribute(el1, "class", "navbar navbar-default navbar-fixed-top");
+        dom.setAttribute(el1, "class", "navbar navbar-inverse navbar-fixed-top");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
@@ -4715,15 +5237,22 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("ul");
         dom.setAttribute(el4, "class", "nav navbar-nav");
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("li");
-        dom.setAttribute(el5, "class", "nav-item active");
         var el6 = dom.createTextNode("\n");
         dom.appendChild(el5, el6);
         var el6 = dom.createComment("");
         dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("      ");
+        var el6 = dom.createTextNode("        ");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n    ");
@@ -4732,7 +5261,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "nav-login");
@@ -4753,29 +5282,175 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         var el5 = dom.createTextNode("\n      ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n  ");
+        var el4 = dom.createTextNode("\n  ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n\n  ");
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0, 1]);
+        var element0 = dom.childAt(fragment, [1, 1]);
         var element1 = dom.childAt(element0, [1]);
-        var morphs = new Array(3);
+        var element2 = dom.childAt(element1, [3]);
+        var morphs = new Array(5);
         morphs[0] = dom.createMorphAt(element1, 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element1, [3, 1]), 1, 1);
-        morphs[2] = dom.createMorphAt(dom.childAt(element0, [3, 1, 1]), 1, 1);
+        morphs[1] = dom.createMorphAt(element2, 1, 1);
+        morphs[2] = dom.createMorphAt(element2, 3, 3);
+        morphs[3] = dom.createMorphAt(dom.childAt(element2, [5]), 1, 1);
+        morphs[4] = dom.createMorphAt(dom.childAt(element0, [3, 1, 1]), 1, 1);
         return morphs;
       },
-      statements: [["block", "link-to", ["application"], ["class", "navbar-brand"], 0, null, ["loc", [null, [5, 6], [7, 18]]]], ["block", "link-to", ["trainer"], ["class", "nav-link"], 1, null, ["loc", [null, [10, 6], [12, 18]]]], ["content", "auth-manager", ["loc", [null, [20, 10], [20, 26]]], 0, 0, 0, 0]],
+      statements: [["block", "link-to", ["application"], ["class", "navbar-brand"], 0, null, ["loc", [null, [6, 6], [8, 18]]]], ["block", "bs-dropdown", [], ["tagName", "li"], 1, null, ["loc", [null, [10, 8], [16, 24]]]], ["block", "bs-dropdown", [], ["tagName", "li"], 2, null, ["loc", [null, [18, 8], [25, 24]]]], ["block", "link-to", ["market"], ["class", "nav-link"], 3, null, ["loc", [null, [28, 10], [30, 22]]]], ["content", "auth-manager", ["loc", [null, [37, 10], [37, 26]]], 0, 0, 0, 0]],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0, child1, child2, child3]
+    };
+  })());
+});
+define("simple-fit/templates/dietitian", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 5,
+              "column": 2
+            },
+            "end": {
+              "line": 14,
+              "column": 2
+            }
+          },
+          "moduleName": "simple-fit/templates/dietitian.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("li");
+          dom.setAttribute(el1, "class", "client");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("h4");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("img");
+          dom.setAttribute(el2, "src", "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT1rl4Z6ILcLQiePkQDJE273zAnrGj1E5gsUa6qNEiGuj1Jqy38bIbHmg");
+          dom.setAttribute(el2, "height", "80");
+          dom.setAttribute(el2, "widtch", "80");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("p");
+          var el3 = dom.createTextNode("\n        Cool graphing and tracking and stuff\n      ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("a");
+          var el3 = dom.createTextNode("User Profile");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var element1 = dom.childAt(element0, [1]);
+          var element2 = dom.childAt(element0, [7]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createMorphAt(element1, 0, 0);
+          morphs[1] = dom.createMorphAt(element1, 2, 2);
+          morphs[2] = dom.createAttrMorph(element2, 'href');
+          return morphs;
+        },
+        statements: [["content", "client.firstName", ["loc", [null, [7, 10], [7, 30]]], 0, 0, 0, 0], ["content", "client.lastName", ["loc", [null, [7, 31], [7, 50]]], 0, 0, 0, 0], ["attribute", "href", ["concat", ["/users/", ["get", "client.url", ["loc", [null, [12, 24], [12, 34]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+        locals: ["client"],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 18,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/dietitian.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h1");
+        var el2 = dom.createTextNode("Dietitian Home Page");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h2");
+        var el2 = dom.createTextNode("Client List");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("ul");
+        dom.setAttribute(el1, "class", "row-fluid block-grid-3");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [4]), 1, 1);
+        morphs[1] = dom.createMorphAt(fragment, 6, 6, contextualElement);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "model", ["loc", [null, [5, 10], [5, 15]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 2], [14, 11]]]], ["content", "outlet", ["loc", [null, [17, 0], [17, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0]
     };
   })());
 });
@@ -4783,7 +5458,7 @@ define("simple-fit/templates/index", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4832,7 +5507,7 @@ define("simple-fit/templates/login", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4926,11 +5601,11 @@ define("simple-fit/templates/login", ["exports"], function (exports) {
     };
   })());
 });
-define("simple-fit/templates/trainer", ["exports"], function (exports) {
+define("simple-fit/templates/market", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -4942,7 +5617,7 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "simple-fit/templates/trainer.hbs"
+        "moduleName": "simple-fit/templates/market.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -4965,6 +5640,189 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
       statements: [["content", "outlet", ["loc", [null, [1, 0], [1, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
+    };
+  })());
+});
+define("simple-fit/templates/recipes", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/recipes.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["content", "outlet", ["loc", [null, [1, 0], [1, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("simple-fit/templates/trainer", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 5,
+              "column": 2
+            },
+            "end": {
+              "line": 14,
+              "column": 2
+            }
+          },
+          "moduleName": "simple-fit/templates/trainer.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("li");
+          dom.setAttribute(el1, "class", "client");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("h4");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("img");
+          dom.setAttribute(el2, "src", "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT1rl4Z6ILcLQiePkQDJE273zAnrGj1E5gsUa6qNEiGuj1Jqy38bIbHmg");
+          dom.setAttribute(el2, "height", "80");
+          dom.setAttribute(el2, "widtch", "80");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("p");
+          var el3 = dom.createTextNode("\n        Cool graphing and tracking and stuff\n      ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("a");
+          var el3 = dom.createTextNode("User Profile");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var element1 = dom.childAt(element0, [1]);
+          var element2 = dom.childAt(element0, [7]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createMorphAt(element1, 0, 0);
+          morphs[1] = dom.createMorphAt(element1, 2, 2);
+          morphs[2] = dom.createAttrMorph(element2, 'href');
+          return morphs;
+        },
+        statements: [["content", "client.firstName", ["loc", [null, [7, 10], [7, 30]]], 0, 0, 0, 0], ["content", "client.lastName", ["loc", [null, [7, 31], [7, 50]]], 0, 0, 0, 0], ["attribute", "href", ["concat", ["/users/", ["get", "client.url", ["loc", [null, [12, 24], [12, 34]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+        locals: ["client"],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 18,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/trainer.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h1");
+        var el2 = dom.createTextNode("Trainer Home Page");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h2");
+        var el2 = dom.createTextNode("Client List");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("ul");
+        dom.setAttribute(el1, "class", "row-fluid block-grid-3");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [4]), 1, 1);
+        morphs[1] = dom.createMorphAt(fragment, 6, 6, contextualElement);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "model", ["loc", [null, [5, 10], [5, 15]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 2], [14, 11]]]], ["content", "outlet", ["loc", [null, [17, 0], [17, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0]
     };
   })());
 });
@@ -5004,7 +5862,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+0a9b8632"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+d8c952ee"});
 }
 
 /* jshint ignore:end */
