@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from api.serializers import UserSerializer, ClientSerializer
 
+
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
@@ -12,3 +13,10 @@ class UserViewSet(viewsets.ModelViewSet):
 class ClientViewSet(viewsets.ModelViewSet):
 	queryset = Client.objects.all()
 	serializer_class = ClientSerializer
+
+
+def home(request):
+  """
+  Send requests to / to the ember.js clientside app  """
+
+  return render(request,'index.html',{})

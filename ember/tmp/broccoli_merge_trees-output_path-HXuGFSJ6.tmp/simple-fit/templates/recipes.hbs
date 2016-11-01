@@ -1,0 +1,17 @@
+
+<h1>Recipe Home Page</h1>
+
+<ul class="row-fluid block-grid-3">
+  {{#each model as |recipe|}}
+    <li class="recipe">
+      <h4>{{recipe.title}}</h4>
+      <img src="{{recipe.image}}" height="120" widtch="120">
+      <p>
+        <a href="/recipes/{{recipe.link}}">Click here to go to recipe!</a> <!-- replace with short desc{{recipe.desc}}-->
+        <!--{{recipe.url}}-->
+      </p>
+    </li>
+  {{/each}}
+</ul>
+
+{{outlet}}

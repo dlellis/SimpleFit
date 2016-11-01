@@ -1,0 +1,43 @@
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+
+      {{#link-to 'application' class="navbar-brand"}}
+      Simple
+      {{/link-to}}
+      <ul class="nav navbar-nav">
+        {{#bs-dropdown tagName="li"}}
+        {{#bs-dropdown-toggle}}Trainer <span class="caret"></span>{{/bs-dropdown-toggle}}
+        {{#bs-dropdown-menu}}
+          <li>{{#link-to "trainer"}}Trainer Home{{/link-to}}</li>
+          <li>{{#link-to "index"}}Client Home{{/link-to}}</li>
+        {{/bs-dropdown-menu}}
+        {{/bs-dropdown}}
+
+        {{#bs-dropdown tagName="li"}}
+        {{#bs-dropdown-toggle}}Dietitian <span class="caret"></span>{{/bs-dropdown-toggle}}
+        {{#bs-dropdown-menu}}
+          <li>{{#link-to "dietitian"}}Dietitian Home{{/link-to}}</li>
+          <li>{{#link-to "index"}}Client Home{{/link-to}}</li>
+          <li>{{#link-to "recipes"}}Recipes{{/link-to}}</li>
+          <li>{{#link-to "vchat"}}Video Chat{{/link-to}}</li>
+        {{/bs-dropdown-menu}}
+        {{/bs-dropdown}}
+
+        <li>
+          {{#link-to 'market' class='nav-link'}}
+          Marketplace
+          {{/link-to}}
+        </li>
+    </ul>
+    </div>
+    <div class="nav-login">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          {{auth-manager}}
+        </li>
+      </ul>
+  </div>
+  </div>
+</nav>

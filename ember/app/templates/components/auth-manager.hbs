@@ -1,15 +1,14 @@
 {{#if session.isLoggedIn}} {{! Display user name and logout button}}
 	<p class="auth-form">
-		Hello {{session.username}}
+		<div class="auth">Hello {{session.username}}</div>
 		<button type="button" class="btn btn-default" {{action 'logout'}}>Log out</button>
 	</p>
 
 {{else}}
 
 	<p>
-		{{#link-to 'login' class="btn btn-default"}}
-		Login
-		{{/link-to}}
+
+	<button type="button" class="btn btn-default" {{action 'login'}}>Login</button>
 	</p>
 
 

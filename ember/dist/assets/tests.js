@@ -1,5 +1,14 @@
 'use strict';
 
+define('simple-fit/tests/adapters/application.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | adapters/application.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'adapters/application.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/adapters/trainer.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -27,6 +36,15 @@ define('simple-fit/tests/components/auth-manager.jshint', ['exports'], function 
     assert.ok(true, 'components/auth-manager.js should pass jshint.');
   });
 });
+define('simple-fit/tests/components/login.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | components/login.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'components/login.js should pass jshint.\ncomponents/login.js: line 7, col 63, Missing semicolon.\ncomponents/login.js: line 6, col 11, \'item\' is defined but never used.\n\n2 errors');
+  });
+});
 define('simple-fit/tests/components/navigation-menu.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -36,6 +54,15 @@ define('simple-fit/tests/components/navigation-menu.jshint', ['exports'], functi
     assert.ok(true, 'components/navigation-menu.js should pass jshint.');
   });
 });
+define('simple-fit/tests/components/trainer-login.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | components/trainer-login.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'components/trainer-login.js should pass jshint.\ncomponents/trainer-login.js: line 7, col 67, Missing semicolon.\ncomponents/trainer-login.js: line 6, col 15, \'item\' is defined but never used.\n\n2 errors');
+  });
+});
 define('simple-fit/tests/controllers/application.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -43,6 +70,15 @@ define('simple-fit/tests/controllers/application.jshint', ['exports'], function 
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/application.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/controllers/login.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | controllers/login.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'controllers/login.js should pass jshint.\ncontrollers/login.js: line 6, col 63, Missing semicolon.\ncontrollers/login.js: line 5, col 15, \'item\' is defined but never used.\n\n2 errors');
   });
 });
 define('simple-fit/tests/controllers/trainer.jshint', ['exports'], function (exports) {
@@ -441,6 +477,15 @@ define('simple-fit/tests/models/clients.jshint', ['exports'], function (exports)
     assert.ok(true, 'models/clients.js should pass jshint.');
   });
 });
+define('simple-fit/tests/models/recipes.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/recipes.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/recipes.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/resolver.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -468,13 +513,22 @@ define('simple-fit/tests/routes/application.jshint', ['exports'], function (expo
     assert.ok(true, 'routes/application.js should pass jshint.');
   });
 });
+define('simple-fit/tests/routes/dclient.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/dclient.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/dclient.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/routes/dietitian.jshint', ['exports'], function (exports) {
   'use strict';
 
   QUnit.module('JSHint | routes/dietitian.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'routes/dietitian.js should pass jshint.\nroutes/dietitian.js: line 4, col 9, \'clients\' is defined but never used.\n\n1 error');
+    assert.ok(true, 'routes/dietitian.js should pass jshint.');
   });
 });
 define('simple-fit/tests/routes/index.jshint', ['exports'], function (exports) {
@@ -504,6 +558,15 @@ define('simple-fit/tests/routes/market.jshint', ['exports'], function (exports) 
     assert.ok(true, 'routes/market.js should pass jshint.');
   });
 });
+define('simple-fit/tests/routes/recipe.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/recipe.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'routes/recipe.js should pass jshint.\nroutes/recipe.js: line 4, col 9, \'params\' is defined but never used.\n\n1 error');
+  });
+});
 define('simple-fit/tests/routes/recipes.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -520,6 +583,33 @@ define('simple-fit/tests/routes/trainer.jshint', ['exports'], function (exports)
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/trainer.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/routes/trainer/clients.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/trainer/clients.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/trainer/clients.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/routes/user.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/user.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/user.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/routes/vchat.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/vchat.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/vchat.js should pass jshint.');
   });
 });
 define('simple-fit/tests/services/session.jshint', ['exports'], function (exports) {
@@ -542,6 +632,50 @@ define('simple-fit/tests/test-helper.jshint', ['exports'], function (exports) {
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'test-helper.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/adapters/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('adapter:application', 'Unit | Adapter | application', {
+    // Specify the other units that are required for this test.
+    // needs: ['serializer:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var adapter = this.subject();
+    assert.ok(adapter);
+  });
+});
+define('simple-fit/tests/unit/adapters/application-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/adapters/application-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/adapters/application-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/adapters/trainer-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('adapter:trainer', 'Unit | Adapter | trainer', {
+    // Specify the other units that are required for this test.
+    // needs: ['serializer:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var adapter = this.subject();
+    assert.ok(adapter);
+  });
+});
+define('simple-fit/tests/unit/adapters/trainer-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/adapters/trainer-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/adapters/trainer-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/controllers/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -588,6 +722,50 @@ define('simple-fit/tests/unit/controllers/trainer-test.jshint', ['exports'], fun
     assert.ok(true, 'unit/controllers/trainer-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/unit/models/clients-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('clients', 'Unit | Model | clients', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/clients-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/clients-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/clients-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/models/recipes-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('recipes', 'Unit | Model | recipes', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/recipes-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/recipes-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/recipes-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/unit/routes/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('route:application', 'Unit | Route | application', {
@@ -607,6 +785,27 @@ define('simple-fit/tests/unit/routes/application-test.jshint', ['exports'], func
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/application-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/dclient-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:dclient', 'Unit | Route | dclient', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/dclient-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/dclient-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/dclient-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/routes/dietitian-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -693,6 +892,27 @@ define('simple-fit/tests/unit/routes/market-test.jshint', ['exports'], function 
     assert.ok(true, 'unit/routes/market-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/unit/routes/recipe-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:recipe', 'Unit | Route | recipe', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/recipe-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/recipe-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/recipe-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/unit/routes/recipes-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('route:recipes', 'Unit | Route | recipes', {
@@ -733,6 +953,69 @@ define('simple-fit/tests/unit/routes/trainer-test.jshint', ['exports'], function
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/trainer-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/trainer/clients-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:trainer/clients', 'Unit | Route | trainer/clients', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/trainer/clients-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/trainer/clients-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/trainer/clients-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/user-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:user', 'Unit | Route | user', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/user-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/user-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/user-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/vchat-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:vchat', 'Unit | Route | vchat', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/vchat-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/vchat-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/vchat-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/services/session-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {

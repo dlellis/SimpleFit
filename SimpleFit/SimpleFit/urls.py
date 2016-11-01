@@ -5,6 +5,8 @@ from api import views
 
 
 urlpatterns = [
+
+	#url(r'^', views.home),
     url(r'^admin/', admin.site.urls),
 
     #API
