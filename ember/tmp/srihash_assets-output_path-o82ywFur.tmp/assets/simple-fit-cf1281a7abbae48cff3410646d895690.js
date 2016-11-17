@@ -1,0 +1,1 @@
+/Users/daltonellis/Dropbox/SchoolMac/Fall2016/SimpleFit-Dev/ember/tmp/srihash_assets-input_base_path-1FXeAbDW.tmp/0/assets/simple-fit-cf1281a7abbae48cff3410646d895690.js

@@ -1,2 +1,19 @@
 <h1>Trainer Home Page</h1>
 
+<h2>Client List</h2>
+<ul class="row-fluid">
+  {{#each model as |client|}}
+    <li class="client">
+      <h4>{{client.firstname}} {{client.lastname}}
+      <button type="submit" class="btn btn-xs glyphicon glyphicon-remove" {{ action "delclient" client}}></button>
+      </h4>
+    </li>
+  {{/each}}
+<br>
+<form class="" method="post" {{ action "addclient" on="submit"}}>
+    First name: {{input value=firstname}}
+    Last name: {{input value=lastname}}
+    <button type="submit" class="btn">Save</button>
+</form>
+
+</ul>

@@ -1,0 +1,1 @@
+/Users/daltonellis/Dropbox/SchoolMac/Fall2016/SimpleFit-Dev/ember/tmp/funnel-input_base_path-Ii2CVncU.tmp/0/utils/module-registry.js

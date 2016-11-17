@@ -1,0 +1,1 @@
+/Users/daltonellis/Dropbox/SchoolMac/Fall2016/SimpleFit-Dev/ember/tmp/funnel-input_base_path-gY19vF7B.tmp/0//vendor-suffix.js

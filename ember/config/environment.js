@@ -9,14 +9,15 @@ module.exports = function(environment) {
         'script-src': "'self' ",
         'font-src': "'self' ",
         'connect-src': "'self' http://localhost:8000",
-        'img-src': "'self' http: https: data:", 
+        'img-src': "'self' http: https: data:",
         'style-src': "'self' ",
         'media-src': "'self' ",
-    
+
     },
     modulePrefix: 'simple-fit',
     environment: environment,
     rootURL: '/',
+    routerRootURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -50,6 +51,9 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.rootURL = 'static/ember/'
+
+
 
   }
 

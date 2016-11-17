@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from api.views import UserViewSet, ClientViewSet
+from api.views import UserViewSet, ClientViewSet, Session
 
 
 
@@ -12,9 +12,10 @@ router.register(r'clients', ClientViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-	
+
 
 
     url(r'^', include(router.urls)),
-    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
+	url(r'^session/', Session.as_view()),
 ]

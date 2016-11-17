@@ -23,9 +23,9 @@ class Client(models.Model):
 		default=none,
 		)
 
-	first_name = models.CharField(max_length=30)
-	last_name = models.CharField(max_length=30)
+	firstname = models.CharField(max_length=30)
+	lastname = models.CharField(max_length=30)
 	#profileppic = models.ImageField(upload_to="profile_pics")
 
 	def __str__(self):
-		return self.first_name
+		return self.firstname
