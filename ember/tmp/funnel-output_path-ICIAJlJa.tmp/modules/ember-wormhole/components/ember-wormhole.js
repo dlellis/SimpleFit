@@ -1,1 +1,0 @@
-/Users/daltonellis/Dropbox/SchoolMac/Fall2016/SimpleFit-Dev/ember/tmp/funnel-input_base_path-I18PCyzr.tmp/0/components/ember-wormhole.js

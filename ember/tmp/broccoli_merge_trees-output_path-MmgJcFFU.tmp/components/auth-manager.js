@@ -1,1 +1,0 @@
-/Users/daltonellis/Dropbox/SchoolMac/Fall2016/SimpleFit-Dev/ember/app/components/auth-manager.js

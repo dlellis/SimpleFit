@@ -4,5 +4,6 @@
 *~
 extern/
 node_modules/
-tmp
+tmp/
+/tmp
 vendor/

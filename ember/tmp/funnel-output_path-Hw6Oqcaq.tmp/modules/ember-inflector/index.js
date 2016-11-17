@@ -1,1 +1,0 @@
-/Users/daltonellis/Dropbox/SchoolMac/Fall2016/webdevapp/SimpleFit/ember/tmp/funnel-input_base_path-u6b8nUCx.tmp/0/index.js
