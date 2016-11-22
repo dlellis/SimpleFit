@@ -5,6 +5,7 @@ export default DS.JSONAPIAdapter.extend({
   namespace: 'api',
   buildURL: function(type,id,record){
     return this._super(type,id,record)+'/';
-  }
+  },
+
 
 });

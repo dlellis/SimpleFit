@@ -1,6 +1,6 @@
-{{#if session.isLoggedIn}} {{! Display user name and logout button}}
+{{#if auth.isLoggedIn}} {{! Display user name and logout button}}
 	<p class="auth-form">
-		<div class="auth">Hello {{session.username}}</div>
+		<div class="auth">Hello {{auth.user.username}}</div>
 		<button type="button" class="btn btn-default" {{action 'logout'}}>Log out</button>
 	</p>
 
@@ -8,7 +8,10 @@
 
 	<p>
 
-	<button type="button" class="btn btn-default" {{action 'login'}}>Login</button>
+	{{!-- <button type="button" class="btn btn-default" {{action 'login'}}>Login</button> --}}
+		{{#link-to 'login' class="btn btn-default"}}
+	      Login
+	    {{/link-to}}
 	</p>
 
 

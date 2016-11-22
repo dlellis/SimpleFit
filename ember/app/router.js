@@ -16,6 +16,7 @@ Router.map(function() {
   this.route('vchat');
   this.route('dclient');
   this.route('user', {path: 'users/:user_url'});
+  this.route('register');
 });
 
 export default Router;

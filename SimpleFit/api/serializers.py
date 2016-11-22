@@ -10,6 +10,11 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username', 'email', 'is_staff')
 
 
+# class ClientSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Client
+#         fields = ('id','firstname','lastname','gender','age','city','state','ip','service',)
+
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client

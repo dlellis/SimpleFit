@@ -4,8 +4,8 @@ export default Ember.Component.extend({
 	actions: {
 
 	    login(item) {
-	    	this.get('session').setProperties({isLoggedIn: true,})
-
+	    	t
 	    },
+
   },
 });
