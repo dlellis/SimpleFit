@@ -36,13 +36,22 @@ define('simple-fit/tests/components/auth-manager.jshint', ['exports'], function 
     assert.ok(true, 'components/auth-manager.js should pass jshint.');
   });
 });
+define('simple-fit/tests/components/login-form.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | components/login-form.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'components/login-form.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/components/login.jshint', ['exports'], function (exports) {
   'use strict';
 
   QUnit.module('JSHint | components/login.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/login.js should pass jshint.\ncomponents/login.js: line 7, col 63, Missing semicolon.\ncomponents/login.js: line 6, col 11, \'item\' is defined but never used.\n\n2 errors');
+    assert.ok(true, 'components/login.js should pass jshint.');
   });
 });
 define('simple-fit/tests/components/navigation-menu.jshint', ['exports'], function (exports) {
@@ -60,7 +69,7 @@ define('simple-fit/tests/components/trainer-login.jshint', ['exports'], function
   QUnit.module('JSHint | components/trainer-login.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/trainer-login.js should pass jshint.\ncomponents/trainer-login.js: line 7, col 67, Missing semicolon.\ncomponents/trainer-login.js: line 6, col 15, \'item\' is defined but never used.\n\n2 errors');
+    assert.ok(false, 'components/trainer-login.js should pass jshint.\ncomponents/trainer-login.js: line 7, col 13, Expected an assignment or function call and instead saw an expression.\ncomponents/trainer-login.js: line 7, col 14, Missing semicolon.\ncomponents/trainer-login.js: line 6, col 15, \'item\' is defined but never used.\ncomponents/trainer-login.js: line 7, col 13, \'t\' is not defined.\n\n4 errors');
   });
 });
 define('simple-fit/tests/controllers/application.jshint', ['exports'], function (exports) {
@@ -78,7 +87,25 @@ define('simple-fit/tests/controllers/login.jshint', ['exports'], function (expor
   QUnit.module('JSHint | controllers/login.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/login.js should pass jshint.\ncontrollers/login.js: line 6, col 63, Missing semicolon.\ncontrollers/login.js: line 5, col 15, \'item\' is defined but never used.\n\n2 errors');
+    assert.ok(true, 'controllers/login.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/controllers/newfeature.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | controllers/newfeature.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/newfeature.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/controllers/register.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | controllers/register.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'controllers/register.js should pass jshint.\ncontrollers/register.js: line 18, col 31, Expected \'===\' and instead saw \'==\'.\ncontrollers/register.js: line 18, col 64, Expected \'===\' and instead saw \'==\'.\n\n2 errors');
   });
 });
 define('simple-fit/tests/controllers/trainer.jshint', ['exports'], function (exports) {
@@ -87,7 +114,7 @@ define('simple-fit/tests/controllers/trainer.jshint', ['exports'], function (exp
   QUnit.module('JSHint | controllers/trainer.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'controllers/trainer.js should pass jshint.');
+    assert.ok(false, 'controllers/trainer.js should pass jshint.\ncontrollers/trainer.js: line 14, col 11, \'del\' is defined but never used.\n\n1 error');
   });
 });
 define('simple-fit/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
@@ -141,6 +168,32 @@ define('simple-fit/tests/helpers/module-for-acceptance.jshint', ['exports'], fun
     assert.ok(true, 'helpers/module-for-acceptance.js should pass jshint.');
   });
 });
+define('simple-fit/tests/helpers/register-select-helper', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = function () {
+    _ember['default'].Test.registerAsyncHelper('select', function (app, selector) {
+      for (var _len = arguments.length, texts = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        texts[_key - 2] = arguments[_key];
+      }
+
+      var $options = app.testHelpers.findWithAssert(selector + ' option');
+
+      $options.each(function () {
+        var _this = this;
+
+        var $option = _ember['default'].$(this);
+
+        _ember['default'].run(function () {
+          _this.selected = texts.some(function (text) {
+            return $option.is(':contains(\'' + text + '\')');
+          });
+          $option.trigger('change');
+        });
+      });
+
+      return app.testHelpers.wait();
+    });
+  };
+});
 define('simple-fit/tests/helpers/resolver', ['exports', 'simple-fit/resolver', 'simple-fit/config/environment'], function (exports, _simpleFitResolver, _simpleFitConfigEnvironment) {
 
   var resolver = _simpleFitResolver['default'].create();
@@ -186,6 +239,24 @@ define('simple-fit/tests/helpers/start-app.jshint', ['exports'], function (expor
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'helpers/start-app.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/initializers/constants.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | initializers/constants.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'initializers/constants.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/initializers/session.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | initializers/session.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'initializers/session.js should pass jshint.\ninitializers/session.js: line 1, col 28, \'application\' is defined but never used.\n\n1 error');
   });
 });
 define('simple-fit/tests/integration/components/auth-manager-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -328,6 +399,146 @@ define('simple-fit/tests/integration/components/auth-manager-test.jshint', ['exp
     assert.ok(true, 'integration/components/auth-manager-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/integration/components/login-form-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('login-form', 'Integration | Component | login form', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template((function () {
+      return {
+        meta: {
+          'revision': 'Ember@2.8.2+31ba4c74',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 14
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['content', 'login-form', ['loc', [null, [1, 0], [1, 14]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template((function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.8.2+31ba4c74',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 2,
+                'column': 4
+              },
+              'end': {
+                'line': 4,
+                'column': 4
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode('      template block text\n');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+
+      return {
+        meta: {
+          'revision': 'Ember@2.8.2+31ba4c74',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 5,
+              'column': 2
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode('\n');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode('  ');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [['block', 'login-form', [], [], 0, null, ['loc', [null, [2, 4], [4, 19]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('simple-fit/tests/integration/components/login-form-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | integration/components/login-form-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/components/login-form-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/integration/components/navigation-menu-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleForComponent)('navigation-menu', 'Integration | Component | navigation menu', {
@@ -468,13 +679,40 @@ define('simple-fit/tests/integration/components/navigation-menu-test.jshint', ['
     assert.ok(true, 'integration/components/navigation-menu-test.js should pass jshint.');
   });
 });
-define('simple-fit/tests/models/clients.jshint', ['exports'], function (exports) {
+define('simple-fit/tests/models/basicprofile.jshint', ['exports'], function (exports) {
   'use strict';
 
-  QUnit.module('JSHint | models/clients.js');
+  QUnit.module('JSHint | models/basicprofile.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/clients.js should pass jshint.');
+    assert.ok(true, 'models/basicprofile.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/models/client.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/client.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/client.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/models/clientprofile.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/clientprofile.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/clientprofile.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/models/profile.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/profile.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/profile.js should pass jshint.');
   });
 });
 define('simple-fit/tests/models/recipes.jshint', ['exports'], function (exports) {
@@ -484,6 +722,15 @@ define('simple-fit/tests/models/recipes.jshint', ['exports'], function (exports)
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'models/recipes.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/models/user.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/user.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/user.js should pass jshint.');
   });
 });
 define('simple-fit/tests/resolver.jshint', ['exports'], function (exports) {
@@ -558,6 +805,15 @@ define('simple-fit/tests/routes/market.jshint', ['exports'], function (exports) 
     assert.ok(true, 'routes/market.js should pass jshint.');
   });
 });
+define('simple-fit/tests/routes/newfeature.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/newfeature.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/newfeature.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/routes/recipe.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -576,6 +832,24 @@ define('simple-fit/tests/routes/recipes.jshint', ['exports'], function (exports)
     assert.ok(true, 'routes/recipes.js should pass jshint.');
   });
 });
+define('simple-fit/tests/routes/register.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/register.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/register.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/routes/testing.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | routes/testing.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'routes/testing.js should pass jshint.\nroutes/testing.js: line 5, col 11, \'params\' is defined but never used.\n\n1 error');
+  });
+});
 define('simple-fit/tests/routes/trainer.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -583,15 +857,6 @@ define('simple-fit/tests/routes/trainer.jshint', ['exports'], function (exports)
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/trainer.js should pass jshint.');
-  });
-});
-define('simple-fit/tests/routes/trainer/clients.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | routes/trainer/clients.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'routes/trainer/clients.js should pass jshint.');
   });
 });
 define('simple-fit/tests/routes/user.jshint', ['exports'], function (exports) {
@@ -612,6 +877,15 @@ define('simple-fit/tests/routes/vchat.jshint', ['exports'], function (exports) {
     assert.ok(true, 'routes/vchat.js should pass jshint.');
   });
 });
+define('simple-fit/tests/services/constants.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | services/constants.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'services/constants.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/services/session.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -621,7 +895,8 @@ define('simple-fit/tests/services/session.jshint', ['exports'], function (export
     assert.ok(true, 'services/session.js should pass jshint.');
   });
 });
-define('simple-fit/tests/test-helper', ['exports', 'simple-fit/tests/helpers/resolver', 'ember-qunit'], function (exports, _simpleFitTestsHelpersResolver, _emberQunit) {
+define('simple-fit/tests/test-helper', ['exports', 'simple-fit/tests/helpers/resolver', 'simple-fit/tests/helpers/register-select-helper', 'ember-qunit'], function (exports, _simpleFitTestsHelpersResolver, _simpleFitTestsHelpersRegisterSelectHelper, _emberQunit) {
+  (0, _simpleFitTestsHelpersRegisterSelectHelper['default'])();
 
   (0, _emberQunit.setResolver)(_simpleFitTestsHelpersResolver['default']);
 });
@@ -700,6 +975,52 @@ define('simple-fit/tests/unit/controllers/application-test.jshint', ['exports'],
     assert.ok(true, 'unit/controllers/application-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/unit/controllers/newfeature-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('controller:newfeature', 'Unit | Controller | newfeature', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('computedField test', function (assert) {
+    var controller = this.subject();
+    controller.set('newfield', 'test');
+    assert.equal(controller.get('computedField'), 'test/');
+    assert.ok(controller);
+  });
+});
+define('simple-fit/tests/unit/controllers/newfeature-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/controllers/newfeature-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/newfeature-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/controllers/register-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('controller:register', 'Unit | Controller | register', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var controller = this.subject();
+    assert.ok(controller);
+  });
+});
+define('simple-fit/tests/unit/controllers/register-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/controllers/register-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/register-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/unit/controllers/trainer-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('controller:trainer', 'Unit | Controller | trainer', {
@@ -722,9 +1043,69 @@ define('simple-fit/tests/unit/controllers/trainer-test.jshint', ['exports'], fun
     assert.ok(true, 'unit/controllers/trainer-test.js should pass jshint.');
   });
 });
-define('simple-fit/tests/unit/models/clients-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+define('simple-fit/tests/unit/initializers/constants-test', ['exports', 'ember', 'simple-fit/initializers/constants', 'qunit'], function (exports, _ember, _simpleFitInitializersConstants, _qunit) {
 
-  (0, _emberQunit.moduleForModel)('clients', 'Unit | Model | clients', {
+  var application = undefined;
+
+  (0, _qunit.module)('Unit | Initializer | constants', {
+    beforeEach: function beforeEach() {
+      _ember['default'].run(function () {
+        application = _ember['default'].Application.create();
+        application.deferReadiness();
+      });
+    }
+  });
+
+  // Replace this with your real tests.
+  (0, _qunit.test)('it works', function (assert) {
+    _simpleFitInitializersConstants['default'].initialize(application);
+
+    // you would normally confirm the results of the initializer here
+    assert.ok(true);
+  });
+});
+define('simple-fit/tests/unit/initializers/constants-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/initializers/constants-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/initializers/constants-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/initializers/session-test', ['exports', 'ember', 'simple-fit/initializers/session', 'qunit'], function (exports, _ember, _simpleFitInitializersSession, _qunit) {
+
+  var application = undefined;
+
+  (0, _qunit.module)('Unit | Initializer | session', {
+    beforeEach: function beforeEach() {
+      _ember['default'].run(function () {
+        application = _ember['default'].Application.create();
+        application.deferReadiness();
+      });
+    }
+  });
+
+  // Replace this with your real tests.
+  (0, _qunit.test)('it works', function (assert) {
+    _simpleFitInitializersSession['default'].initialize(application);
+
+    // you would normally confirm the results of the initializer here
+    assert.ok(true);
+  });
+});
+define('simple-fit/tests/unit/initializers/session-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/initializers/session-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/initializers/session-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/models/basicprofile-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('basicprofile', 'Unit | Model | basicprofile', {
     // Specify the other units that are required for this test.
     needs: []
   });
@@ -735,13 +1116,79 @@ define('simple-fit/tests/unit/models/clients-test', ['exports', 'ember-qunit'], 
     assert.ok(!!model);
   });
 });
-define('simple-fit/tests/unit/models/clients-test.jshint', ['exports'], function (exports) {
+define('simple-fit/tests/unit/models/basicprofile-test.jshint', ['exports'], function (exports) {
   'use strict';
 
-  QUnit.module('JSHint | unit/models/clients-test.js');
+  QUnit.module('JSHint | unit/models/basicprofile-test.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/models/clients-test.js should pass jshint.');
+    assert.ok(true, 'unit/models/basicprofile-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/models/client-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('client', 'Unit | Model | client', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/client-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/client-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/client-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/models/clientprofile-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('clientprofile', 'Unit | Model | clientprofile', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/clientprofile-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/clientprofile-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/clientprofile-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/models/profile-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('profile', 'Unit | Model | profile', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/profile-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/profile-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/profile-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/models/recipes-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -764,6 +1211,28 @@ define('simple-fit/tests/unit/models/recipes-test.jshint', ['exports'], function
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/models/recipes-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/models/user-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('user', 'Unit | Model | user', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/user-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/user-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/user-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/routes/application-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -892,6 +1361,27 @@ define('simple-fit/tests/unit/routes/market-test.jshint', ['exports'], function 
     assert.ok(true, 'unit/routes/market-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/unit/routes/newfeature-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:newfeature', 'Unit | Route | newfeature', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/newfeature-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/newfeature-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/newfeature-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/unit/routes/recipe-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('route:recipe', 'Unit | Route | recipe', {
@@ -934,6 +1424,48 @@ define('simple-fit/tests/unit/routes/recipes-test.jshint', ['exports'], function
     assert.ok(true, 'unit/routes/recipes-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/unit/routes/register-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:register', 'Unit | Route | register', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/register-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/register-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/register-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/routes/testing-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('route:testing', 'Unit | Route | testing', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('simple-fit/tests/unit/routes/testing-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/routes/testing-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/testing-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/unit/routes/trainer-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('route:trainer', 'Unit | Route | trainer', {
@@ -953,27 +1485,6 @@ define('simple-fit/tests/unit/routes/trainer-test.jshint', ['exports'], function
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/trainer-test.js should pass jshint.');
-  });
-});
-define('simple-fit/tests/unit/routes/trainer/clients-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
-
-  (0, _emberQunit.moduleFor)('route:trainer/clients', 'Unit | Route | trainer/clients', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  });
-
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var route = this.subject();
-    assert.ok(route);
-  });
-});
-define('simple-fit/tests/unit/routes/trainer/clients-test.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | unit/routes/trainer/clients-test.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/routes/trainer/clients-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/routes/user-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -1016,6 +1527,28 @@ define('simple-fit/tests/unit/routes/vchat-test.jshint', ['exports'], function (
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/vchat-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/services/constants-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('service:constants', 'Unit | Service | constants', {
+    // Specify the other units that are required for this test.
+    // needs: ['service:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var service = this.subject();
+    assert.ok(service);
+  });
+});
+define('simple-fit/tests/unit/services/constants-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/services/constants-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/services/constants-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/services/session-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {

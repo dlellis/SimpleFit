@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-	user: DS.belongsTo('user'),
+	//user: DS.belongsTo('user'),
 	roles: DS.attr('role', {defaultValue: {admin: false, researcher: false, subject: false}}),
 	age: DS.attr('number'),
 	gender: DS.attr('string'),

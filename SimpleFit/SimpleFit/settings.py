@@ -166,8 +166,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATICFILES_DIRS = [
-    '/Users/daltonellis/Dropbox/SchoolMac/Fall2016/SimpleFit-Dev/SimpleFit/static/',
-    #os.path.join(BASE_DIR, "static"),
+    #'/Users/daltonellis/Dropbox/SchoolMac/Fall2016/SimpleFit-Dev/SimpleFit/static/',
+    os.path.join(BASE_DIR, "static"),
     #'/var/www/static/',
 ]
 

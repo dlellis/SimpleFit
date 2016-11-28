@@ -17,6 +17,8 @@ Router.map(function() {
   this.route('dclient');
   this.route('user', {path: 'users/:user_url'});
   this.route('register');
+  this.route('newfeature');
+  this.route('testing');
 });
 
 export default Router;

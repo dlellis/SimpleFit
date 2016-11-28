@@ -5,6 +5,18 @@
 		<div class="col-xs-12" style="margin-left: 15px;">
 			<form class="form-inline">
 				<div class="row">
+					<div class="col-sm-3"><p class="pull-right reg-label"><b>First name:</b></p></div>
+					<div class="col-sm-4">
+						{{input type="text" value=content.basicprofile.firstname class='form-control reg-input-field' enter="register" placeholder="city"}}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3"><p class="pull-right reg-label"><b>Last name:</b></p></div>
+					<div class="col-sm-4">
+						{{input type="text" value=content.basicprofile.lastname class='form-control reg-input-field' enter="register" placeholder="city"}}
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Username:</b></p></div>
 					<div class="col-sm-4">
 						{{input type="text" value=content.user.username class='form-control reg-input-field' enter="register" placeholder="Username"}}
@@ -27,6 +39,12 @@
 					{{/if}}
 				</div>
 				<div class="row">
+					<div class="col-sm-3"><p class="pull-right reg-label"><b>Confirm Password:</b></p></div>
+					<div class="col-sm-4">
+						{{input type="text" value=confirmpassword class='form-control reg-input-field' enter="register" placeholder="Confirm Password" type="password"}}
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Email:</b></p></div>
 					<div class="col-sm-4 {{emailclasses}}">
 						{{input type="text" value=content.user.email class='form-control reg-input-field' enter="register" placeholder="Email"}}
@@ -38,22 +56,16 @@
 					{{/if}}
 				</div>
 				<div class="row">
-					<div class="col-sm-3"><p class="pull-right reg-label"><b>Confirm Password:</b></p></div>
-					<div class="col-sm-4">
-						{{input type="text" value=confirmpassword class='form-control reg-input-field' enter="register" placeholder="Confirm Password" type="password"}}
-					</div>
-				</div>
-				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Age:</b></p></div>
 					<div class="col-sm-4">
-						{{input type="text" value=content.profile.age class='form-control reg-input-field' enter="register" placeholder="age"}}
+						{{input type="text" value=content.basicprofile.age class='form-control reg-input-field' enter="register" placeholder="age"}}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Gender:</b></p></div>
 					<div class="col-sm-4">
 
-						{{#x-select class='form-control reg-input-field' value=content.profile.gender as |xs|}}
+						{{#x-select class='form-control reg-input-field' value=content.basicprofile.gender as |xs|}}
 							{{#xs.option disabled=true selected=true}}Select most applicable{{/xs.option}}
 							{{#each genders as |g|}}
 								{{#xs.option value=g}}{{g}}{{/xs.option}}
@@ -66,28 +78,15 @@
 					
 				</div>
 				<div class="row">
-					<div class="col-sm-3"><p class="pull-right reg-label"><b>Education Level:</b></p></div>
-					<div class="col-sm-4">
-						{{#x-select class='form-control reg-input-field' value=content.profile.educationlevel as |xs|}}
-							{{#xs.option disabled=true selected=true}}Select highest level achieved{{/xs.option}}
-							{{#each educationLevels as |l|}}
-								{{#xs.option value=l}}{{l}}{{/xs.option}}
-								
-							{{/each}}
-						{{/x-select}}
-					</div>
-					
-				</div>
-				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>City you live in:</b></p></div>
 					<div class="col-sm-4">
-						{{input type="text" value=content.profile.city class='form-control reg-input-field' enter="register" placeholder="city"}}
+						{{input type="text" value=content.basicprofile.city class='form-control reg-input-field' enter="register" placeholder="city"}}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>State:</b></p></div>
 					<div class="col-sm-4">
-						{{#x-select class='form-control reg-input-field'value=content.profile.state as |xs|}}
+						{{#x-select class='form-control reg-input-field'value=content.basicprofile.state as |xs|}}
 							{{#xs.option disabled=true selected=true}}Select current residence{{/xs.option}}
 							{{#each states as |s|}}
 								{{#xs.option value=s}}{{s}}{{/xs.option}}
@@ -108,8 +107,14 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="col-sm-3"><p class="pull-right reg-label"><b>Certifications:</b></p></div>
+					<div class="col-sm-4">
+						{{input type="text" value=content.clientprofile.certification class='form-control reg-input-field' enter="register" placeholder="city"}}
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-sm-3 offset3">
-						<button type="button" class="btn btn-block btn-default" {{action "register"}}>Sign Up for democlient</button>
+						<button type="button" class="btn btn-block btn-default" {{action "register"}}>Sign Up as Client</button>
 					</div>
 				</div>
 				<div class="row">

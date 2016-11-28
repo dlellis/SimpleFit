@@ -5,7 +5,6 @@ export default Ember.Controller.extend({
 	showPolicy: false,
 	success: false,
 	genders: ['Male', 'Female', 'Other'],
-	educationLevels: ['some highschool','highschool', 'some college(2 years or less)', 'bachelor\'s degree', 'graduate degree'],
 	states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
 	agree: false,
 
@@ -39,19 +38,22 @@ export default Ember.Controller.extend({
 		register: function(){
 			this.set('validationErrorMsg', '');
 			var user = this.get('content').user;
-      var profile = this.get('content').profile;
+      var basicprofile = this.get('content').basicprofile;
+      var clientprofile = this.get('content').clientprofile;
       var t = this;
       //probably want to do some additional validation here
 			if(user.get('password') === this.get('confirmpassword')){
         var requestdata = {
-          'username': user.get("username"),
+          'username': user.get('username'),
           'password': user.get('password'),
+          'certification': clientprofile.get('certification'),
           'email': user.get('email'),
-          'gender': profile.get('gender'),
-          'age': profile.get('age'),
-          'educationlevel': profile.get('educationlevel'),
-          'city': profile.get('city'),
-          'state': profile.get('state'),
+          'firstname': basicprofile.get('firstname'),
+          'lastname': basicprofile.get('lastname'),
+          'gender': basicprofile.get('gender'),
+          'age': basicprofile.get('age'),
+          'city': basicprofile.get('city'),
+          'state': basicprofile.get('state'),
         };
 				Ember.$.post('../api/register/', requestdata, function(response){
           var errMsg = '';

@@ -5,7 +5,8 @@ export default Ember.Route.extend({
   model(){
     return RSVP.hash({
       user: this.store.createRecord('user'),
-      profile: this.store.createRecord('profile')
+      basicprofile: this.store.createRecord('basicprofile'),
+      clientprofile: this.store.createRecord('clientprofile'),
     });
   }
 });

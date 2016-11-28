@@ -7,15 +7,19 @@
 /* jshint ignore:end */
 
 define('simple-fit/adapters/application', ['exports', 'ember-data'], function (exports, _emberData) {
-	exports['default'] = _emberData['default'].JSONAPIAdapter.extend({
-		// host: 'http://localhost:8000/api',
+  exports['default'] = _emberData['default'].JSONAPIAdapter.extend({
+    //host: 'http://localhost:8000/api/',
+    namespace: 'api',
+    buildURL: function buildURL(type, id, record) {
+      return this._super(type, id, record) + '/';
+    }
 
-	});
+  });
 });
 define('simple-fit/adapters/trainer', ['exports', 'ember-data'], function (exports, _emberData) {
 	exports['default'] = _emberData['default'].JSONAPIAdapter.extend({
 		//host: 'http://localhost:8000/api/',
-		// var clients = this.get('store').findAll('clients');
+		//var clients = this.get('store').findAll('clients');
 	});
 });
 define('simple-fit/app', ['exports', 'ember', 'simple-fit/resolver', 'ember-load-initializers', 'simple-fit/config/environment'], function (exports, _ember, _simpleFitResolver, _emberLoadInitializers, _simpleFitConfigEnvironment) {
@@ -45,19 +49,20 @@ define('simple-fit/components/app-version', ['exports', 'ember-cli-app-version/c
   });
 });
 define('simple-fit/components/auth-manager', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({
-    session: _ember['default'].inject.service('session'),
-    actions: {
-      login: function login() {
-        this.get('session').setProperties({ isLoggedIn: true });
-      },
+		exports['default'] = _ember['default'].Component.extend({
+				auth: _ember['default'].inject.service('session'),
+				actions: {
 
-      logout: function logout() {
-        this.get('session').setProperties({ isLoggedIn: false });
-      }
-    }
+						//   login: function(){
+						// 	this.get('auth').login();
+						// },
+						logout: function logout() {
+								this.get('auth').logout();
+						}
 
-  });
+				}
+
+		});
 });
 define('simple-fit/components/bs-accordion-item', ['exports', 'ember-bootstrap/components/bs-accordion-item'], function (exports, _emberBootstrapComponentsBsAccordionItem) {
   Object.defineProperty(exports, 'default', {
@@ -345,48 +350,165 @@ define('simple-fit/components/ember-wormhole', ['exports', 'ember-wormhole/compo
     }
   });
 });
+define('simple-fit/components/login-form', ['exports', 'ember'], function (exports, _ember) {
+		exports['default'] = _ember['default'].Component.extend({
+				auth: _ember['default'].inject.service('session'),
+				actions: {
+
+						login: function login() {
+								this.get('auth').login();
+						}
+				}
+		});
+});
+// logout: function(){
+// 		this.get('auth').logout();
+// 	}
 define('simple-fit/components/login', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({
-    session: _ember['default'].inject.service('session'),
-    actions: {
-      login: function login(item) {
-        this.get('session').setProperties({ isLoggedIn: true });
-      }
-
-    }
-
-  });
+	exports['default'] = _ember['default'].Component.extend({});
 });
 define('simple-fit/components/navigation-menu', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({});
+  exports['default'] = _ember['default'].Component.extend({
+    auth: _ember['default'].inject.service('session')
+  });
 });
 define('simple-fit/components/trainer-login', ['exports', 'ember'], function (exports, _ember) {
 	exports['default'] = _ember['default'].Component.extend({
 		actions: {
 
 			login: function login(item) {
-				this.get('session').setProperties({ isLoggedIn: true });
+				t;
 			}
+
 		}
 	});
 });
+define('simple-fit/components/x-option', ['exports', 'emberx-select/components/x-option'], function (exports, _emberxSelectComponentsXOption) {
+  exports['default'] = _emberxSelectComponentsXOption['default'];
+});
+define('simple-fit/components/x-select', ['exports', 'emberx-select/components/x-select'], function (exports, _emberxSelectComponentsXSelect) {
+  exports['default'] = _emberxSelectComponentsXSelect['default'];
+});
 define('simple-fit/controllers/application', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend({
-    //session: Ember.inject.service('session'),
-
-  });
+  exports['default'] = _ember['default'].Controller.extend({});
 });
 define('simple-fit/controllers/login', ['exports', 'ember'], function (exports, _ember) {
 	exports['default'] = _ember['default'].Controller.extend({
 		actions: {
-			login: function login(item) {
-				this.get('session').setProperties({ isLoggedIn: true });
+			login: function login() {
+				this.get('session'); //.setProperties({isLoggedIn: true,});
 			}
 		}
 	});
 });
+define('simple-fit/controllers/newfeature', ['exports', 'ember'], function (exports, _ember) {
+	exports['default'] = _ember['default'].Controller.extend({
+		newfield: 'testdata',
+
+		computedField: _ember['default'].computed('newfield', function () {
+			var newfield = this.get('newfield');
+			return newfield + "+";
+		})
+	});
+});
+define('simple-fit/controllers/register', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend({
+    confirmpassword: '',
+    showPolicy: false,
+    success: false,
+    genders: ['Male', 'Female', 'Other'],
+    states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
+    agree: false,
+
+    //client-side validators
+    usernameChanged: _ember['default'].observer('content.user.username', function () {
+      //validate here
+    }),
+    passwordChanged: _ember['default'].observer('content.user.password', function () {
+      var user = this.get('content').user;
+      if (user.get('password') == undefined || user.get('password') == '') {
+        this.set('passworderror', 'You must specify a password.');
+        this.set('passwordclasses', 'has-error');
+      } else if (user.get('password').length < 8) {
+        this.set('passworderror', 'Your password must be at least 8 characters');
+        this.set('passwordclasses', 'has-error');
+      } else {
+        this.set('passworderror', null);
+        this.set('passwordclasses', '');
+      }
+    }),
+    //...other validators go here
+
+    //actions
+    actions: {
+      showPolicy: function showPolicy() {
+        this.set('showPolicy', !this.get('showPolicy'));
+      },
+      register: function register() {
+        this.set('validationErrorMsg', '');
+        var user = this.get('content').user;
+        var basicprofile = this.get('content').basicprofile;
+        var clientprofile = this.get('content').clientprofile;
+        var t = this;
+        //probably want to do some additional validation here
+        if (user.get('password') === this.get('confirmpassword')) {
+          var requestdata = {
+            'username': user.get('username'),
+            'password': user.get('password'),
+            'certification': clientprofile.get('certification'),
+            'email': user.get('email'),
+            'firstname': basicprofile.get('firstname'),
+            'lastname': basicprofile.get('lastname'),
+            'gender': basicprofile.get('gender'),
+            'age': basicprofile.get('age'),
+            'city': basicprofile.get('city'),
+            'state': basicprofile.get('state')
+          };
+          _ember['default'].$.post('../api/register/', requestdata, function (response) {
+            var errMsg = '';
+            if (response.data.status === "error") {
+              if (response.data.username) {
+                errMsg = response.data.username;
+              } else if (response.data.email) {
+                errMsg = response.data.email;
+              } else {
+                errMsg = "An unknown error occured. Please try again";
+              }
+              t.set('validationErrorMsg', errMsg);
+            } else {
+              //success
+              t.set('success', true);
+              //could forward the user to another page (like home)
+              //t.transitionTo('home');
+            }
+          });
+        } else {
+            this.set('validationErrorMsg', 'Passwords don\'t match');
+          }
+      }
+
+    }
+  });
+});
 define('simple-fit/controllers/trainer', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend();
+  exports['default'] = _ember['default'].Controller.extend({
+    actions: {
+      addclient: function addclient() {
+        var client = this.store.createRecord('client', {
+          firstname: this.get('firstname'),
+          lastname: this.get('lastname')
+        });
+        client.save();
+        console.log(this.get('firstname'));
+      },
+      delclient: function delclient(client) {
+        var del = this.store.findRecord('client', client.id, { backgroundReload: false }).then(function (post) {
+          post.destroyRecord(); // => DELETE to /posts/2
+        });
+        console.log(client.get('firstname'));
+      }
+    }
+  });
 });
 define('simple-fit/helpers/bs-contains', ['exports', 'ember-bootstrap/helpers/bs-contains'], function (exports, _emberBootstrapHelpersBsContains) {
   Object.defineProperty(exports, 'default', {
@@ -469,6 +591,20 @@ define('simple-fit/initializers/bootstrap-linkto', ['exports', 'ember-bootstrap/
       return _emberBootstrapInitializersBootstrapLinkto.initialize;
     }
   });
+});
+define('simple-fit/initializers/constants', ['exports'], function (exports) {
+	exports.initialize = initialize;
+
+	function initialize(application) {
+		application.inject('route', 'constants', 'service:constants');
+		application.inject('controller', 'constants', 'service:constants');
+		application.inject('model', 'constants', 'service:constants');
+	}
+
+	exports['default'] = {
+		name: 'constants',
+		initialize: initialize
+	};
 });
 define('simple-fit/initializers/container-debug-adapter', ['exports', 'ember-resolver/container-debug-adapter'], function (exports, _emberResolverContainerDebugAdapter) {
   exports['default'] = {
@@ -612,6 +748,19 @@ define('simple-fit/initializers/load-bootstrap-config', ['exports', 'simple-fit/
 define('simple-fit/initializers/modals-container', ['exports', 'ember-bootstrap/initializers/modals-container'], function (exports, _emberBootstrapInitializersModalsContainer) {
   exports['default'] = _emberBootstrapInitializersModalsContainer['default'];
 });
+define('simple-fit/initializers/session', ['exports'], function (exports) {
+  exports.initialize = initialize;
+
+  function initialize(application) {
+    // application.inject('route', 'user', 'service:session');
+    // application.inject('component', 'user', 'service:session');
+  }
+
+  exports['default'] = {
+    name: 'session',
+    initialize: initialize
+  };
+});
 define('simple-fit/initializers/store', ['exports', 'ember'], function (exports, _ember) {
 
   /*
@@ -648,13 +797,60 @@ define("simple-fit/instance-initializers/ember-data", ["exports", "ember-data/-p
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
   };
 });
-define('simple-fit/models/clients', ['exports', 'ember-data'], function (exports, _emberData) {
+define('simple-fit/models/basicprofile', ['exports', 'ember-data'], function (exports, _emberData) {
 	exports['default'] = _emberData['default'].Model.extend({
-		//return Ember.$.get('/clients/clients.json')
-		firstName: _emberData['default'].attr(),
-		lastName: _emberData['default'].attr(),
-		photo: _emberData['default'].attr(),
-		url: _emberData['default'].attr()
+		clientprofile: _emberData['default'].belongsTo('clientprofile'),
+		firstname: _emberData['default'].attr('string'),
+		lastname: _emberData['default'].attr('string'),
+		gender: _emberData['default'].attr('string'),
+		age: _emberData['default'].attr('number'),
+		city: _emberData['default'].attr('string'),
+		state: _emberData['default'].attr('string'),
+		ip: _emberData['default'].attr('string')
+
+	});
+});
+define('simple-fit/models/client', ['exports', 'ember-data'], function (exports, _emberData) {
+    exports['default'] = _emberData['default'].Model.extend({
+        firstname: _emberData['default'].attr('string'),
+        lastname: _emberData['default'].attr('string')
+    });
+});
+define('simple-fit/models/clientprofile', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		user: _emberData['default'].belongsTo('user'),
+		basicprofile: _emberData['default'].belongsTo('basicprofile'),
+		certification: _emberData['default'].attr('string')
+
+	});
+});
+define('simple-fit/models/profile', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		//user: DS.belongsTo('user'),
+		roles: _emberData['default'].attr('role', { defaultValue: { admin: false, researcher: false, subject: false } }),
+		age: _emberData['default'].attr('number'),
+		gender: _emberData['default'].attr('string'),
+		educationlevel: _emberData['default'].attr('string'),
+		city: _emberData['default'].attr('string'),
+		state: _emberData['default'].attr('string'),
+		ip: _emberData['default'].attr('string'),
+		rolesPrint: (function () {
+			var roles = this.get('roles');
+			var roleString = '';
+			roleString += roles.admin ? 'Admin' : '';
+			roleString += roles.researcher ? roleString === '' ? 'Researcher' : ', Researcher' : '';
+			roleString += roles.subject ? roleString === '' ? 'Subject' : ', Subject' : '';
+			return roleString;
+		}).property('roles'),
+		selectorId: (function () {
+			return "#" + this.get('id');
+		}).property('id'),
+		accordianId: (function () {
+			return "accordion" + this.get('id');
+		}).property('id'),
+		accordianSelectorId: (function () {
+			return "accordion" + this.get('id');
+		}).property('id')
 	});
 });
 define('simple-fit/models/recipes', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -666,6 +862,15 @@ define('simple-fit/models/recipes', ['exports', 'ember-data'], function (exports
 		link: _emberData['default'].attr()
 	});
 });
+define('simple-fit/models/user', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		clientprofile: _emberData['default'].belongsTo('clientprofile'),
+		username: _emberData['default'].attr('string'),
+		email: _emberData['default'].attr('string'),
+		password: _emberData['default'].attr('string')
+
+	});
+});
 define('simple-fit/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
   exports['default'] = _emberResolver['default'];
 });
@@ -673,7 +878,7 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
 
   var Router = _ember['default'].Router.extend({
     location: _simpleFitConfigEnvironment['default'].locationType,
-    rootURL: _simpleFitConfigEnvironment['default'].rootURL
+    rootURL: _simpleFitConfigEnvironment['default'].routerRootURL
   });
 
   Router.map(function () {
@@ -686,105 +891,16 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
     this.route('vchat');
     this.route('dclient');
     this.route('user', { path: 'users/:user_url' });
+    this.route('register');
+    this.route('newfeature');
+    this.route('testing');
   });
 
   exports['default'] = Router;
 });
 define('simple-fit/routes/application', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
-    model: function model() {
-      this.get('store').push({
-        data: [{
-          id: 1,
-          type: 'clients',
-          attributes: {
-            firstName: "tom",
-            lastName: "tomingson",
-            url: "tom-tom",
-            photo: "data:image/jpeg;base64,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",
-            services: "trainer, dietitian"
-          },
-          relationships: {}
-        }, {
-          id: 2,
-          type: 'clients',
-          attributes: {
-            firstName: "mary",
-            lastName: "jane-watson",
-            url: "mary-watson",
-            photo: "https://jackflacco.files.wordpress.com/2013/11/kirsten-dunst-mary-jane-watson.jpg",
-            services: "dietitian"
-          },
-          relationships: {}
-        }, {
-          id: 3,
-          type: 'clients',
-          attributes: {
-            firstName: "jane",
-            lastName: "doe",
-            url: "jan-doe",
-            photo: "http://www.theouthousers.com/images/jck/olson3.jpg",
-            services: "trainer"
-          },
-          relationships: {}
-        }, {
-          id: 4,
-          type: 'clients',
-          attributes: {
-            firstName: "jon",
-            lastName: "doe",
-            url: "jon-doe",
-            photo: "https://thedeadones.files.wordpress.com/2014/04/jon_dough_2005_avn_expo.jpg",
-            services: "trainer, dietitian"
-          },
-          relationships: {}
-        }, {
-          id: 5,
-          type: 'recipes',
-          attributes: {
-            title: "Chicken Pasta Amore",
-            link: "chicken-amore",
-            image: "http://www.eatweartravel.com/wp-content/uploads/2013/04/DSC_0015-copy-3.jpg",
-            ingredients: ["Chicken", "love"],
-            steps: ["cook the chicken", "add salt to water", "drink pasta"]
-          },
-          relationships: {}
-        }, {
-          id: 6,
-          type: 'recipes',
-          attributes: {
-            title: "Sesame Chicken",
-            link: "sesame-chicken",
-            image: "data:image/jpeg;base64,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",
-            ingredients: ["Chicken", "Sesame", "Orange Sauce"],
-            steps: ["cook the chicken", "eat the chicken"]
-          },
-          relationships: {}
-        }, {
-          id: 7,
-          type: 'recipes',
-          attributes: {
-            title: "Friendly Chicken",
-            link: "friendly-chicken",
-            image: "http://www.thegardencoop.com/images/california-white-chicken.jpg",
-            ingredients: ["Chicken"],
-            steps: ["Name chicken", "feel bad for chicken", "kill chicken", "eat chicken"]
-          },
-          relationships: {}
-        }, {
-          id: 8,
-          type: 'recipes',
-          attributes: {
-            title: "LMAO",
-            link: "lmao-chicken",
-            image: "http://i3.kym-cdn.com/photos/images/facebook/000/632/652/6ca.jpg",
-            ingredients: ["AYYYY", "LMAO"],
-            steps: ["enjoy laughter", "enjoy life"]
-          },
-          relationships: {}
-        }]
-      });
-    }
+    model: function model() {}
   });
 });
 define('simple-fit/routes/dclient', ['exports', 'ember'], function (exports, _ember) {
@@ -806,6 +922,9 @@ define('simple-fit/routes/login', ['exports', 'ember'], function (exports, _embe
 define('simple-fit/routes/market', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
 });
+define('simple-fit/routes/newfeature', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({});
+});
 define('simple-fit/routes/recipe', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     model: function model(params) {
@@ -821,15 +940,31 @@ define('simple-fit/routes/recipes', ['exports', 'ember'], function (exports, _em
     }
   });
 });
-define('simple-fit/routes/trainer', ['exports', 'ember'], function (exports, _ember) {
+define('simple-fit/routes/register', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
     model: function model() {
-      return this.store.findAll('clients');
+      return _rsvp['default'].hash({
+        user: this.store.createRecord('user'),
+        basicprofile: this.store.createRecord('basicprofile'),
+        clientprofile: this.store.createRecord('clientprofile')
+      });
     }
   });
 });
-define('simple-fit/routes/trainer/clients', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({});
+define('simple-fit/routes/testing', ['exports', 'ember'], function (exports, _ember) {
+	exports['default'] = _ember['default'].Route.extend({
+		//auth: Ember.inject.service('session'),
+		model: function model(params) {
+			return this.store.findRecord('clientprofile', 14, { include: 'basicinfo' });
+		}
+	});
+});
+define('simple-fit/routes/trainer', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({
+    model: function model() {
+      return this.store.findAll('client');
+    }
+  });
 });
 define('simple-fit/routes/user', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -845,13 +980,159 @@ define('simple-fit/services/ajax', ['exports', 'ember-ajax/services/ajax'], func
     }
   });
 });
+define("simple-fit/services/constants", ["exports", "ember"], function (exports, _ember) {
+
+	var month_names = [];
+	month_names[month_names.length] = "Jan";
+	month_names[month_names.length] = "Feb";
+	month_names[month_names.length] = "Mar";
+	month_names[month_names.length] = "Apr";
+	month_names[month_names.length] = "May";
+	month_names[month_names.length] = "Jun";
+	month_names[month_names.length] = "Jul";
+	month_names[month_names.length] = "Aug";
+	month_names[month_names.length] = "Sep";
+	month_names[month_names.length] = "Oct";
+	month_names[month_names.length] = "Nov";
+	month_names[month_names.length] = "Dec";
+
+	exports["default"] = _ember["default"].Service.extend({
+		debug: true,
+		genders: ['Male', 'Female', 'Other'],
+		educationLevels: ['some highschool', 'highschool', 'some college(2 years or less)', 'bachelor\'s degree', 'graduate degree'],
+		states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
+
+		month_names: month_names,
+		secsToStr: function secsToStr(seconds) {
+			//Helper function for creating Gmail/FB/Twitter style time strings of the form tt <unit>(s) ago, where unit = <year||day||hour||minutes||seconds>.
+			var numberEnding = function numberEnding(number) {
+				return number > 1 ? 's ' : ' ';
+			};
+			var years = Math.floor(seconds / 31536000);
+			var days = Math.floor(seconds % 31536000 / 86400);
+			var hours = Math.floor(seconds % 31536000 % 86400 / 3600);
+			var mins = Math.floor(seconds % 31536000 % 86400 % 3600 / 60);
+			var secs = Math.floor(seconds % 31536000 % 86400 % 3600 % 60);
+			if (years > 0) {
+				return years + " year" + numberEnding(years) + " ago";
+			} else if (days > 0) {
+				return days + " day" + numberEnding(days) + " ago";
+			} else if (hours > 0) {
+				return hours + " hour" + numberEnding(hours) + " ago";
+			} else if (mins > 0) {
+				return mins + " minute" + numberEnding(mins) + " ago";
+			} else if (secs > 0) {
+				return secs + " second" + numberEnding(secs) + " ago";
+			} else if (secs === 0) {
+				return "Just Now";
+			}
+		}
+	});
+});
 define('simple-fit/services/session', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Service.extend({
-    isLoggedIn: true,
-    id: 1,
-    username: 'Dobby',
-    membertype: 'trainer'
-  });
+	exports['default'] = _ember['default'].Service.extend({
+		store: _ember['default'].inject.service('store'),
+		routing: _ember['default'].inject.service('-routing'),
+
+		//field vars
+		username: '',
+		password: '',
+		remember: false,
+		errorMsg: '',
+
+		//stored data
+		user: null,
+		profile: null,
+		isLoggedIn: false,
+		login: function login() {
+			console.log('Logging in:');
+
+			//retrieve field data
+			var username = this.get('username');
+			var password = this.get('password');
+			var remember = this.get('remember');
+
+			var data = {
+				'username': username,
+				'password': password };
+			var auth = this;
+
+			//make api request
+			_ember['default'].$.post('../api/session/', data, function (response) {
+				if (response.data.isauthenticated) {
+					//success
+					auth.set('username', auth.get('store').findRecord('user', response.data.userid));
+					//auth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
+					auth.set('isLoggedIn', true);
+
+					if (remember) {
+						//save username and pass to local storage
+						localStorage.setItem('remember', true);
+						localStorage.setItem('username', auth.get('username'));
+						localStorage.setItem('password', auth.get('password'));
+					} else {
+						localStorage.removeItem('remember');
+						localStorage.removeItem('username');
+						localStorage.removeItem('password');
+					}
+					auth.set('password', '');
+					console.log('Login POST Request to ../api/session/ was successful.');
+					// auth.get('routing').transitionTo('index');
+				} else {
+						//errors
+						console.log('Login POST Request to ../api/session/ was unsuccessful.');
+						auth.set('errorMsg', response.data.message);
+					}
+			});
+		},
+		logout: function logout() {
+			console.log('Logging out');
+			var auth = this;
+			_ember['default'].$.ajax({ url: '../api/session/', type: 'DELETE' }).then(function (response) {
+				console.log('Logout DELETE Request to ../api/session/ was successful:' + response);
+				auth.set('isLoggedIn', false);
+				// auth.set('errorMsg', '');
+				auth.set('username', '');
+				auth.set('user', null);
+				// auth.set('profile', null);
+
+				if (localStorage.remember) {
+					auth.set('remember', localStorage.remember);
+					auth.set('username', localStorage.username);
+					auth.set('password', localStorage.password);
+				}
+			});
+		},
+		/**
+  	called whenever the application loads to initialize any stored session/local variables
+  **/
+		init: function init() {
+			this._super();
+			var auth = this;
+
+			//handle session and local variable loading
+			this.set('remember', localStorage.remember);
+
+			if (auth.get('remember')) {
+				auth.set('username', localStorage.username);
+				auth.set('password', localStorage.password);
+			}
+
+			//check to see if the user is logged into the API
+			_ember['default'].$.get('../api/session/', function (response) {
+				if (response.data.isauthenticated) {
+					//success
+					console.log('The user: \'' + response.data.username + '\' is currently logged in.');
+					auth.set('user', auth.get('store').findRecord('user', response.data.userid));
+					//sauth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
+					auth.set('isLoggedIn', true);
+				} else {
+					//errors
+					console.log('The user is not currently logged in.');
+				}
+			});
+		}
+	});
 });
 define("simple-fit/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
@@ -963,19 +1244,54 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [2]);
-          var element2 = dom.childAt(element1, [3]);
+          var element0 = dom.childAt(fragment, [2]);
+          var element1 = dom.childAt(element0, [3]);
           var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]), 1, 1);
-          morphs[1] = dom.createElementMorph(element2);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+          morphs[1] = dom.createElementMorph(element1);
           return morphs;
         },
-        statements: [["content", "session.username", ["loc", [null, [3, 26], [3, 46]]], 0, 0, 0, 0], ["element", "action", ["logout"], [], ["loc", [null, [4, 48], [4, 67]]], 0, 0]],
+        statements: [["content", "auth.user.username", ["loc", [null, [3, 26], [3, 48]]], 0, 0, 0, 0], ["element", "action", ["logout"], [], ["loc", [null, [4, 48], [4, 67]]], 0, 0]],
         locals: [],
         templates: []
       };
     })();
     var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 14,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/components/auth-manager.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("	      Login\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
       return {
         meta: {
           "revision": "Ember@2.8.2+31ba4c74",
@@ -986,7 +1302,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
               "column": 0
             },
             "end": {
-              "line": 15,
+              "line": 18,
               "column": 0
             }
           },
@@ -1001,15 +1317,11 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
           var el1 = dom.createTextNode("\n	");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("\n\n	");
+          var el2 = dom.createTextNode("\n\n");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("button");
-          dom.setAttribute(el2, "type", "button");
-          dom.setAttribute(el2, "class", "btn btn-default");
-          var el3 = dom.createTextNode("Login");
-          dom.appendChild(el2, el3);
+          var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n	");
+          var el2 = dom.createTextNode("	");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n\n\n");
@@ -1017,14 +1329,13 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1, 1]);
           var morphs = new Array(1);
-          morphs[0] = dom.createElementMorph(element0);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
           return morphs;
         },
-        statements: [["element", "action", ["login"], [], ["loc", [null, [11, 47], [11, 65]]], 0, 0]],
+        statements: [["block", "link-to", ["login"], ["class", "btn btn-default"], 0, null, ["loc", [null, [12, 2], [14, 17]]]]],
         locals: [],
-        templates: []
+        templates: [child0]
       };
     })();
     return {
@@ -1037,7 +1348,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 16,
+            "line": 19,
             "column": 0
           }
         },
@@ -1060,7 +1371,7 @@ define("simple-fit/templates/components/auth-manager", ["exports"], function (ex
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["get", "session.isLoggedIn", ["loc", [null, [1, 6], [1, 24]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [15, 7]]]]],
+      statements: [["block", "if", [["get", "auth.isLoggedIn", ["loc", [null, [1, 6], [1, 21]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [18, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -4790,6 +5101,186 @@ define("simple-fit/templates/components/form-element/vertical/textarea", ["expor
     };
   })());
 });
+define("simple-fit/templates/components/login-form", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 13,
+              "column": 1
+            },
+            "end": {
+              "line": 17,
+              "column": 1
+            }
+          },
+          "moduleName": "simple-fit/templates/components/login-form.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("		");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "auth-error alert");
+          var el2 = dom.createTextNode("\n			");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n		");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+          return morphs;
+        },
+        statements: [["content", "auth.errorMsg", ["loc", [null, [15, 3], [15, 20]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 27,
+              "column": 2
+            },
+            "end": {
+              "line": 27,
+              "column": 38
+            }
+          },
+          "moduleName": "simple-fit/templates/components/login-form.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("Register Now.");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 29,
+            "column": 7
+          }
+        },
+        "moduleName": "simple-fit/templates/components/login-form.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "form-inline pull-right");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("	");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n	");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n	");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("label");
+        dom.setAttribute(el2, "class", "checkbox");
+        var el3 = dom.createTextNode("\n		");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n		Remember me\n	");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n	");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("button");
+        dom.setAttribute(el2, "type", "button");
+        dom.setAttribute(el2, "class", "btn btn-default btn-sm");
+        var el3 = dom.createTextNode("Sign in");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n	");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n	");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("p");
+        dom.setAttribute(el2, "class", "right margin-3");
+        var el3 = dom.createTextNode("Don't have an account? \n		");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n	");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [1]);
+        var element1 = dom.childAt(element0, [9]);
+        var morphs = new Array(6);
+        morphs[0] = dom.createMorphAt(element0, 1, 1);
+        morphs[1] = dom.createMorphAt(element0, 3, 3);
+        morphs[2] = dom.createMorphAt(element0, 5, 5);
+        morphs[3] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
+        morphs[4] = dom.createElementMorph(element1);
+        morphs[5] = dom.createMorphAt(dom.childAt(element0, [13]), 1, 1);
+        return morphs;
+      },
+      statements: [["block", "if", [["get", "auth.errorMsg", ["loc", [null, [13, 7], [13, 20]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 1], [17, 8]]]], ["inline", "input", [], ["type", "text", "class", "input-sm form-control", "value", ["subexpr", "@mut", [["get", "auth.username", ["loc", [null, [18, 57], [18, 70]]], 0, 0, 0, 0]], [], [], 0, 0], "enter", "login", "placeholder", "Username"], ["loc", [null, [18, 1], [18, 109]]], 0, 0], ["inline", "input", [], ["type", "text", "class", "input-sm form-control", "value", ["subexpr", "@mut", [["get", "auth.password", ["loc", [null, [19, 56], [19, 69]]], 0, 0, 0, 0]], [], [], 0, 0], "enter", "login", "placeholder", "Password", "type", "password"], ["loc", [null, [19, 1], [19, 124]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "checked", ["subexpr", "@mut", [["get", "auth.remember", ["loc", [null, [21, 34], [21, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [21, 2], [21, 49]]], 0, 0], ["element", "action", ["login"], [], ["loc", [null, [24, 54], [24, 72]]], 0, 0], ["block", "link-to", ["register"], [], 1, null, ["loc", [null, [27, 2], [27, 50]]]]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
 define("simple-fit/templates/components/navigation-menu", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -5506,6 +5997,14 @@ define("simple-fit/templates/components/trainer-login", ["exports"], function (e
       templates: []
     };
   })());
+});
+define('simple-fit/templates/components/x-select', ['exports', 'emberx-select/templates/components/x-select'], function (exports, _emberxSelectTemplatesComponentsXSelect) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberxSelectTemplatesComponentsXSelect['default'];
+    }
+  });
 });
 define("simple-fit/templates/dclient", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
@@ -6234,7 +6733,7 @@ define("simple-fit/templates/login", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 22,
+            "line": 14,
             "column": 7
           }
         },
@@ -6260,39 +6759,11 @@ define("simple-fit/templates/login", ["exports"], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "col-md-4 col-md-offset-4");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("label");
-        var el5 = dom.createTextNode("Username");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n      ");
+        var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("label");
-        var el5 = dom.createTextNode("Password");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("br");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("button");
-        dom.setAttribute(el4, "type", "button");
-        dom.setAttribute(el4, "class", "btn");
-        var el5 = dom.createTextNode("Log in");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n    ");
+        var el4 = dom.createTextNode("\n\n\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n\n\n  ");
@@ -6305,16 +6776,12 @@ define("simple-fit/templates/login", ["exports"], function (exports) {
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [2]);
-        var element1 = dom.childAt(element0, [1, 1]);
-        var element2 = dom.childAt(element1, [11]);
-        var morphs = new Array(4);
+        var morphs = new Array(2);
         morphs[0] = dom.createElementMorph(element0);
-        morphs[1] = dom.createMorphAt(element1, 3, 3);
-        morphs[2] = dom.createMorphAt(element1, 7, 7);
-        morphs[3] = dom.createElementMorph(element2);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [1, 1]), 1, 1);
         return morphs;
       },
-      statements: [["element", "action", ["login"], ["on", "submit"], ["loc", [null, [2, 25], [2, 55]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "username", ["loc", [null, [8, 20], [8, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "type", "text"], ["loc", [null, [8, 6], [8, 63]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "password", ["loc", [null, [13, 20], [13, 28]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "type", "password"], ["loc", [null, [13, 6], [13, 67]]], 0, 0], ["element", "action", ["login"], [], ["loc", [null, [15, 40], [15, 58]]], 0, 0]],
+      statements: [["element", "action", ["login"], ["on", "submit"], ["loc", [null, [2, 25], [2, 55]]], 0, 0], ["content", "login-form", ["loc", [null, [6, 4], [6, 18]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -6357,6 +6824,93 @@ define("simple-fit/templates/market", ["exports"], function (exports) {
         return morphs;
       },
       statements: [["content", "outlet", ["loc", [null, [1, 0], [1, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("simple-fit/templates/newfeature", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/newfeature.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("New Field: ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("br");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\nComputed Field: ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        return morphs;
+      },
+      statements: [["content", "newfield", ["loc", [null, [1, 11], [1, 23]]], 0, 0, 0, 0], ["content", "computedField", ["loc", [null, [2, 16], [2, 33]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define("simple-fit/templates/privacypolicy", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 8
+          }
+        },
+        "moduleName": "simple-fit/templates/privacypolicy.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("Policies");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
       locals: [],
       templates: []
     };
@@ -6704,7 +7258,1157 @@ define("simple-fit/templates/recipes", ["exports"], function (exports) {
     };
   })());
 });
-define("simple-fit/templates/trainer", ["exports"], function (exports) {
+define("simple-fit/templates/register", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 0
+            }
+          },
+          "moduleName": "simple-fit/templates/register.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("	");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("h1");
+          var el2 = dom.createTextNode("Welcome ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("!");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+          return morphs;
+        },
+        statements: [["content", "content.user.username", ["loc", [null, [2, 13], [2, 38]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 24,
+                "column": 5
+              },
+              "end": {
+                "line": 28,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/register.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "usernameerror", ["loc", [null, [26, 28], [26, 45]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 35,
+                "column": 5
+              },
+              "end": {
+                "line": 39,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/register.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "passworderror", ["loc", [null, [37, 28], [37, 45]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child2 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 52,
+                "column": 5
+              },
+              "end": {
+                "line": 56,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/register.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "emailerror", ["loc", [null, [54, 28], [54, 42]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child3 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 69,
+                  "column": 7
+                },
+                "end": {
+                  "line": 69,
+                  "column": 71
+                }
+              },
+              "moduleName": "simple-fit/templates/register.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Select most applicable");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 71,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 71,
+                    "column": 35
+                  }
+                },
+                "moduleName": "simple-fit/templates/register.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var morphs = new Array(1);
+                morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+                dom.insertBoundary(fragment, 0);
+                dom.insertBoundary(fragment, null);
+                return morphs;
+              },
+              statements: [["content", "g", ["loc", [null, [71, 30], [71, 35]]], 0, 0, 0, 0]],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 70,
+                  "column": 7
+                },
+                "end": {
+                  "line": 73,
+                  "column": 7
+                }
+              },
+              "moduleName": "simple-fit/templates/register.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("								");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n								\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "g", ["loc", [null, [71, 27], [71, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [71, 8], [71, 49]]]]],
+            locals: ["g"],
+            templates: [child0]
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 68,
+                "column": 6
+              },
+              "end": {
+                "line": 74,
+                "column": 6
+              }
+            },
+            "moduleName": "simple-fit/templates/register.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("							");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [69, 7], [69, 85]]]], ["block", "each", [["get", "genders", ["loc", [null, [70, 15], [70, 22]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [70, 7], [73, 16]]]]],
+          locals: ["xs"],
+          templates: [child0, child1]
+        };
+      })();
+      var child4 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 90,
+                  "column": 7
+                },
+                "end": {
+                  "line": 90,
+                  "column": 73
+                }
+              },
+              "moduleName": "simple-fit/templates/register.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Select current residence");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 92,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 92,
+                    "column": 35
+                  }
+                },
+                "moduleName": "simple-fit/templates/register.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var morphs = new Array(1);
+                morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+                dom.insertBoundary(fragment, 0);
+                dom.insertBoundary(fragment, null);
+                return morphs;
+              },
+              statements: [["content", "s", ["loc", [null, [92, 30], [92, 35]]], 0, 0, 0, 0]],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 91,
+                  "column": 7
+                },
+                "end": {
+                  "line": 94,
+                  "column": 7
+                }
+              },
+              "moduleName": "simple-fit/templates/register.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("								");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n								\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "s", ["loc", [null, [92, 27], [92, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [92, 8], [92, 49]]]]],
+            locals: ["s"],
+            templates: [child0]
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 89,
+                "column": 6
+              },
+              "end": {
+                "line": 95,
+                "column": 6
+              }
+            },
+            "moduleName": "simple-fit/templates/register.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("							");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [90, 7], [90, 87]]]], ["block", "each", [["get", "states", ["loc", [null, [91, 15], [91, 21]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [91, 7], [94, 16]]]]],
+          locals: ["xs"],
+          templates: [child0, child1]
+        };
+      })();
+      var child5 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 100,
+                "column": 6
+              },
+              "end": {
+                "line": 102,
+                "column": 6
+              }
+            },
+            "moduleName": "simple-fit/templates/register.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("							");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            return morphs;
+          },
+          statements: [["inline", "render", ["privacypolicy"], [], ["loc", [null, [101, 7], [101, 33]]], 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child6 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 121,
+                "column": 5
+              },
+              "end": {
+                "line": 126,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/register.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-7 alert alert-error fade in");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+            return morphs;
+          },
+          statements: [["content", "validationErrorMsg", ["loc", [null, [123, 7], [123, 29]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 131,
+              "column": 0
+            }
+          },
+          "moduleName": "simple-fit/templates/register.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("	");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "row");
+          var el2 = dom.createTextNode("\n		");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "col-xs-12");
+          dom.setAttribute(el2, "style", "margin-left: 15px;");
+          var el3 = dom.createTextNode("\n			");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("form");
+          dom.setAttribute(el3, "class", "form-inline");
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("First name:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Last name:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Username:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Password:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Confirm Password:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Email:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Age:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Gender:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n\n");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("City you live in:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("State:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-10");
+          var el6 = dom.createTextNode("\n");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createElement("button");
+          dom.setAttribute(el6, "class", "btn btn-block btn-warning");
+          dom.setAttribute(el6, "type", "button");
+          var el7 = dom.createTextNode("Read Privacy and informed consent policy");
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createTextNode("\n							");
+          dom.appendChild(el6, el7);
+          var el7 = dom.createComment("");
+          dom.appendChild(el6, el7);
+          var el7 = dom.createTextNode(" I have read and agree to the privacy policy.\n						");
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Certifications:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3 offset3");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createElement("button");
+          dom.setAttribute(el6, "type", "button");
+          dom.setAttribute(el6, "class", "btn btn-block btn-default");
+          var el7 = dom.createTextNode("Sign Up as Client");
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n			");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n		");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n	");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("/.row");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1, 1, 1]);
+          var element1 = dom.childAt(element0, [5]);
+          var element2 = dom.childAt(element0, [7]);
+          var element3 = dom.childAt(element2, [3]);
+          var element4 = dom.childAt(element0, [11]);
+          var element5 = dom.childAt(element4, [3]);
+          var element6 = dom.childAt(element0, [21, 1]);
+          var element7 = dom.childAt(element6, [3]);
+          var element8 = dom.childAt(element0, [25, 1, 1]);
+          var morphs = new Array(21);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1, 3]), 1, 1);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3, 3]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
+          morphs[3] = dom.createMorphAt(element1, 5, 5);
+          morphs[4] = dom.createAttrMorph(element3, 'class');
+          morphs[5] = dom.createMorphAt(element3, 1, 1);
+          morphs[6] = dom.createMorphAt(element2, 5, 5);
+          morphs[7] = dom.createMorphAt(dom.childAt(element0, [9, 3]), 1, 1);
+          morphs[8] = dom.createAttrMorph(element5, 'class');
+          morphs[9] = dom.createMorphAt(element5, 1, 1);
+          morphs[10] = dom.createMorphAt(element4, 5, 5);
+          morphs[11] = dom.createMorphAt(dom.childAt(element0, [13, 3]), 1, 1);
+          morphs[12] = dom.createMorphAt(dom.childAt(element0, [15, 3]), 1, 1);
+          morphs[13] = dom.createMorphAt(dom.childAt(element0, [17, 3]), 1, 1);
+          morphs[14] = dom.createMorphAt(dom.childAt(element0, [19, 3]), 1, 1);
+          morphs[15] = dom.createMorphAt(element6, 1, 1);
+          morphs[16] = dom.createElementMorph(element7);
+          morphs[17] = dom.createMorphAt(dom.childAt(element6, [5]), 1, 1);
+          morphs[18] = dom.createMorphAt(dom.childAt(element0, [23, 3]), 1, 1);
+          morphs[19] = dom.createElementMorph(element8);
+          morphs[20] = dom.createMorphAt(dom.childAt(element0, [27]), 1, 1);
+          return morphs;
+        },
+        statements: [["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.firstname", ["loc", [null, [10, 32], [10, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "city"], ["loc", [null, [10, 6], [10, 137]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.lastname", ["loc", [null, [16, 32], [16, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "city"], ["loc", [null, [16, 6], [16, 136]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.username", ["loc", [null, [22, 32], [22, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "Username"], ["loc", [null, [22, 6], [22, 132]]], 0, 0], ["block", "if", [["get", "usernameerror", ["loc", [null, [24, 11], [24, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 5], [28, 12]]]], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "passwordclasses", ["loc", [null, [32, 28], [32, 43]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.password", ["loc", [null, [33, 32], [33, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "Password", "type", "password"], ["loc", [null, [33, 6], [33, 148]]], 0, 0], ["block", "if", [["get", "passworderror", ["loc", [null, [35, 11], [35, 24]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [35, 5], [39, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "confirmpassword", ["loc", [null, [44, 32], [44, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "Confirm Password", "type", "password"], ["loc", [null, [44, 6], [44, 150]]], 0, 0], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "emailclasses", ["loc", [null, [49, 28], [49, 40]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.email", ["loc", [null, [50, 32], [50, 50]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "Email"], ["loc", [null, [50, 6], [50, 126]]], 0, 0], ["block", "if", [["get", "emailerror", ["loc", [null, [52, 11], [52, 21]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [52, 5], [56, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.age", ["loc", [null, [61, 32], [61, 56]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "age"], ["loc", [null, [61, 6], [61, 130]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.gender", ["loc", [null, [68, 61], [68, 88]]], 0, 0, 0, 0]], [], [], 0, 0]], 3, null, ["loc", [null, [68, 6], [74, 19]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.city", ["loc", [null, [83, 32], [83, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "city"], ["loc", [null, [83, 6], [83, 132]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.state", ["loc", [null, [89, 60], [89, 86]]], 0, 0, 0, 0]], [], [], 0, 0]], 4, null, ["loc", [null, [89, 6], [95, 19]]]], ["block", "bs-modal", [], ["open", ["subexpr", "@mut", [["get", "showPolicy", ["loc", [null, [100, 23], [100, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Privacy Policy", "footer", false], 5, null, ["loc", [null, [100, 6], [102, 19]]]], ["element", "action", ["showPolicy"], [], ["loc", [null, [103, 62], [103, 85]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "name", "doesAgree", "checked", ["subexpr", "@mut", [["get", "agree", ["loc", [null, [105, 56], [105, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [105, 7], [105, 63]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.clientprofile.certification", ["loc", [null, [112, 32], [112, 67]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "register", "placeholder", "city"], ["loc", [null, [112, 6], [112, 142]]], 0, 0], ["element", "action", ["register"], [], ["loc", [null, [117, 62], [117, 83]]], 0, 0], ["block", "if", [["get", "validationErrorMsg", ["loc", [null, [121, 11], [121, 29]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [121, 5], [126, 12]]]]],
+        locals: [],
+        templates: [child0, child1, child2, child3, child4, child5, child6]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 131,
+            "column": 7
+          }
+        },
+        "moduleName": "simple-fit/templates/register.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["block", "if", [["get", "success", ["loc", [null, [1, 6], [1, 13]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [131, 7]]]]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
+define("simple-fit/templates/testing", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -6716,11 +8420,11 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 3,
+            "line": 2,
             "column": 0
           }
         },
-        "moduleName": "simple-fit/templates/trainer.hbs"
+        "moduleName": "simple-fit/templates/testing.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -6728,11 +8432,7 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h1");
-        var el2 = dom.createTextNode("Trainer Home Page");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
+        var el1 = dom.createTextNode("hello\n");
         dom.appendChild(el0, el1);
         return el0;
       },
@@ -6745,7 +8445,7 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
     };
   })());
 });
-define("simple-fit/templates/trainer/clients", ["exports"], function (exports) {
+define("simple-fit/templates/trainer", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
@@ -6754,15 +8454,15 @@ define("simple-fit/templates/trainer/clients", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 3,
+              "line": 5,
               "column": 2
             },
             "end": {
-              "line": 12,
+              "line": 11,
               "column": 2
             }
           },
-          "moduleName": "simple-fit/templates/trainer/clients.hbs"
+          "moduleName": "simple-fit/templates/trainer.hbs"
         },
         isEmpty: false,
         arity: 1,
@@ -6783,24 +8483,13 @@ define("simple-fit/templates/trainer/clients", ["exports"], function (exports) {
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("img");
-          dom.setAttribute(el2, "src", "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT1rl4Z6ILcLQiePkQDJE273zAnrGj1E5gsUa6qNEiGuj1Jqy38bIbHmg");
-          dom.setAttribute(el2, "height", "80");
-          dom.setAttribute(el2, "widtch", "80");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("p");
-          var el3 = dom.createTextNode("\n        Cool graphing and tracking and stuff\n      ");
+          var el3 = dom.createTextNode("\n      ");
           dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("a");
-          var el3 = dom.createTextNode("User Profile");
+          var el3 = dom.createElement("button");
+          dom.setAttribute(el3, "type", "submit");
+          dom.setAttribute(el3, "class", "btn btn-xs glyphicon glyphicon-remove");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n    ");
@@ -6811,16 +8500,15 @@ define("simple-fit/templates/trainer/clients", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var element1 = dom.childAt(element0, [1]);
-          var element2 = dom.childAt(element0, [7]);
+          var element0 = dom.childAt(fragment, [1, 1]);
+          var element1 = dom.childAt(element0, [4]);
           var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(element1, 0, 0);
-          morphs[1] = dom.createMorphAt(element1, 2, 2);
-          morphs[2] = dom.createAttrMorph(element2, 'href');
+          morphs[0] = dom.createMorphAt(element0, 0, 0);
+          morphs[1] = dom.createMorphAt(element0, 2, 2);
+          morphs[2] = dom.createElementMorph(element1);
           return morphs;
         },
-        statements: [["content", "client.firstName", ["loc", [null, [5, 10], [5, 30]]], 0, 0, 0, 0], ["content", "client.lastName", ["loc", [null, [5, 31], [5, 50]]], 0, 0, 0, 0], ["attribute", "href", ["concat", ["/users/", ["get", "client.url", ["loc", [null, [10, 24], [10, 34]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+        statements: [["content", "client.firstname", ["loc", [null, [7, 10], [7, 30]]], 0, 0, 0, 0], ["content", "client.lastname", ["loc", [null, [7, 31], [7, 50]]], 0, 0, 0, 0], ["element", "action", ["delclient", ["get", "client", ["loc", [null, [8, 96], [8, 102]]], 0, 0, 0, 0]], [], ["loc", [null, [8, 74], [8, 104]]], 0, 0]],
         locals: ["client"],
         templates: []
       };
@@ -6835,11 +8523,11 @@ define("simple-fit/templates/trainer/clients", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 13,
+            "line": 19,
             "column": 5
           }
         },
-        "moduleName": "simple-fit/templates/trainer/clients.hbs"
+        "moduleName": "simple-fit/templates/trainer.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -6847,6 +8535,12 @@ define("simple-fit/templates/trainer/clients", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h1");
+        var el2 = dom.createTextNode("Trainer Home Page");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("h2");
         var el2 = dom.createTextNode("Client List");
         dom.appendChild(el1, el2);
@@ -6854,59 +8548,55 @@ define("simple-fit/templates/trainer/clients", ["exports"], function (exports) {
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("ul");
-        dom.setAttribute(el1, "class", "row-fluid block-grid-3");
+        dom.setAttribute(el1, "class", "row-fluid");
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("form");
+        dom.setAttribute(el2, "class", "");
+        dom.setAttribute(el2, "method", "post");
+        var el3 = dom.createTextNode("\n    First name: ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    Last name: ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("button");
+        dom.setAttribute(el3, "type", "submit");
+        dom.setAttribute(el3, "class", "btn");
+        var el4 = dom.createTextNode("Save");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
+        var element2 = dom.childAt(fragment, [4]);
+        var element3 = dom.childAt(element2, [4]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(element2, 1, 1);
+        morphs[1] = dom.createElementMorph(element3);
+        morphs[2] = dom.createMorphAt(element3, 1, 1);
+        morphs[3] = dom.createMorphAt(element3, 3, 3);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [3, 10], [3, 15]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 2], [12, 11]]]]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [5, 10], [5, 15]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 2], [11, 11]]]], ["element", "action", ["addclient"], ["on", "submit"], ["loc", [null, [13, 29], [13, 64]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "firstname", ["loc", [null, [14, 30], [14, 39]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [14, 16], [14, 41]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "lastname", ["loc", [null, [15, 29], [15, 37]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [15, 15], [15, 39]]], 0, 0]],
       locals: [],
       templates: [child0]
-    };
-  })());
-});
-define("simple-fit/templates/trainer/clients/client", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template((function () {
-    return {
-      meta: {
-        "revision": "Ember@2.8.2+31ba4c74",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 2
-          }
-        },
-        "moduleName": "simple-fit/templates/trainer/clients/client.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createTextNode("hi");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() {
-        return [];
-      },
-      statements: [],
-      locals: [],
-      templates: []
     };
   })());
 });
@@ -7053,7 +8743,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+0eff0724"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+1061ab79"});
 }
 
 /* jshint ignore:end */

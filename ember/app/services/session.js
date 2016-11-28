@@ -48,7 +48,7 @@ export default Ember.Service.extend({
 				}
 				auth.set('password', '');
         console.log('Login POST Request to ../api/session/ was successful.');
-        auth.get('routing').transitionTo('application');
+        // auth.get('routing').transitionTo('index');
 			} else{
 				//errors
 				console.log('Login POST Request to ../api/session/ was unsuccessful.');
