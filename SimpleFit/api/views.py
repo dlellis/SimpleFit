@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
+from rest_framework_json_api.views import RelationshipView
 
 
 class Register(APIView):
@@ -82,7 +83,6 @@ class Session(APIView):
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
@@ -95,52 +95,26 @@ class ClientViewSet(viewsets.ModelViewSet):
 	resource_name = 'clients'
 
 
-
-# # Create your views here.
-# class ClientProfileViewSet(RelationshipView):
-# 	print dir(viewsets.ModelViewSet)
-# 	queryset = ClientProfile.objects.all()
-# 	serializer_class = ClientProfileSerializer
-# 	resource_name = 'clientprofiles'
-	
-# 	def get_queryset(self):
-# 		"""
-# 		This view should return a list of all the purchases
-# 		for the currently authenticated user.
-# 		"""
-# 		user = self.request.user
-# 		return ClientProfile.objects.filter(user=user)
-
-
-
-# # Create your views here.
-# class ClientProfileViewSet(viewsets.ModelViewSet):
-# 	print dir(viewsets.ModelViewSet)
-# 	queryset = ClientProfile.objects.all()
-# 	serializer_class = ClientProfileSerializer
-# 	resource_name = 'clientprofiles'
-
-
 class ClientProfileViewSet(viewsets.ModelViewSet):
 	queryset = ClientProfile.objects.all()
 	serializer_class = ClientProfileSerializer
 	resource_name = 'clientprofiles'
 	
 	# def get_queryset(self):
-	# 	"""
-	# 	This view should return a list of all the purchases
-	# 	for the currently authenticated user.
-	# 	"""
 	# 	user = self.request.user
 	# 	return ClientProfile.objects.filter(user=user)
-
 
 
 # Create your views here.
 class BasicProfileViewSet(viewsets.ModelViewSet):
 	queryset = BasicProfile.objects.all()
 	serializer_class = BasicProfileSerializer
-	resource_name = 'basicprofiles'
+	#resource_name = 'basicinfo'
+
+
+	# def get_queryset(self):
+	# 	user = self.request.user
+	# 	return BasicProfile.objects.filter(user=user)
 
 
 def home(request):

@@ -847,7 +847,7 @@ define('simple-fit/tests/routes/testing.jshint', ['exports'], function (exports)
   QUnit.module('JSHint | routes/testing.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'routes/testing.js should pass jshint.\nroutes/testing.js: line 5, col 11, \'params\' is defined but never used.\n\n1 error');
+    assert.ok(false, 'routes/testing.js should pass jshint.\nroutes/testing.js: line 6, col 60, Missing semicolon.\nroutes/testing.js: line 8, col 20, Missing semicolon.\n\n2 errors');
   });
 });
 define('simple-fit/tests/routes/trainer.jshint', ['exports'], function (exports) {

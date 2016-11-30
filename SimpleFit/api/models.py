@@ -69,6 +69,9 @@ class BasicProfile(models.Model):
 	def __str__(self):
 		return self.firstname
 
+	class JSONAPIMeta:
+		resource_name = "basicprofile"
+
 
 class ClientProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)

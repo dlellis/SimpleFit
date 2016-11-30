@@ -31,7 +31,7 @@ export default Ember.Service.extend({
 		Ember.$.post('../api/session/', data, function(response){
 			if(response.data.isauthenticated){
 				//success
-				auth.set('username', auth.get('store').findRecord('user', response.data.userid));
+				//auth.set('username', auth.get('store').findRecord('user', response.data.userid));
 				//auth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
 				auth.set('isLoggedIn', true);	
 
@@ -100,7 +100,7 @@ export default Ember.Service.extend({
 			if(response.data.isauthenticated){
 				//success
 				console.log('The user: \''+response.data.username+'\' is currently logged in.');
-				auth.set('user', auth.get('store').findRecord('user', response.data.userid));
+				//auth.set('user', auth.get('store').findRecord('user', response.data.userid));
 				//sauth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
 				auth.set('isLoggedIn', true);
 			} else{

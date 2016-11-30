@@ -818,8 +818,8 @@ define('simple-fit/models/client', ['exports', 'ember-data'], function (exports,
 });
 define('simple-fit/models/clientprofile', ['exports', 'ember-data'], function (exports, _emberData) {
 	exports['default'] = _emberData['default'].Model.extend({
-		user: _emberData['default'].belongsTo('user'),
-		basicprofile: _emberData['default'].belongsTo('basicprofile'),
+		user: _emberData['default'].belongsTo('user', { async: true }),
+		basicinfo: _emberData['default'].belongsTo('basicprofile', { async: true }),
 		certification: _emberData['default'].attr('string')
 
 	});
@@ -954,8 +954,10 @@ define('simple-fit/routes/register', ['exports', 'ember', 'rsvp'], function (exp
 define('simple-fit/routes/testing', ['exports', 'ember'], function (exports, _ember) {
 	exports['default'] = _ember['default'].Route.extend({
 		//auth: Ember.inject.service('session'),
-		model: function model(params) {
-			return this.store.findRecord('clientprofile', 14, { include: 'basicinfo' });
+		model: function model() {
+			var test = this.store.findRecord('clientprofile', 5);
+
+			return test;
 		}
 	});
 });
@@ -1061,7 +1063,7 @@ define('simple-fit/services/session', ['exports', 'ember'], function (exports, _
 			_ember['default'].$.post('../api/session/', data, function (response) {
 				if (response.data.isauthenticated) {
 					//success
-					auth.set('username', auth.get('store').findRecord('user', response.data.userid));
+					//auth.set('username', auth.get('store').findRecord('user', response.data.userid));
 					//auth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
 					auth.set('isLoggedIn', true);
 
@@ -1123,7 +1125,7 @@ define('simple-fit/services/session', ['exports', 'ember'], function (exports, _
 				if (response.data.isauthenticated) {
 					//success
 					console.log('The user: \'' + response.data.username + '\' is currently logged in.');
-					auth.set('user', auth.get('store').findRecord('user', response.data.userid));
+					//auth.set('user', auth.get('store').findRecord('user', response.data.userid));
 					//sauth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
 					auth.set('isLoggedIn', true);
 				} else {
@@ -8420,8 +8422,8 @@ define("simple-fit/templates/testing", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 2,
-            "column": 0
+            "line": 3,
+            "column": 24
           }
         },
         "moduleName": "simple-fit/templates/testing.hbs"
@@ -8434,12 +8436,22 @@ define("simple-fit/templates/testing", ["exports"], function (exports) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createTextNode("hello\n");
         dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
         return el0;
       },
-      buildRenderNodes: function buildRenderNodes() {
-        return [];
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+        dom.insertBoundary(fragment, null);
+        return morphs;
       },
-      statements: [],
+      statements: [["content", "content.user.id", ["loc", [null, [2, 0], [2, 19]]], 0, 0, 0, 0], ["content", "content.basicinfo.id", ["loc", [null, [3, 0], [3, 24]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -8743,7 +8755,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+1061ab79"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+e09a0020"});
 }
 
 /* jshint ignore:end */
