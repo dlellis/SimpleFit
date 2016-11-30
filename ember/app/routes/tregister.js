@@ -8,5 +8,5 @@ export default Ember.Route.extend({
       basicprofile: this.store.createRecord('basicprofile'),
       trainerprofile: this.store.createRecord('trainerprofile'),
     });
-  }
+  }	
 });

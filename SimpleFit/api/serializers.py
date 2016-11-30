@@ -1,14 +1,19 @@
 #from rest_framework import serializers
 from rest_framework_json_api import serializers
-from api.models import Client, ClientProfile, BasicProfile
+from api.models import Client, ClientProfile, BasicProfile, TrainerProfile
 from django.contrib.auth.models import User
 from rest_framework_json_api.relations import ResourceRelatedField, HyperlinkedIdentityField#, NestedHyperlinkedRelatedField
 from rest_framework_nested.relations import NestedHyperlinkedRelatedField
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
+	basicprofile = ResourceRelatedField(
+	#queryset = User.objects)
+	read_only=True)
+
+
+	class Meta:
+		model = User
+		fields = ('url', 'username', 'email', 'is_staff', 'basicprofile')
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
@@ -16,18 +21,29 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
         model = Client
         fields = ('id','firstname','lastname','service')
 
+class TrainerProfileSerializer(serializers.HyperlinkedModelSerializer):
+
+
+	class Meta:
+		model = TrainerProfile
+		fields = '__all__'
 
 class BasicProfileSerializer(serializers.HyperlinkedModelSerializer):
+
+	user = ResourceRelatedField(
+		#queryset = User.objects)
+		read_only=True)
+
+	trainerprofile = ResourceRelatedField(
+	#queryset = User.objects)
+	read_only=True)
 
 	class Meta:
 		model = BasicProfile
 		fields = '__all__'
 
 class ClientProfileSerializer(serializers.HyperlinkedModelSerializer):
-	user = ResourceRelatedField(
-		#queryset = User.objects)
-		read_only=True)
-	
+
 
 	basicinfo = ResourceRelatedField(
 		#queryset = BasicProfile.objects,

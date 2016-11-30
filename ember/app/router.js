@@ -19,6 +19,9 @@ Router.map(function() {
   this.route('register');
   this.route('newfeature');
   this.route('testing');
+  this.route('cregister');
+  this.route('dregister');
+  this.route('tregister');
 });
 
 export default Router;

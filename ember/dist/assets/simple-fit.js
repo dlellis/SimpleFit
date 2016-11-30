@@ -372,6 +372,13 @@ define('simple-fit/components/navigation-menu', ['exports', 'ember'], function (
     auth: _ember['default'].inject.service('session')
   });
 });
+define('simple-fit/components/test-component', ['exports', 'ember'], function (exports, _ember) {
+	exports['default'] = _ember['default'].Component.extend({
+		//auth: Ember.inject.service('session'),
+		//test: console.log('auth.user.username')
+
+	});
+});
 define('simple-fit/components/trainer-login', ['exports', 'ember'], function (exports, _ember) {
 	exports['default'] = _ember['default'].Component.extend({
 		actions: {
@@ -510,6 +517,87 @@ define('simple-fit/controllers/trainer', ['exports', 'ember'], function (exports
     }
   });
 });
+define('simple-fit/controllers/tregister', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend({
+    confirmpassword: '',
+    showPolicy: false,
+    success: false,
+    genders: ['Male', 'Female', 'Other'],
+    states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
+    agree: false,
+
+    //client-side validators
+    usernameChanged: _ember['default'].observer('content.user.username', function () {
+      //validate here
+    }),
+    passwordChanged: _ember['default'].observer('content.user.password', function () {
+      var user = this.get('content').user;
+      if (user.get('password') == undefined || user.get('password') == '') {
+        this.set('passworderror', 'You must specify a password.');
+        this.set('passwordclasses', 'has-error');
+      } else if (user.get('password').length < 8) {
+        this.set('passworderror', 'Your password must be at least 8 characters');
+        this.set('passwordclasses', 'has-error');
+      } else {
+        this.set('passworderror', null);
+        this.set('passwordclasses', '');
+      }
+    }),
+    //...other validators go here
+
+    //actions
+    actions: {
+      showPolicy: function showPolicy() {
+        this.set('showPolicy', !this.get('showPolicy'));
+      },
+      tregister: function tregister() {
+        this.set('validationErrorMsg', '');
+        var user = this.get('content').user;
+        var basicprofile = this.get('content').basicprofile;
+        var trainerprofile = this.get('content').trainerprofile;
+        var t = this;
+        //probably want to do some additional validation here
+        if (user.get('password') === this.get('confirmpassword')) {
+          var requestdata = {
+            'username': user.get('username'),
+            'password': user.get('password'),
+            'certification': trainerprofile.get('certification'),
+            'email': user.get('email'),
+            'firstname': basicprofile.get('firstname'),
+            'lastname': basicprofile.get('lastname'),
+            'gender': basicprofile.get('gender'),
+            'age': basicprofile.get('age'),
+            'city': basicprofile.get('city'),
+            'state': basicprofile.get('state'),
+            'membertype': basicprofile.get('membertype')
+
+          };
+          _ember['default'].$.post('../api/tregister/', requestdata, function (response) {
+            var errMsg = '';
+            if (response.data.status === "error") {
+              if (response.data.username) {
+                errMsg = response.data.username;
+              } else if (response.data.email) {
+                errMsg = response.data.email;
+              } else {
+                errMsg = "An unknown error occured. Please try again";
+              }
+              t.set('validationErrorMsg', errMsg);
+            } else {
+              //success
+              t.set('success', true);
+              //could forward the user to another page (like home)
+              //t.transitionTo('home');
+            }
+          });
+        } else {
+            this.set('validationErrorMsg', 'Passwords don\'t match');
+          }
+      }
+
+    }
+  });
+});
 define('simple-fit/helpers/bs-contains', ['exports', 'ember-bootstrap/helpers/bs-contains'], function (exports, _emberBootstrapHelpersBsContains) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -565,6 +653,13 @@ define('simple-fit/helpers/bs-read-path', ['exports', 'ember-bootstrap/helpers/b
       return _emberBootstrapHelpersBsReadPath.readPath;
     }
   });
+});
+define('simple-fit/helpers/eq', ['exports', 'ember'], function (exports, _ember) {
+
+  var eq = function eq(params) {
+    return params[0] === params[1];
+  };
+  exports['default'] = _ember['default'].Helper.helper(eq);
 });
 define('simple-fit/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _emberInflectorLibHelpersPluralize) {
   exports['default'] = _emberInflectorLibHelpersPluralize['default'];
@@ -749,17 +844,19 @@ define('simple-fit/initializers/modals-container', ['exports', 'ember-bootstrap/
   exports['default'] = _emberBootstrapInitializersModalsContainer['default'];
 });
 define('simple-fit/initializers/session', ['exports'], function (exports) {
-  exports.initialize = initialize;
+	exports.initialize = initialize;
 
-  function initialize(application) {
-    // application.inject('route', 'user', 'service:session');
-    // application.inject('component', 'user', 'service:session');
-  }
+	function initialize(application) {
+		//application.inject('route', 'auth', 'service:session');
+		application.inject('component', 'auth', 'service:session');
+		//application.inject('model', 'auth', 'service:session');
+		// application.inject('component', 'user', 'service:session');
+	}
 
-  exports['default'] = {
-    name: 'session',
-    initialize: initialize
-  };
+	exports['default'] = {
+		name: 'session',
+		initialize: initialize
+	};
 });
 define('simple-fit/initializers/store', ['exports', 'ember'], function (exports, _ember) {
 
@@ -799,14 +896,16 @@ define("simple-fit/instance-initializers/ember-data", ["exports", "ember-data/-p
 });
 define('simple-fit/models/basicprofile', ['exports', 'ember-data'], function (exports, _emberData) {
 	exports['default'] = _emberData['default'].Model.extend({
-		clientprofile: _emberData['default'].belongsTo('clientprofile'),
+		user: _emberData['default'].belongsTo('user'),
+		trainerprofile: _emberData['default'].belongsTo('trainerprofile', { async: true }),
 		firstname: _emberData['default'].attr('string'),
 		lastname: _emberData['default'].attr('string'),
 		gender: _emberData['default'].attr('string'),
 		age: _emberData['default'].attr('number'),
 		city: _emberData['default'].attr('string'),
 		state: _emberData['default'].attr('string'),
-		ip: _emberData['default'].attr('string')
+		ip: _emberData['default'].attr('string'),
+		membertype: _emberData['default'].attr('string')
 
 	});
 });
@@ -820,8 +919,8 @@ define('simple-fit/models/clientprofile', ['exports', 'ember-data'], function (e
 	exports['default'] = _emberData['default'].Model.extend({
 		user: _emberData['default'].belongsTo('user', { async: true }),
 		basicinfo: _emberData['default'].belongsTo('basicprofile', { async: true }),
-		certification: _emberData['default'].attr('string')
-
+		//certification: DS.attr('string'),
+		service: _emberData['default'].attr('string')
 	});
 });
 define('simple-fit/models/profile', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -862,9 +961,16 @@ define('simple-fit/models/recipes', ['exports', 'ember-data'], function (exports
 		link: _emberData['default'].attr()
 	});
 });
+define('simple-fit/models/trainerprofile', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		user: _emberData['default'].belongsTo('user'),
+		basicinfo: _emberData['default'].belongsTo('basicprofile'),
+		certification: _emberData['default'].attr('string')
+	});
+});
 define('simple-fit/models/user', ['exports', 'ember-data'], function (exports, _emberData) {
 	exports['default'] = _emberData['default'].Model.extend({
-		clientprofile: _emberData['default'].belongsTo('clientprofile'),
+		basicprofile: _emberData['default'].belongsTo('basicprofile', { async: true }),
 		username: _emberData['default'].attr('string'),
 		email: _emberData['default'].attr('string'),
 		password: _emberData['default'].attr('string')
@@ -894,6 +1000,9 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
     this.route('register');
     this.route('newfeature');
     this.route('testing');
+    this.route('cregister');
+    this.route('dregister');
+    this.route('tregister');
   });
 
   exports['default'] = Router;
@@ -902,6 +1011,9 @@ define('simple-fit/routes/application', ['exports', 'ember'], function (exports,
   exports['default'] = _ember['default'].Route.extend({
     model: function model() {}
   });
+});
+define('simple-fit/routes/cregister', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({});
 });
 define('simple-fit/routes/dclient', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -912,6 +1024,9 @@ define('simple-fit/routes/dietitian', ['exports', 'ember'], function (exports, _
       return this.store.findAll('clients');
     }
   });
+});
+define('simple-fit/routes/dregister', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({});
 });
 define('simple-fit/routes/index', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -946,7 +1061,7 @@ define('simple-fit/routes/register', ['exports', 'ember', 'rsvp'], function (exp
       return _rsvp['default'].hash({
         user: this.store.createRecord('user'),
         basicprofile: this.store.createRecord('basicprofile'),
-        clientprofile: this.store.createRecord('clientprofile')
+        trainerprofile: this.store.createRecord('trainerprofile')
       });
     }
   });
@@ -955,9 +1070,12 @@ define('simple-fit/routes/testing', ['exports', 'ember'], function (exports, _em
 	exports['default'] = _ember['default'].Route.extend({
 		//auth: Ember.inject.service('session'),
 		model: function model() {
-			var test = this.store.findRecord('clientprofile', 5);
+			//var test = this.store.findRecord('clientprofile',5);//,content.get('user').get('clientprofile').get('id'))//.then(function(response){
+			//console.log(this.store.get(auth.user.userid))
+			//});
 
-			return test;
+			//return test
+
 		}
 	});
 });
@@ -965,6 +1083,17 @@ define('simple-fit/routes/trainer', ['exports', 'ember'], function (exports, _em
   exports['default'] = _ember['default'].Route.extend({
     model: function model() {
       return this.store.findAll('client');
+    }
+  });
+});
+define('simple-fit/routes/tregister', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
+  exports['default'] = _ember['default'].Route.extend({
+    model: function model() {
+      return _rsvp['default'].hash({
+        user: this.store.createRecord('user'),
+        basicprofile: this.store.createRecord('basicprofile'),
+        trainerprofile: this.store.createRecord('trainerprofile')
+      });
     }
   });
 });
@@ -1063,7 +1192,7 @@ define('simple-fit/services/session', ['exports', 'ember'], function (exports, _
 			_ember['default'].$.post('../api/session/', data, function (response) {
 				if (response.data.isauthenticated) {
 					//success
-					//auth.set('username', auth.get('store').findRecord('user', response.data.userid));
+					auth.set('user', auth.get('store').findRecord('user', response.data.userid));
 					//auth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
 					auth.set('isLoggedIn', true);
 
@@ -1125,7 +1254,7 @@ define('simple-fit/services/session', ['exports', 'ember'], function (exports, _
 				if (response.data.isauthenticated) {
 					//success
 					console.log('The user: \'' + response.data.username + '\' is currently logged in.');
-					//auth.set('user', auth.get('store').findRecord('user', response.data.userid));
+					auth.set('user', auth.get('store').findRecord('user', response.data.userid));
 					//sauth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
 					auth.set('isLoggedIn', true);
 				} else {
@@ -5963,6 +6092,167 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
     };
   })());
 });
+define("simple-fit/templates/components/test-component", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 7,
+              "column": 0
+            },
+            "end": {
+              "line": 11,
+              "column": 1
+            }
+          },
+          "moduleName": "simple-fit/templates/components/test-component.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          var el2 = dom.createTextNode("CONGRATS!! YOU ARE A trainer!");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("b");
+          var el2 = dom.createTextNode("Certification:");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(" ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 5, 5, contextualElement);
+          return morphs;
+        },
+        statements: [["content", "auth.user.basicprofile.trainerprofile.certification", ["loc", [null, [9, 24], [9, 79]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 11,
+              "column": 1
+            },
+            "end": {
+              "line": 13,
+              "column": 0
+            }
+          },
+          "moduleName": "simple-fit/templates/components/test-component.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode(" not trainer!\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 14,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/components/test-component.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("Username: ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("br");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\nUser id: ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("br");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\nFirst name: ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("br");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("br");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Type:");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        morphs[2] = dom.createMorphAt(fragment, 7, 7, contextualElement);
+        morphs[3] = dom.createMorphAt(fragment, 14, 14, contextualElement);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["content", "auth.user.username", ["loc", [null, [1, 10], [1, 32]]], 0, 0, 0, 0], ["content", "auth.user.id", ["loc", [null, [2, 9], [2, 25]]], 0, 0, 0, 0], ["content", "auth.user.basicprofile.firstname", ["loc", [null, [3, 12], [3, 48]]], 0, 0, 0, 0], ["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [7, 10], [7, 43]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [7, 6], [7, 54]]], 0, 0]], [], 0, 1, ["loc", [null, [7, 0], [13, 7]]]]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
 define("simple-fit/templates/components/trainer-login", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
@@ -6007,6 +6297,48 @@ define('simple-fit/templates/components/x-select', ['exports', 'emberx-select/te
       return _emberxSelectTemplatesComponentsXSelect['default'];
     }
   });
+});
+define("simple-fit/templates/cregister", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/cregister.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["content", "outlet", ["loc", [null, [1, 0], [1, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
 });
 define("simple-fit/templates/dclient", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
@@ -6671,6 +7003,48 @@ define("simple-fit/templates/dietitian", ["exports"], function (exports) {
       statements: [["block", "each", [["get", "model", ["loc", [null, [14, 12], [14, 17]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [14, 4], [25, 13]]]], ["content", "outlet", ["loc", [null, [33, 0], [33, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
+    };
+  })());
+});
+define("simple-fit/templates/dregister", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/dregister.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["content", "outlet", ["loc", [null, [1, 0], [1, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
     };
   })());
 });
@@ -8423,7 +8797,7 @@ define("simple-fit/templates/testing", ["exports"], function (exports) {
           },
           "end": {
             "line": 3,
-            "column": 24
+            "column": 35
           }
         },
         "moduleName": "simple-fit/templates/testing.hbs"
@@ -8434,24 +8808,24 @@ define("simple-fit/templates/testing", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createTextNode("hello\n");
+        var el1 = dom.createElement("h2");
+        var el2 = dom.createTextNode("Test component:");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode(" ");
         dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-        morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
-        dom.insertBoundary(fragment, null);
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         return morphs;
       },
-      statements: [["content", "content.user.id", ["loc", [null, [2, 0], [2, 19]]], 0, 0, 0, 0], ["content", "content.basicinfo.id", ["loc", [null, [3, 0], [3, 24]]], 0, 0, 0, 0]],
+      statements: [["content", "test-component", ["loc", [null, [1, 25], [1, 43]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -8612,6 +8986,1156 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
     };
   })());
 });
+define("simple-fit/templates/tregister", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 0
+            }
+          },
+          "moduleName": "simple-fit/templates/tregister.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("	");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("h1");
+          var el2 = dom.createTextNode("Welcome ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("!");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+          return morphs;
+        },
+        statements: [["content", "content.user.username", ["loc", [null, [2, 13], [2, 38]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 24,
+                "column": 5
+              },
+              "end": {
+                "line": 28,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/tregister.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "usernameerror", ["loc", [null, [26, 28], [26, 45]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 35,
+                "column": 5
+              },
+              "end": {
+                "line": 39,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/tregister.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "passworderror", ["loc", [null, [37, 28], [37, 45]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child2 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 52,
+                "column": 5
+              },
+              "end": {
+                "line": 56,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/tregister.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "emailerror", ["loc", [null, [54, 28], [54, 42]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child3 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 69,
+                  "column": 7
+                },
+                "end": {
+                  "line": 69,
+                  "column": 71
+                }
+              },
+              "moduleName": "simple-fit/templates/tregister.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Select most applicable");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 71,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 71,
+                    "column": 35
+                  }
+                },
+                "moduleName": "simple-fit/templates/tregister.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var morphs = new Array(1);
+                morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+                dom.insertBoundary(fragment, 0);
+                dom.insertBoundary(fragment, null);
+                return morphs;
+              },
+              statements: [["content", "g", ["loc", [null, [71, 30], [71, 35]]], 0, 0, 0, 0]],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 70,
+                  "column": 7
+                },
+                "end": {
+                  "line": 73,
+                  "column": 7
+                }
+              },
+              "moduleName": "simple-fit/templates/tregister.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("								");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n								\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "g", ["loc", [null, [71, 27], [71, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [71, 8], [71, 49]]]]],
+            locals: ["g"],
+            templates: [child0]
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 68,
+                "column": 6
+              },
+              "end": {
+                "line": 74,
+                "column": 6
+              }
+            },
+            "moduleName": "simple-fit/templates/tregister.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("							");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [69, 7], [69, 85]]]], ["block", "each", [["get", "genders", ["loc", [null, [70, 15], [70, 22]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [70, 7], [73, 16]]]]],
+          locals: ["xs"],
+          templates: [child0, child1]
+        };
+      })();
+      var child4 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 90,
+                  "column": 7
+                },
+                "end": {
+                  "line": 90,
+                  "column": 73
+                }
+              },
+              "moduleName": "simple-fit/templates/tregister.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Select current residence");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 92,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 92,
+                    "column": 35
+                  }
+                },
+                "moduleName": "simple-fit/templates/tregister.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var morphs = new Array(1);
+                morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+                dom.insertBoundary(fragment, 0);
+                dom.insertBoundary(fragment, null);
+                return morphs;
+              },
+              statements: [["content", "s", ["loc", [null, [92, 30], [92, 35]]], 0, 0, 0, 0]],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 91,
+                  "column": 7
+                },
+                "end": {
+                  "line": 94,
+                  "column": 7
+                }
+              },
+              "moduleName": "simple-fit/templates/tregister.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("								");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n								\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "s", ["loc", [null, [92, 27], [92, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [92, 8], [92, 49]]]]],
+            locals: ["s"],
+            templates: [child0]
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 89,
+                "column": 6
+              },
+              "end": {
+                "line": 95,
+                "column": 6
+              }
+            },
+            "moduleName": "simple-fit/templates/tregister.hbs"
+          },
+          isEmpty: false,
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("							");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [90, 7], [90, 87]]]], ["block", "each", [["get", "states", ["loc", [null, [91, 15], [91, 21]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [91, 7], [94, 16]]]]],
+          locals: ["xs"],
+          templates: [child0, child1]
+        };
+      })();
+      var child5 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 100,
+                "column": 6
+              },
+              "end": {
+                "line": 102,
+                "column": 6
+              }
+            },
+            "moduleName": "simple-fit/templates/tregister.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("							");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            return morphs;
+          },
+          statements: [["inline", "render", ["privacypolicy"], [], ["loc", [null, [101, 7], [101, 33]]], 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child6 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 121,
+                "column": 5
+              },
+              "end": {
+                "line": 126,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/tregister.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-7 alert alert-error fade in");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+            return morphs;
+          },
+          statements: [["content", "validationErrorMsg", ["loc", [null, [123, 7], [123, 29]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 131,
+              "column": 0
+            }
+          },
+          "moduleName": "simple-fit/templates/tregister.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("	");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "row");
+          var el2 = dom.createTextNode("\n		");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "col-xs-12");
+          dom.setAttribute(el2, "style", "margin-left: 15px;");
+          var el3 = dom.createTextNode("\n			");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("form");
+          dom.setAttribute(el3, "class", "form-inline");
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("First name:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Last name:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Username:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Password:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Confirm Password:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Email:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Age:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Gender:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n\n");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("City you live in:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("State:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-10");
+          var el6 = dom.createTextNode("\n");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createElement("button");
+          dom.setAttribute(el6, "class", "btn btn-block btn-warning");
+          dom.setAttribute(el6, "type", "button");
+          var el7 = dom.createTextNode("Read Privacy and informed consent policy");
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createTextNode("\n							");
+          dom.appendChild(el6, el7);
+          var el7 = dom.createComment("");
+          dom.appendChild(el6, el7);
+          var el7 = dom.createTextNode(" I have read and agree to the privacy policy.\n						");
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3");
+          var el6 = dom.createElement("p");
+          dom.setAttribute(el6, "class", "pull-right reg-label");
+          var el7 = dom.createElement("b");
+          var el8 = dom.createTextNode("Certifications:");
+          dom.appendChild(el7, el8);
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-4");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createComment("");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n					");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "col-sm-3 offset3");
+          var el6 = dom.createTextNode("\n						");
+          dom.appendChild(el5, el6);
+          var el6 = dom.createElement("button");
+          dom.setAttribute(el6, "type", "button");
+          dom.setAttribute(el6, "class", "btn btn-block btn-default");
+          var el7 = dom.createTextNode("Sign Up as trainer");
+          dom.appendChild(el6, el7);
+          dom.appendChild(el5, el6);
+          var el6 = dom.createTextNode("\n					");
+          dom.appendChild(el5, el6);
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n			");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n		");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n	");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("/.row");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1, 1, 1]);
+          var element1 = dom.childAt(element0, [5]);
+          var element2 = dom.childAt(element0, [7]);
+          var element3 = dom.childAt(element2, [3]);
+          var element4 = dom.childAt(element0, [11]);
+          var element5 = dom.childAt(element4, [3]);
+          var element6 = dom.childAt(element0, [21, 1]);
+          var element7 = dom.childAt(element6, [3]);
+          var element8 = dom.childAt(element0, [25, 1, 1]);
+          var morphs = new Array(21);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1, 3]), 1, 1);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3, 3]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
+          morphs[3] = dom.createMorphAt(element1, 5, 5);
+          morphs[4] = dom.createAttrMorph(element3, 'class');
+          morphs[5] = dom.createMorphAt(element3, 1, 1);
+          morphs[6] = dom.createMorphAt(element2, 5, 5);
+          morphs[7] = dom.createMorphAt(dom.childAt(element0, [9, 3]), 1, 1);
+          morphs[8] = dom.createAttrMorph(element5, 'class');
+          morphs[9] = dom.createMorphAt(element5, 1, 1);
+          morphs[10] = dom.createMorphAt(element4, 5, 5);
+          morphs[11] = dom.createMorphAt(dom.childAt(element0, [13, 3]), 1, 1);
+          morphs[12] = dom.createMorphAt(dom.childAt(element0, [15, 3]), 1, 1);
+          morphs[13] = dom.createMorphAt(dom.childAt(element0, [17, 3]), 1, 1);
+          morphs[14] = dom.createMorphAt(dom.childAt(element0, [19, 3]), 1, 1);
+          morphs[15] = dom.createMorphAt(element6, 1, 1);
+          morphs[16] = dom.createElementMorph(element7);
+          morphs[17] = dom.createMorphAt(dom.childAt(element6, [5]), 1, 1);
+          morphs[18] = dom.createMorphAt(dom.childAt(element0, [23, 3]), 1, 1);
+          morphs[19] = dom.createElementMorph(element8);
+          morphs[20] = dom.createMorphAt(dom.childAt(element0, [27]), 1, 1);
+          return morphs;
+        },
+        statements: [["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.firstname", ["loc", [null, [10, 32], [10, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "city"], ["loc", [null, [10, 6], [10, 138]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.lastname", ["loc", [null, [16, 32], [16, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "city"], ["loc", [null, [16, 6], [16, 137]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.username", ["loc", [null, [22, 32], [22, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "Username"], ["loc", [null, [22, 6], [22, 133]]], 0, 0], ["block", "if", [["get", "usernameerror", ["loc", [null, [24, 11], [24, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 5], [28, 12]]]], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "passwordclasses", ["loc", [null, [32, 28], [32, 43]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.password", ["loc", [null, [33, 32], [33, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "Password", "type", "password"], ["loc", [null, [33, 6], [33, 149]]], 0, 0], ["block", "if", [["get", "passworderror", ["loc", [null, [35, 11], [35, 24]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [35, 5], [39, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "confirmpassword", ["loc", [null, [44, 32], [44, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "Confirm Password", "type", "password"], ["loc", [null, [44, 6], [44, 151]]], 0, 0], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "emailclasses", ["loc", [null, [49, 28], [49, 40]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.email", ["loc", [null, [50, 32], [50, 50]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "Email"], ["loc", [null, [50, 6], [50, 127]]], 0, 0], ["block", "if", [["get", "emailerror", ["loc", [null, [52, 11], [52, 21]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [52, 5], [56, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.age", ["loc", [null, [61, 32], [61, 56]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "age"], ["loc", [null, [61, 6], [61, 131]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.gender", ["loc", [null, [68, 61], [68, 88]]], 0, 0, 0, 0]], [], [], 0, 0]], 3, null, ["loc", [null, [68, 6], [74, 19]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.city", ["loc", [null, [83, 32], [83, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "city"], ["loc", [null, [83, 6], [83, 133]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.state", ["loc", [null, [89, 60], [89, 86]]], 0, 0, 0, 0]], [], [], 0, 0]], 4, null, ["loc", [null, [89, 6], [95, 19]]]], ["block", "bs-modal", [], ["open", ["subexpr", "@mut", [["get", "showPolicy", ["loc", [null, [100, 23], [100, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Privacy Policy", "footer", false], 5, null, ["loc", [null, [100, 6], [102, 19]]]], ["element", "action", ["showPolicy"], [], ["loc", [null, [103, 62], [103, 85]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "name", "doesAgree", "checked", ["subexpr", "@mut", [["get", "agree", ["loc", [null, [105, 56], [105, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [105, 7], [105, 63]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.trainerprofile.certification", ["loc", [null, [112, 32], [112, 68]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "tregister", "placeholder", "city"], ["loc", [null, [112, 6], [112, 144]]], 0, 0], ["element", "action", ["tregister"], [], ["loc", [null, [117, 62], [117, 84]]], 0, 0], ["block", "if", [["get", "validationErrorMsg", ["loc", [null, [121, 11], [121, 29]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [121, 5], [126, 12]]]]],
+        locals: [],
+        templates: [child0, child1, child2, child3, child4, child5, child6]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 131,
+            "column": 7
+          }
+        },
+        "moduleName": "simple-fit/templates/tregister.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["block", "if", [["get", "success", ["loc", [null, [1, 6], [1, 13]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [131, 7]]]]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
 define("simple-fit/templates/user", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
@@ -8755,7 +10279,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+e09a0020"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+af0ba30e"});
 }
 
 /* jshint ignore:end */

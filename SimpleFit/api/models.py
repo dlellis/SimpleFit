@@ -51,13 +51,22 @@ from django.contrib import admin
 
 
 
-# class DietitianProfile(models.Model):
-# 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-# class TrainerProfile(models.Model):
-# 	user = models.OneToOneField(User, on_delete=models.CASCADE)
+
 
 class BasicProfile(models.Model):
+	trainer = 'trainer'
+	dietitian = 'dietitian'
+	client = 'client'
+
+	type_choices = (
+	(trainer, trainer),
+	(dietitian, dietitian),
+	(client, client),
+	)
+
+
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	firstname = models.CharField(max_length=30, default=None)
 	lastname = models.CharField(max_length=30, default=None)
 	gender = models.CharField(max_length=100, blank=False, default=None)
@@ -65,6 +74,8 @@ class BasicProfile(models.Model):
 	city = models.CharField(max_length=200, blank=False, default=None)
 	state = models.CharField(max_length=200, blank=False, default=None)
 	ip = models.CharField(max_length=200, blank=True,null=True, default=None)
+	membertype = models.CharField(max_length=30, choices=type_choices, default=client)
+
 
 	def __str__(self):
 		return self.firstname
@@ -72,12 +83,38 @@ class BasicProfile(models.Model):
 	class JSONAPIMeta:
 		resource_name = "basicprofile"
 
+class DietitianProfile(models.Model):
+	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
+	
 
-class ClientProfile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	def __str__(self):
+		return self.user.username
+
+	class Admin(admin.ModelAdmin):
+		list_display = ('user',)
+
+	class JSONAPIMeta:
+		resource_name = "dietitianprofiles"
+
+
+class TrainerProfile(models.Model):
 	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
 	certification = models.CharField(max_length=30, default=None)
+	
 
+	def __str__(self):
+		return self.user.username
+
+	class Admin(admin.ModelAdmin):
+		list_display = ('user',)
+
+	class JSONAPIMeta:
+		resource_name = "trainerprofiles"
+
+class ClientProfile(models.Model):
+	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
+	
+	
 	def __str__(self):
 		return self.user.username
 
