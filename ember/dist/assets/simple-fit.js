@@ -390,6 +390,22 @@ define('simple-fit/components/trainer-login', ['exports', 'ember'], function (ex
 		}
 	});
 });
+define('simple-fit/components/trainer-search', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    actions: {
+      requestTrainer: function requestTrainer() {
+        var client = this.store.createRecord('client', {
+          firstname: this.get('firstname'),
+          lastname: this.get('lastname')
+        });
+        client.save();
+        console.log(this.get('firstname'));
+      }
+
+    }
+
+  });
+});
 define('simple-fit/components/x-option', ['exports', 'emberx-select/components/x-option'], function (exports, _emberxSelectComponentsXOption) {
   exports['default'] = _emberxSelectComponentsXOption['default'];
 });
@@ -898,6 +914,7 @@ define('simple-fit/models/basicprofile', ['exports', 'ember-data'], function (ex
 	exports['default'] = _emberData['default'].Model.extend({
 		user: _emberData['default'].belongsTo('user'),
 		trainerprofile: _emberData['default'].belongsTo('trainerprofile', { async: true }),
+		clientprofile: _emberData['default'].belongsTo('clientprofile', { async: true }),
 		firstname: _emberData['default'].attr('string'),
 		lastname: _emberData['default'].attr('string'),
 		gender: _emberData['default'].attr('string'),
@@ -920,7 +937,8 @@ define('simple-fit/models/clientprofile', ['exports', 'ember-data'], function (e
 		user: _emberData['default'].belongsTo('user', { async: true }),
 		basicinfo: _emberData['default'].belongsTo('basicprofile', { async: true }),
 		//certification: DS.attr('string'),
-		service: _emberData['default'].attr('string')
+		service: _emberData['default'].attr('string'),
+		trainer: _emberData['default'].belongsTo('trainerprofile')
 	});
 });
 define('simple-fit/models/profile', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -965,7 +983,8 @@ define('simple-fit/models/trainerprofile', ['exports', 'ember-data'], function (
 	exports['default'] = _emberData['default'].Model.extend({
 		user: _emberData['default'].belongsTo('user'),
 		basicinfo: _emberData['default'].belongsTo('basicprofile'),
-		certification: _emberData['default'].attr('string')
+		certification: _emberData['default'].attr('string'),
+		clientprofile: _emberData['default'].hasMany('clientprofile')
 	});
 });
 define('simple-fit/models/user', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -991,7 +1010,7 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
     this.route('login');
     this.route('trainer');
     this.route('dietitian');
-    this.route('market');
+    this.route('market', function () {});
     this.route('recipes');
     this.route('recipe', { path: 'recipes/:recipe_name' });
     this.route('vchat');
@@ -1008,9 +1027,7 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
   exports['default'] = Router;
 });
 define('simple-fit/routes/application', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({
-    model: function model() {}
-  });
+  exports['default'] = _ember['default'].Route.extend({});
 });
 define('simple-fit/routes/cregister', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -1035,7 +1052,11 @@ define('simple-fit/routes/login', ['exports', 'ember'], function (exports, _embe
   exports['default'] = _ember['default'].Route.extend({});
 });
 define('simple-fit/routes/market', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({});
+	exports['default'] = _ember['default'].Route.extend({
+		model: function model() {
+			return this.store.findAll('basicprofile');
+		}
+	});
 });
 define('simple-fit/routes/newfeature', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -6290,6 +6311,380 @@ define("simple-fit/templates/components/trainer-login", ["exports"], function (e
     };
   })());
 });
+define("simple-fit/templates/components/trainer-search", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 4,
+                "column": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 0
+              }
+            },
+            "moduleName": "simple-fit/templates/components/trainer-search.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("You have a trainer.\n\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        var child0 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 12,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 3
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/trainer-search.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("	");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("table");
+                dom.setAttribute(el1, "class", "table");
+                var el2 = dom.createTextNode("\n  \n	");
+                dom.appendChild(el1, el2);
+                var el2 = dom.createElement("div");
+                dom.setAttribute(el2, "class", "container-fluid");
+                var el3 = dom.createTextNode("\n\n  	\n    ");
+                dom.appendChild(el2, el3);
+                var el3 = dom.createElement("h4");
+                var el4 = dom.createTextNode("Name: ");
+                dom.appendChild(el3, el4);
+                var el4 = dom.createComment("");
+                dom.appendChild(el3, el4);
+                var el4 = dom.createTextNode(" ");
+                dom.appendChild(el3, el4);
+                var el4 = dom.createComment("");
+                dom.appendChild(el3, el4);
+                dom.appendChild(el2, el3);
+                var el3 = dom.createTextNode("\n    ");
+                dom.appendChild(el2, el3);
+                var el3 = dom.createElement("h4");
+                var el4 = dom.createTextNode("Gender: ");
+                dom.appendChild(el3, el4);
+                var el4 = dom.createComment("");
+                dom.appendChild(el3, el4);
+                dom.appendChild(el2, el3);
+                var el3 = dom.createTextNode("\n    ");
+                dom.appendChild(el2, el3);
+                var el3 = dom.createElement("h4");
+                var el4 = dom.createTextNode("Age: ");
+                dom.appendChild(el3, el4);
+                var el4 = dom.createComment("");
+                dom.appendChild(el3, el4);
+                dom.appendChild(el2, el3);
+                var el3 = dom.createTextNode("\n    ");
+                dom.appendChild(el2, el3);
+                var el3 = dom.createElement("h4");
+                var el4 = dom.createTextNode("Certification: ");
+                dom.appendChild(el3, el4);
+                var el4 = dom.createComment("");
+                dom.appendChild(el3, el4);
+                dom.appendChild(el2, el3);
+                var el3 = dom.createTextNode("\n    ");
+                dom.appendChild(el2, el3);
+                var el3 = dom.createElement("button");
+                dom.setAttribute(el3, "type", "submit");
+                dom.setAttribute(el3, "class", "btn");
+                var el4 = dom.createTextNode("Request");
+                dom.appendChild(el3, el4);
+                dom.appendChild(el2, el3);
+                var el3 = dom.createTextNode("\n   	");
+                dom.appendChild(el2, el3);
+                dom.appendChild(el1, el2);
+                var el2 = dom.createTextNode("\n\n   	");
+                dom.appendChild(el1, el2);
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n  \n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var element0 = dom.childAt(fragment, [1, 1]);
+                var element1 = dom.childAt(element0, [1]);
+                var element2 = dom.childAt(element0, [9]);
+                var morphs = new Array(6);
+                morphs[0] = dom.createMorphAt(element1, 1, 1);
+                morphs[1] = dom.createMorphAt(element1, 3, 3);
+                morphs[2] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
+                morphs[3] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
+                morphs[4] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
+                morphs[5] = dom.createElementMorph(element2);
+                return morphs;
+              },
+              statements: [["content", "basicprofile.firstname", ["loc", [null, [18, 14], [18, 40]]], 0, 0, 0, 0], ["content", "basicprofile.lastname", ["loc", [null, [18, 41], [18, 66]]], 0, 0, 0, 0], ["content", "basicprofile.gender", ["loc", [null, [19, 16], [19, 39]]], 0, 0, 0, 0], ["content", "basicprofile.age", ["loc", [null, [20, 13], [20, 33]]], 0, 0, 0, 0], ["content", "basicprofile.trainerprofile.certification", ["loc", [null, [21, 23], [21, 68]]], 0, 0, 0, 0], ["element", "action", ["requestTrainer", ["get", "basicprofile.id", ["loc", [null, [22, 64], [22, 79]]], 0, 0, 0, 0]], [], ["loc", [null, [22, 38], [22, 81]]], 0, 0]],
+              locals: [],
+              templates: []
+            };
+          })();
+          var child1 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 27,
+                    "column": 3
+                  },
+                  "end": {
+                    "line": 29,
+                    "column": 3
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/trainer-search.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("  \n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 11,
+                  "column": 0
+                },
+                "end": {
+                  "line": 30,
+                  "column": 0
+                }
+              },
+              "moduleName": "simple-fit/templates/components/trainer-search.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [["block", "if", [["subexpr", "eq", [["get", "basicprofile.membertype", ["loc", [null, [12, 11], [12, 34]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [12, 7], [12, 45]]], 0, 0]], [], 0, 1, ["loc", [null, [12, 1], [29, 10]]]]],
+            locals: ["basicprofile"],
+            templates: [child0, child1]
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 31,
+                "column": 1
+              }
+            },
+            "moduleName": "simple-fit/templates/components/trainer-search.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("h1");
+            var el2 = dom.createTextNode("Request a trainer:");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "each", [["get", "model", ["loc", [null, [11, 8], [11, 13]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [11, 0], [30, 9]]]]],
+          locals: [],
+          templates: [child0]
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 2,
+              "column": 0
+            },
+            "end": {
+              "line": 32,
+              "column": 1
+            }
+          },
+          "moduleName": "simple-fit/templates/components/trainer-search.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "if", [["get", "auth.user.basicprofile.clientprofile.trainer.id", ["loc", [null, [4, 6], [4, 53]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [4, 0], [31, 8]]]]],
+        locals: [],
+        templates: [child0, child1]
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 32,
+              "column": 1
+            },
+            "end": {
+              "line": 35,
+              "column": 0
+            }
+          },
+          "moduleName": "simple-fit/templates/components/trainer-search.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("\nLogin as client user to do this\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 35,
+            "column": 7
+          }
+        },
+        "moduleName": "simple-fit/templates/components/trainer-search.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [2, 10], [2, 43]]], 0, 0, 0, 0], "client"], [], ["loc", [null, [2, 6], [2, 53]]], 0, 0]], [], 0, 1, ["loc", [null, [2, 0], [35, 7]]]]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
 define('simple-fit/templates/components/x-select', ['exports', 'emberx-select/templates/components/x-select'], function (exports, _emberxSelectTemplatesComponentsXSelect) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -7199,7 +7594,7 @@ define("simple-fit/templates/market", ["exports"], function (exports) {
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["content", "outlet", ["loc", [null, [1, 0], [1, 10]]], 0, 0, 0, 0]],
+      statements: [["inline", "trainer-search", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [1, 23], [1, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [1, 0], [1, 30]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -9422,7 +9817,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+42320d97"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+c3409ad5"});
 }
 
 /* jshint ignore:end */

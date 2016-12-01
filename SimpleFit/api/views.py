@@ -128,6 +128,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 
 
 
+
 class TrainerProfileViewSet(viewsets.ModelViewSet):
 	queryset = TrainerProfile.objects.all()
 	serializer_class = TrainerProfileSerializer

@@ -10,7 +10,7 @@ Router.map(function() {
   this.route('login');
   this.route('trainer');
   this.route('dietitian');
-  this.route('market');
+  this.route('market', function() {});
   this.route('recipes');
   this.route('recipe', {path: 'recipes/:recipe_name'});
   this.route('vchat');

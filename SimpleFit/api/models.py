@@ -88,7 +88,7 @@ class DietitianProfile(models.Model):
 	
 
 	def __str__(self):
-		return 'changeme'
+		return self.basicinfo.firstname+" "+self.basicinfo.lastname
 
 	class Admin(admin.ModelAdmin):
 		list_display = ('user',)
@@ -103,7 +103,7 @@ class TrainerProfile(models.Model):
 	
 
 	def __str__(self):
-		return self.basicinfo.firstname
+		return self.basicinfo.firstname+" "+self.basicinfo.lastname
 
 	class Admin(admin.ModelAdmin):
 		list_display = ('user',)
@@ -114,9 +114,11 @@ class TrainerProfile(models.Model):
 class ClientProfile(models.Model):
 	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
 	trainer = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE)
+	dietitian = models.ForeignKey(DietitianProfile,null=True,blank=True, on_delete=models.CASCADE)
 	
+
 	def __str__(self):
-		return self.basicinfo.firstname
+		return self.basicinfo.firstname+" "+self.basicinfo.lastname
 
 	class Admin(admin.ModelAdmin):
 		list_display = ('trainer',)
