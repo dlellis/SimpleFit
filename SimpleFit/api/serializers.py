@@ -22,7 +22,11 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id','firstname','lastname','service')
 
 class TrainerProfileSerializer(serializers.HyperlinkedModelSerializer):
-
+	clientprofile_set = ResourceRelatedField(
+		#queryset = BasicProfile.objects,
+		many = True,
+		read_only = True,
+		)
 
 	class Meta:
 		model = TrainerProfile
@@ -50,6 +54,10 @@ class ClientProfileSerializer(serializers.HyperlinkedModelSerializer):
 		read_only = True,
 		)
 
+	trainer = ResourceRelatedField(
+		#queryset = BasicProfile.objects,
+		read_only = True,
+		)
 
 
 	class Meta:

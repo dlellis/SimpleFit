@@ -88,7 +88,7 @@ class DietitianProfile(models.Model):
 	
 
 	def __str__(self):
-		return self.user.username
+		return 'changeme'
 
 	class Admin(admin.ModelAdmin):
 		list_display = ('user',)
@@ -103,7 +103,7 @@ class TrainerProfile(models.Model):
 	
 
 	def __str__(self):
-		return self.user.username
+		return self.basicinfo.firstname
 
 	class Admin(admin.ModelAdmin):
 		list_display = ('user',)
@@ -113,13 +113,13 @@ class TrainerProfile(models.Model):
 
 class ClientProfile(models.Model):
 	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
-	
+	trainer = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE)
 	
 	def __str__(self):
-		return self.user.username
+		return self.basicinfo.firstname
 
 	class Admin(admin.ModelAdmin):
-		list_display = ('user',)
+		list_display = ('trainer',)
 
 	class JSONAPIMeta:
 		resource_name = "clientprofiles"

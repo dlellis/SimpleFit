@@ -9422,7 +9422,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+e559f51c"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+42320d97"});
 }
 
 /* jshint ignore:end */
