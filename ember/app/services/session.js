@@ -33,7 +33,8 @@ export default Ember.Service.extend({
 				//success
 				auth.set('user', auth.get('store').findRecord('user', response.data.userid));
 				//auth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
-				auth.set('isLoggedIn', true);	
+				auth.set('isLoggedIn', true);
+				auth.set('username', username);	
 
 				if(remember){
 					//save username and pass to local storage
@@ -103,6 +104,7 @@ export default Ember.Service.extend({
 				auth.set('user', auth.get('store').findRecord('user', response.data.userid));
 				//sauth.set('profile', auth.get('store').findRecord('profile', response.data.userid));
 				auth.set('isLoggedIn', true);
+				
 			} else{
 				//errors
 				console.log('The user is not currently logged in.');

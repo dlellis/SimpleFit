@@ -1,10 +1,13 @@
-<h2>Test component:</h2> 
-
 {{#if (eq auth.user.basicprofile.membertype "trainer")}}
 
 
 
-
+{{!-- {{#each model as |basicprofile|}} --}}
+{{!-- {{basicprofile.clientprofile.id}}
+{{basic}} --}}
+{{!-- {{#each model as |client|}}
+{{client.id}}
+{{/each}} --}}
 {{#each auth.user.basicprofile.trainerprofile.trainerpending as |clientprofile|}}
 	
 	<table class="table">

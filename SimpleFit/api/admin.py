@@ -4,6 +4,11 @@ from api.models import *
 # Register your models here.
 class ClientProfileInlineAdmin(admin.TabularInline):
     model = ClientProfile
+    fk_name = "trainer"
+
+class ClientPendingInlineAdmin(admin.TabularInline):
+    model = ClientProfile
+    fk_name = "trainerpending"
 
 
 class ClientAdmin(admin.ModelAdmin):

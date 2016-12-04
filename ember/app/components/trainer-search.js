@@ -1,16 +1,20 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+	store: Ember.inject.service(),
+
 	actions: {
-    requestTrainer: function() {
-      var client = this.store.createRecord('client', {
-        firstname: this.get('firstname'),
-        lastname: this.get('lastname'),
-      });
-      client.save();
-      console.log(this.get('firstname'));
+    requestTrainer(basicprofile) {
+        var cid = this.get('auth.user.basicprofile.clientprofile.id')
+    	let c = this.get('store').peekRecord('clientprofile',cid);
+    	var tid = basicprofile.get('trainerprofile').get('id');
+    	let t = this.get('store').peekRecord('trainerprofile',tid);
+    	c.set('trainerpending',t);
+    	c.save();
+
+
+    
     },
    
-  }
-
+	}
 });

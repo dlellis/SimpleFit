@@ -1,0 +1,37 @@
+<h2>Notification:</h2> 
+
+
+
+{{!-- Checks if user is trainer --}}
+{{#if (eq auth.user.basicprofile.membertype "trainer")}}
+
+
+{{!-- Checks if has notifications (by checking if trainerpending exists) --}}
+{{#if auth.user.basicprofile.trainerprofile.trainerpending}}
+
+
+{{#each auth.user.basicprofile.trainerprofile.trainerpending as |clientprofile|}}
+	
+	<table class="table">
+	<div class="container-fluid">
+		{{request-list client=clientprofile}}
+   	</div>
+   	</table>
+  
+{{/each}}
+
+{{!-- Else for no notifications --}}
+{{else}}
+You have no notifications
+
+
+{{/if}}
+{{!-- End of check for notifications --}}
+
+
+{{else}}
+You must login as trainer to view trainer trainer notifications
+
+{{/if}}
+{{!-- End check for trainer --}}
+

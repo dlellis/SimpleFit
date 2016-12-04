@@ -7,13 +7,13 @@
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>First name:</b></p></div>
 					<div class="col-sm-4">
-						{{input type="text" value=content.basicprofile.firstname class='form-control reg-input-field' enter="tregister" placeholder="city"}}
+						{{input type="text" value=content.basicprofile.firstname class='form-control reg-input-field' enter="tregister" placeholder="firstname"}}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Last name:</b></p></div>
 					<div class="col-sm-4">
-						{{input type="text" value=content.basicprofile.lastname class='form-control reg-input-field' enter="tregister" placeholder="city"}}
+						{{input type="text" value=content.basicprofile.lastname class='form-control reg-input-field' enter="tregister" placeholder="lastname"}}
 					</div>
 				</div>
 				<div class="row">
@@ -96,6 +96,12 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="col-sm-3"><p class="pull-right reg-label"><b>Certifications:</b></p></div>
+					<div class="col-sm-4">
+						{{input type="text" value=content.trainerprofile.certification class='form-control reg-input-field' enter="tregister" placeholder="certification"}}
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-sm-10">
 						{{#bs-modal open=showPolicy title="Privacy Policy" footer=false}}
 							{{render "privacypolicy"}}
@@ -106,15 +112,10 @@
 						</p>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-sm-3"><p class="pull-right reg-label"><b>Certifications:</b></p></div>
-					<div class="col-sm-4">
-						{{input type="text" value=content.trainerprofile.certification class='form-control reg-input-field' enter="tregister" placeholder="city"}}
-					</div>
-				</div>
+
 				<div class="row">
 					<div class="col-sm-3 offset3">
-						<button type="button" class="btn btn-block btn-default" {{action "tregister"}}>Sign Up as trainer</button>
+						<button type="button" class="btn btn-block btn-default" {{action "tregister"}}>Sign Up as Trainer</button>
 					</div>
 				</div>
 				<div class="row">

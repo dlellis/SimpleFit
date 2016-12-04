@@ -12,6 +12,41 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
 from rest_framework_json_api.views import RelationshipView
 
+
+class Cregister(APIView):
+	permission_classes = (AllowAny,)
+
+	def post(self, request, *args, **kwargs):
+		# Login
+		username = request.POST.get('username') #you need to apply validators to these
+		password = request.POST.get('password') #you need to apply validators to these
+		email = request.POST.get('email') #you need to apply validators to these
+		gender = request.POST.get('gender') #you need to apply validators to these
+		age = request.POST.get('age') #you need to apply validators to these
+		firstname = request.POST.get('firstname') #you need to apply validators to these
+		lastname = request.POST.get('lastname')
+		city = request.POST.get('city') #you need to apply validators to these
+		state = request.POST.get('state') #you need to apply validators to these
+		membertype = 'client'
+		cert = request.POST.get('certification')
+
+		print request.POST.get('username')
+		if User.objects.filter(username=username).exists():
+			return Response({'username': 'Username is taken.', 'status': 'error'})
+		elif User.objects.filter(email=email).exists():
+			return Response({'email': 'Email is taken.', 'status': 'error'})
+
+		#especially before you pass them in here
+		newuser = User.objects.create_user(email=email, username=username, password=password)
+
+		newbasicprofile = BasicProfile(user=newuser, firstname=firstname, lastname=lastname, gender=gender, age=age, city=city, state=state, membertype=membertype)
+		newbasicprofile.save()
+		newclientprofile = ClientProfile(basicinfo=newbasicprofile)
+		newclientprofile.save()
+
+		return Response({'status': 'success', 'userid': newuser.id, 'basicprofileid': newbasicprofile.id, 'clientprofileid': newclientprofile.id})
+
+
 class Tregister(APIView):
 	permission_classes = (AllowAny,)
 

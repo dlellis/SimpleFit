@@ -24,11 +24,21 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TrainerProfileSerializer(serializers.HyperlinkedModelSerializer):
-	clientprofile_set = ResourceRelatedField(
-		#queryset = BasicProfile.objects,
+
+
+	trainer = ResourceRelatedField(
+		queryset = ClientProfile.objects,
 		many = True,
-		read_only = True,
+		
 		)
+
+	trainerpending = ResourceRelatedField(
+	queryset = ClientProfile.objects,
+	many = True,
+	
+	
+	)
+
 
 	class Meta:
 		model = TrainerProfile
@@ -51,21 +61,32 @@ class BasicProfileSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = BasicProfile
 		fields = '__all__'
+		
 
 class ClientProfileSerializer(serializers.HyperlinkedModelSerializer):
-
-
+	# basicinfo = BasicProfileSerializer(read_only=True)
+	# trainer = TrainerProfileSerializer(allow_null=True)
+	# trainerpending = TrainerProfileSerializer(allow_null=True)
 	basicinfo = ResourceRelatedField(
 		#queryset = BasicProfile.objects,
 		read_only = True,
 		)
+	basicinfo = BasicProfileSerializer(read_only=True)
 
 	trainer = ResourceRelatedField(
-		#queryset = BasicProfile.objects,
-		read_only = True,
+		queryset = TrainerProfile.objects,
+		#read_only = True,
+		allow_null=True,
 		)
 
+
+	trainerpending = ResourceRelatedField(
+		queryset = TrainerProfile.objects,
+		#read_only = True,
+		allow_null=True,
+		)
 
 	class Meta:
 		model = ClientProfile
 		fields = '__all__'
+		

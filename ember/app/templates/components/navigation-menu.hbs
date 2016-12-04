@@ -38,6 +38,27 @@
     <div class="nav-login">
       <ul class="nav navbar-nav navbar-right">
         <li>
+        <div>
+
+          {{#if auth.user.basicprofile.trainerprofile.trainerpending}}
+          {{#if value}}
+          {{#bs-modal open=showNotifications title="Notifications" footer=false}}
+            {{render "notifications"}}
+            
+          {{/bs-modal}}
+          {{else}}
+          {{/if}}
+
+          <button class="btn btn-block btn-warning" type="button" {{action "showNotifications"}}>You've got Notifications</button>
+          {{else}}
+            <button class="btn btn-block btn-warning" type="button" {{action "showNotifications"}}>You have no new notifications</button>
+
+          {{/if}}
+          </div>
+        </li>
+
+        <li>
+
           {{auth-manager}}
         </li>
       </ul>

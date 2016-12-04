@@ -95,7 +95,7 @@ class DietitianProfile(models.Model):
 
 	class JSONAPIMeta:
 		resource_name = "dietitianprofiles"
-
+ 
 
 class TrainerProfile(models.Model):
 	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
@@ -113,9 +113,9 @@ class TrainerProfile(models.Model):
 
 class ClientProfile(models.Model):
 	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
-	trainer = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE)
+	trainer = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="trainer")
 	dietitian = models.ForeignKey(DietitianProfile,null=True,blank=True, on_delete=models.CASCADE)
-	
+	trainerpending = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="trainerpending")
 
 	def __str__(self):
 		return self.basicinfo.firstname+" "+self.basicinfo.lastname
@@ -124,7 +124,7 @@ class ClientProfile(models.Model):
 		list_display = ('trainer',)
 
 	class JSONAPIMeta:
-		resource_name = "clientprofiles"
+		resource_name = "clientprofile"
 
 
 class Client(models.Model):
