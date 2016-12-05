@@ -4,9 +4,11 @@ https://www.digitalocean.com/community/tutorials/how-to-serve-django-application
 ##Installation Instructions
 (Tested on ubuntu 14.04.5)
 
-1. Clone directory running this command:<br>
+1. Make sure git is installed:<br>
+`sudo apt-get install git`
+2. Clone directory running this command:<br>
 `git clone https://github.com/dlellis/SimpleFit/tree/master/SimpleFit`
-2. cd into install directory:<br>
+3. cd into install directory:<br>
 `cd install`
-3. Run install.sh as administrator (on dev environment):<br>
+4. Run install.sh as administrator (on dev environment):<br>
 `sudo bash install.sh`

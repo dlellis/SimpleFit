@@ -1,6 +1,7 @@
-apt-get update && sudo apt-get upgrade
+apt-get -y update
+apt-get -y upgrade
 
-apt-get install apache2 libapache2-mod-wsgi python-pip
+apt-get -y install apache2 libapache2-mod-wsgi python-pip
 
 pip install -r requirements.txt
 
