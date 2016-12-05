@@ -101,7 +101,7 @@ ROOT_URLCONF = 'SimpleFit.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, "static/ember"],
+        'DIRS': [BASE_DIR, BASE_DIR+'/static/ember/', "static/ember"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
