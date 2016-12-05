@@ -10539,7 +10539,7 @@ return jQuery;
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   2.8.2+7d7779a6
+ * @version   2.8.2+31ba4c74
  */
 
 var enifed, requireModule, require, Ember;
@@ -20898,7 +20898,7 @@ enifed('ember-htmlbars/hooks/component', ['exports', 'ember-metal/debug', 'ember
          */
         var newAttrs = _emberMetalAssign.default(new _emberMetalEmpty_object.default(), attrs);
         _emberHtmlbarsKeywordsClosureComponent.processPositionalParamsFromCell(componentCell, params, newAttrs);
-        attrs = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], newAttrs, componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_POSITIONAL_PARAMS], params);
+        attrs = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], newAttrs, env, componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_POSITIONAL_PARAMS], params);
         params = [];
       }
     }
@@ -21460,7 +21460,7 @@ enifed('ember-htmlbars/hooks/link-render-node', ['exports', 'ember-htmlbars/util
       var componentCell = stream.value();
 
       if (_emberHtmlbarsKeywordsClosureComponent.isComponentCell(componentCell)) {
-        var closureAttrs = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], hash);
+        var closureAttrs = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(componentCell[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], hash, env);
 
         for (var key in closureAttrs) {
           _emberHtmlbarsUtilsSubscribe.default(renderNode, env, scope, closureAttrs[key]);
@@ -22319,7 +22319,7 @@ enifed('ember-htmlbars/keywords/closure-component', ['exports', 'ember-metal/deb
     var newHash = _emberMetalAssign.default(new _emberMetalEmpty_object.default(), hash);
 
     if (isComponentCell(componentPath)) {
-      return createNestedClosureComponentCell(componentPath, params, newHash);
+      return createNestedClosureComponentCell(componentPath, params, newHash, env);
     } else {
       _emberMetalDebug.assert('The component helper cannot be used without a valid component name. You used "' + componentPath + '" via ' + label, isValidComponentPath(env, componentPath));
       return createNewClosureComponentCell(env, componentPath, params, newHash);
@@ -22336,13 +22336,13 @@ enifed('ember-htmlbars/keywords/closure-component', ['exports', 'ember-metal/deb
     return component && component[COMPONENT_CELL];
   }
 
-  function createNestedClosureComponentCell(componentCell, params, hash) {
+  function createNestedClosureComponentCell(componentCell, params, hash, env) {
     var _ref;
 
     // This needs to be done in each nesting level to avoid raising assertions.
     processPositionalParamsFromCell(componentCell, params, hash);
 
-    return _ref = {}, _ref[COMPONENT_PATH] = componentCell[COMPONENT_PATH], _ref[COMPONENT_SOURCE] = componentCell[COMPONENT_SOURCE], _ref[COMPONENT_HASH] = mergeInNewHash(componentCell[COMPONENT_HASH], hash, componentCell[COMPONENT_POSITIONAL_PARAMS], params), _ref[COMPONENT_POSITIONAL_PARAMS] = componentCell[COMPONENT_POSITIONAL_PARAMS], _ref[COMPONENT_CELL] = true, _ref;
+    return _ref = {}, _ref[COMPONENT_PATH] = componentCell[COMPONENT_PATH], _ref[COMPONENT_SOURCE] = componentCell[COMPONENT_SOURCE], _ref[COMPONENT_HASH] = mergeInNewHash(componentCell[COMPONENT_HASH], hash, env, componentCell[COMPONENT_POSITIONAL_PARAMS], params), _ref[COMPONENT_POSITIONAL_PARAMS] = componentCell[COMPONENT_POSITIONAL_PARAMS], _ref[COMPONENT_CELL] = true, _ref;
   }
 
   function processPositionalParamsFromCell(componentCell, params, hash) {
@@ -22416,15 +22416,18 @@ enifed('ember-htmlbars/keywords/closure-component', ['exports', 'ember-metal/deb
    * a string (rest positional parameters), we keep the parameters from the
    * `original` hash.
    *
+   * Now we need to consider also the case where the positional params are being
+   * passed as a named parameter.
+   *
    */
 
-  function mergeInNewHash(original, updates) {
-    var positionalParams = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
-    var params = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+  function mergeInNewHash(original, updates, env) {
+    var positionalParams = arguments.length <= 3 || arguments[3] === undefined ? [] : arguments[3];
+    var params = arguments.length <= 4 || arguments[4] === undefined ? [] : arguments[4];
 
     var newHash = _emberMetalAssign.default({}, original, updates);
 
-    if (_emberHtmlbarsUtilsExtractPositionalParams.isRestPositionalParams(positionalParams) && _emberMetalIs_empty.default(params)) {
+    if (_emberHtmlbarsUtilsExtractPositionalParams.isRestPositionalParams(positionalParams) && _emberMetalIs_empty.default(params) && _emberMetalIs_empty.default(env.hooks.getValue(updates[positionalParams]))) {
       var propName = positionalParams;
       newHash[propName] = original[propName];
     }
@@ -22818,7 +22821,7 @@ enifed('ember-htmlbars/keywords/element-component', ['exports', 'ember-metal/ass
 
       // This needs to be done in each nesting level to avoid raising assertions
       _emberHtmlbarsKeywordsClosureComponent.processPositionalParamsFromCell(closureComponent, params, hash);
-      hash = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], hash, closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_POSITIONAL_PARAMS], params);
+      hash = _emberHtmlbarsKeywordsClosureComponent.mergeInNewHash(closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_HASH], hash, env, closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_POSITIONAL_PARAMS], params);
       params = [];
       env = env.childWithMeta(_emberMetalAssign.default({}, env.meta, { moduleName: closureComponent[_emberHtmlbarsKeywordsClosureComponent.COMPONENT_SOURCE] }));
     }
@@ -25192,12 +25195,12 @@ enifed('ember-htmlbars/renderer', ['exports', 'ember-metal/run_loop', 'ember-met
   };
 
   Renderer.prototype._register = function Renderer_register(view) {
-    _emberMetalDebug.assert('Attempted to register a view with an id already in use: ' + view.elementId, !this._viewRegistry[this.elementId]);
+    _emberMetalDebug.assert('Attempted to register a view with an id already in use: ' + view.elementId, !this._viewRegistry[view.elementId]);
     this._viewRegistry[view.elementId] = view;
   };
 
   Renderer.prototype._unregister = function Renderer_unregister(view) {
-    delete this._viewRegistry[this.elementId];
+    delete this._viewRegistry[view.elementId];
   };
 
   var InertRenderer = {
@@ -34453,12 +34456,13 @@ enifed('ember-metal/run_loop', ['exports', 'ember-metal/debug', 'ember-metal/tes
       will be resolved on the target object at the time the scheduled item is
       invoked allowing you to change the target function.
     @param {Object} [arguments*] Optional arguments to be passed to the queued method.
-    @return {void}
+    @return {*} Timer information for use in cancelling, see `run.cancel`.
     @public
   */
   run.schedule = function () /* queue, target, method */{
     _emberMetalDebug.assert('You have turned on testing mode, which disabled the run-loop\'s autorun. ' + 'You will need to wrap any code with asynchronous side-effects in a run', run.currentRunLoop || !_emberMetalTesting.isTesting());
-    backburner.schedule.apply(backburner, arguments);
+
+    return backburner.schedule.apply(backburner, arguments);
   };
 
   // Used by global test teardown
@@ -55060,7 +55064,7 @@ enifed('ember/index', ['exports', 'require', 'ember-metal', 'ember-runtime', 'em
 enifed("ember/version", ["exports"], function (exports) {
   "use strict";
 
-  exports.default = "2.8.2+7d7779a6";
+  exports.default = "2.8.2+31ba4c74";
 });
 enifed('htmlbars-runtime', ['exports', 'htmlbars-runtime/hooks', 'htmlbars-runtime/render', 'htmlbars-util/morph-utils', 'htmlbars-util/template-utils'], function (exports, _htmlbarsRuntimeHooks, _htmlbarsRuntimeRender, _htmlbarsUtilMorphUtils, _htmlbarsUtilTemplateUtils) {
   'use strict';
@@ -71783,7 +71787,7 @@ define("ember-bootstrap/templates/components/bs-nav-item", ["exports"], function
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -71827,7 +71831,7 @@ define("ember-bootstrap/templates/components/bs-nav", ["exports"], function (exp
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -71871,7 +71875,7 @@ define("ember-bootstrap/templates/components/bs-navbar-content", ["exports"], fu
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -71915,7 +71919,7 @@ define("ember-bootstrap/templates/components/bs-navbar-nav", ["exports"], functi
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -71959,7 +71963,7 @@ define("ember-bootstrap/templates/components/bs-navbar-toggle", ["exports"], fun
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72003,7 +72007,7 @@ define("ember-bootstrap/templates/components/bs-navbar", ["exports"], function (
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72055,7 +72059,7 @@ define("ember-bootstrap/templates/components/bs-popover-element", ["exports"], f
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -72096,7 +72100,7 @@ define("ember-bootstrap/templates/components/bs-popover-element", ["exports"], f
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72152,7 +72156,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
           var child0 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -72193,7 +72197,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
           var child1 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -72233,7 +72237,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
           })();
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -72271,7 +72275,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
         })();
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -72311,7 +72315,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -72351,7 +72355,7 @@ define("ember-bootstrap/templates/components/bs-popover", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72394,7 +72398,7 @@ define("ember-bootstrap/templates/components/bs-tab-pane", ["exports"], function
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72439,7 +72443,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -72485,7 +72489,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
               var child0 = (function () {
                 return {
                   meta: {
-                    "revision": "Ember@2.8.2+7d7779a6",
+                    "revision": "Ember@2.8.2+31ba4c74",
                     "loc": {
                       "source": null,
                       "start": {
@@ -72529,7 +72533,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
                 var child0 = (function () {
                   return {
                     meta: {
-                      "revision": "Ember@2.8.2+7d7779a6",
+                      "revision": "Ember@2.8.2+31ba4c74",
                       "loc": {
                         "source": null,
                         "start": {
@@ -72579,7 +72583,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
                 })();
                 return {
                   meta: {
-                    "revision": "Ember@2.8.2+7d7779a6",
+                    "revision": "Ember@2.8.2+31ba4c74",
                     "loc": {
                       "source": null,
                       "start": {
@@ -72617,7 +72621,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
               })();
               return {
                 meta: {
-                  "revision": "Ember@2.8.2+7d7779a6",
+                  "revision": "Ember@2.8.2+31ba4c74",
                   "loc": {
                     "source": null,
                     "start": {
@@ -72661,7 +72665,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
             })();
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -72701,7 +72705,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
             var child0 = (function () {
               return {
                 meta: {
-                  "revision": "Ember@2.8.2+7d7779a6",
+                  "revision": "Ember@2.8.2+31ba4c74",
                   "loc": {
                     "source": null,
                     "start": {
@@ -72743,7 +72747,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
             })();
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -72783,7 +72787,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
           })();
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -72821,7 +72825,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
         })();
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -72859,7 +72863,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -72910,7 +72914,7 @@ define("ember-bootstrap/templates/components/bs-tab", ["exports"], function (exp
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -72953,7 +72957,7 @@ define("ember-bootstrap/templates/components/bs-tooltip-element", ["exports"], f
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -73010,7 +73014,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
           var child0 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -73051,7 +73055,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
           var child1 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.8.2+7d7779a6",
+                "revision": "Ember@2.8.2+31ba4c74",
                 "loc": {
                   "source": null,
                   "start": {
@@ -73091,7 +73095,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
           })();
           return {
             meta: {
-              "revision": "Ember@2.8.2+7d7779a6",
+              "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
@@ -73129,7 +73133,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
         })();
         return {
           meta: {
-            "revision": "Ember@2.8.2+7d7779a6",
+            "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
@@ -73169,7 +73173,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
       })();
       return {
         meta: {
-          "revision": "Ember@2.8.2+7d7779a6",
+          "revision": "Ember@2.8.2+31ba4c74",
           "loc": {
             "source": null,
             "start": {
@@ -73209,7 +73213,7 @@ define("ember-bootstrap/templates/components/bs-tooltip", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -73352,7 +73356,7 @@ define("ember-cli-app-version/templates/app-version", ["exports"], function (exp
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -91853,7 +91857,7 @@ define("ember-wormhole/templates/components/ember-wormhole", ["exports"], functi
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.2+7d7779a6",
+        "revision": "Ember@2.8.2+31ba4c74",
         "loc": {
           "source": null,
           "start": {
@@ -91961,6 +91965,381 @@ define('ember-wormhole/utils/dom', ['exports'], function (exports) {
       throw new Error('ember-wormhole could not get DOM');
     }
   }
+});
+define('emberx-select/components/x-option', ['exports', 'ember', 'emberx-select/components/x-select'], function (exports, _ember, _emberxSelectComponentsXSelect) {
+  'use strict';
+
+  var isArray = _ember['default'].isArray;
+
+  /**
+   * Used to wrap a native `<option>` tag and associate an object with
+   * it that can be bound. It can only be used in conjuction with a
+   * containing `x-select` component
+   *
+   * @class Ember.XOptionComponent
+   * @extends Ember.Component
+   */
+  exports['default'] = _ember['default'].Component.extend({
+    tagName: 'option',
+    attributeBindings: ['selected', 'name', 'disabled', 'value', 'title'],
+    classNameBindings: [':x-option'],
+
+    /**
+     * The value associated with this option. When this option is
+     * selected, the `x-select` will fire its action with this
+     * value.
+     *
+     * @property value
+     * @type Object
+     * @default null
+     */
+    value: null,
+
+    /**
+     * Property bound to the `selected` attribute of the native
+     * `<option>` element. It is aware of the containing `x-select`'s
+     * value and will mark itself if it is the same.
+     *
+     * @private
+     * @property selected
+     * @type Boolean
+     */
+    selected: _ember['default'].computed('value', 'select.value', 'select.multiple', function () {
+      if (this.get('select.multiple') && isArray(this.get('select.value'))) {
+        var selectValue = _ember['default'].A(this.get('select.value'));
+
+        return selectValue.contains(this.get('value'));
+      } else {
+        return this.get('value') === this.get('select.value');
+      }
+    }),
+
+    /**
+     * Register this x-option with the containing `x-select`
+     *
+     * @override
+     */
+    didInsertElement: function didInsertElement() {
+      this._super.apply(this, arguments);
+      _ember['default'].run.scheduleOnce('afterRender', this, 'registerWithXSelect');
+    },
+
+    select: _ember['default'].computed(function () {
+      return this.nearestOfType(_emberxSelectComponentsXSelect['default']);
+    }),
+
+    registerWithXSelect: function registerWithXSelect() {
+      var select = this.get('select');
+      _ember['default'].assert("x-option component declared without enclosing x-select", !!select);
+      select.registerOption(this);
+    },
+
+    /**
+     * Unregister this x-option with its containing x-select.
+     *
+     * @override
+     */
+    willDestroyElement: function willDestroyElement() {
+      this._super.apply(this, arguments);
+      var select = this.get('select');
+      if (select) {
+        select.unregisterOption(this);
+      }
+    }
+  });
+});
+define("emberx-select/components/x-select", ["exports", "ember"], function (exports, _ember) {
+  "use strict";
+
+  var isArray = _ember["default"].isArray;
+
+  /**
+   * Wraps a native <select> element so that it can be object and
+   * binding aware. It is used in conjuction with the
+   * `x-option` component to construct select boxes. E.g.
+   *
+   *   {{#x-select value="bob" action="selectPerson"}}
+   *     {{x-option value="fred"}}Fred Flintstone{{/x-option}}
+   *     {{x-option value="bob"}}Bob Newhart{{/x-option}}
+   *   {{/x-select}}
+   *
+   * the options are always up to date, so that when the object bound to
+   * `value` changes, the corresponding option becomes selected.
+   *
+   * Whenever the select tag receives a change event, it will fire
+   * `action`
+   *
+   * @class Ember.XSelectComponent
+   * @extends Ember.Component
+   */
+  exports["default"] = _ember["default"].Component.extend({
+    tagName: "select",
+    classNameBindings: [":x-select"],
+    attributeBindings: ['disabled', 'tabindex', 'multiple', 'form', 'name', 'autofocus', 'required', 'size', 'title'],
+
+    /**
+     * Bound to the `disabled` attribute on the native <select> tag.
+     *
+     * @property disabled
+     * @type Boolean
+     * @default null
+     */
+    disabled: null,
+
+    /**
+     * Bound to the `multiple` attribute on the native <select> tag.
+     *
+     * @property multiple
+     * @type Boolean
+     * @default null
+     */
+    multiple: null,
+
+    /**
+     * Bound to the `tabindex` attribute on the native <select> tag.
+     *
+     * @property tabindex
+     * @type Integer
+     * @default 0
+     */
+    tabindex: 0,
+
+    /**
+     * Determies if one way data binding is enabled. If set to true the
+     * value of x-select will not be updated when changing options. Instead, you
+     * would consume the new value through an action. E.g.
+     *
+     * {{#x-select value=someVal one-way=true action=(action "selectionChanged")}}
+     *   {{!options here ....}}
+     * {{/x-select}}
+     *
+     * @property one-way
+     * @type Boolean
+     * @default false
+     */
+    'one-way': false,
+
+    /**
+     * oneWay alias is a backward-compatible attribute for a release that existed
+     * for a short time
+     *
+     * @deprecated
+     */
+    'oneWay': _ember["default"].computed.alias('one-way'),
+
+    /**
+     * Set to true when `willDestroyElement` is called.
+     *
+     * @private
+     * @property isXSelectDestroying
+     */
+    isXSelectDestroying: false,
+
+    /**
+     * The collection of options for this select box. When options are
+     * inserted into the dom, they will register themselves with their
+     * containing `x-select`. This is for internal book-keeping only and should
+     * not be changed from outside.
+     *
+     * @private
+     * @property options
+     */
+    options: _ember["default"].computed(function () {
+      return _ember["default"].A();
+    }),
+
+    /**
+     * When the select DOM event fires on the element, trigger the
+     * component's action with the current value.
+     */
+    change: function change(event) {
+      var nextValue = this._getValue();
+
+      if (!this.get('one-way')) {
+        this.set('value', nextValue);
+      }
+
+      this.sendAction('action', nextValue, this);
+      this.sendAction('onchange', this, nextValue, event);
+    },
+
+    /**
+     * When the click DOM event fires on the element, trigger the
+     * component's action with the component, x-select value, and the jQuery event.
+     */
+    click: function click(event) {
+      this.sendAction('onclick', this, this._getValue(), event);
+    },
+
+    /**
+     * When the blur DOM event fires on the element, trigger the
+     * component's action with the component, x-select value, and the jQuery event.
+     */
+    blur: function blur(event) {
+      this.sendAction('onblur', this, this._getValue(), event);
+    },
+
+    /**
+     * When the focusOut DOM event fires on the element, trigger the
+     * component's action with the component, x-select value, and the jQuery event.
+     */
+    focusOut: function focusOut(event) {
+      this.sendAction('onfocusout', this, this._getValue(), event);
+    },
+
+    /**
+     * Reads the current selection from this select's options.
+     *
+     * If this is a multi-select, then the value will be an
+     * array. Otherwise, it will be a single value which could be null.
+     *
+     * @private
+     * @return {Array|Object} the current selection
+     */
+    _getValue: function _getValue() {
+      var options = this.get('options').filter(function (option) {
+        return option.$().is(':selected');
+      });
+
+      if (this.get('multiple')) {
+        return _ember["default"].A(options).mapBy('value');
+      } else {
+        var option = options[0];
+        return option ? option.get('value') : null;
+      }
+    },
+
+    /**
+     * Reads the current value and sets it.
+     * @private
+     */
+    _updateValue: function _updateValue() {
+      if (this.isDestroying || this.isDestroyed) {
+        return;
+      }
+      this.set('value', this._getValue());
+    },
+
+    /**
+     * If no explicit value is set, apply default values based on selected=true in
+     * the template.
+     *
+     * @private
+     */
+    _setDefaultValues: function _setDefaultValues() {
+      if (this.get('value') == null) {
+        if (!this.get('one-way')) {
+          this._updateValue();
+        }
+
+        this.sendAction('action', this._getValue());
+      }
+    },
+
+    /**
+     * @override
+     */
+    didInsertElement: function didInsertElement() {
+      var _this = this;
+
+      this._super.apply(this, arguments);
+
+      this.$().on('blur', function (event) {
+        _this.blur(event);
+      });
+    },
+
+    /**
+     * @override
+     */
+    willDestroyElement: function willDestroyElement() {
+      this._super.apply(this, arguments);
+
+      this.set('isXSelectDestroying', true);
+
+      // might be overkill, but make sure options can get gc'd
+      this.get('options').clear();
+      this.$().off('blur');
+    },
+
+    /**
+     * If this is a multi-select, and the value is not an array, that
+     * probably indicates a misconfiguration somewhere, so we error out.
+     *
+     * @private
+     */
+    ensureProperType: _ember["default"].on('init', _ember["default"].observer('value', function () {
+      var value = this.get('value');
+
+      if (value != null && this.get('multiple') && !isArray(value)) {
+        throw new Error("x-select multiple=true was set, but value " + value + " is not enumerable.");
+      }
+    })),
+
+    /**
+     * @private
+     */
+    registerOption: function registerOption(option) {
+      this.get('options').addObject(option);
+      this._setDefaultValues();
+    },
+
+    /**
+     * @private
+     */
+    unregisterOption: function unregisterOption(option) {
+      this.get('options').removeObject(option);
+
+      // We don't want to update the value if we're tearing the component down.
+      if (!this.get('isXSelectDestroying')) {
+        this._updateValue();
+      }
+    }
+  });
+});
+define("emberx-select/templates/components/x-select", ["exports"], function (exports) {
+  "use strict";
+
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 0
+          }
+        },
+        "moduleName": "modules/emberx-select/templates/components/x-select.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["inline", "yield", [["subexpr", "hash", [], ["option", ["subexpr", "component", ["x-option"], ["select", ["subexpr", "@mut", [["get", "this", ["loc", [null, [3, 40], [3, 44]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 11], [3, 45]]], 0, 0]], ["loc", [null, [2, 2], [4, 3]]], 0, 0]], [], ["loc", [null, [1, 0], [5, 2]]], 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
 });
 ;/* jshint ignore:start */
 

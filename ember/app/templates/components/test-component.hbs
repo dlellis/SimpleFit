@@ -1,0 +1,13 @@
+Username: {{auth.user.username}}<br>
+User id: {{auth.user.id}}<br>
+First name: {{auth.user.basicprofile.firstname}}<br>
+
+<br>
+<h3>Type:</h3>
+{{#if (eq auth.user.basicprofile.membertype "trainer")}}
+  <div>CONGRATS!! YOU ARE A trainer!</div>
+  <b>Certification:</b> {{auth.user.basicprofile.trainerprofile.certification}}
+
+ {{else}}
+ not trainer!
+{{/if}}

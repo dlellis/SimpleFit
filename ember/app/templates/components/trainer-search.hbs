@@ -1,0 +1,35 @@
+{{!-- Search --}}
+{{#if (eq auth.user.basicprofile.membertype "client")}}
+
+{{#if auth.user.basicprofile.clientprofile.trainer.id}}
+You have a trainer.
+
+{{else}}
+
+<h1>Request a trainer:</h1>
+
+{{#each model as |basicprofile|}}
+	{{#if (eq basicprofile.membertype "trainer")}}
+	<table class="table">
+  
+	<div class="container-fluid">
+
+  	
+    <h4>Name: {{basicprofile.firstname}} {{basicprofile.lastname}}</h4>
+    <h4>Gender: {{basicprofile.gender}}</h4>
+    <h4>Age: {{basicprofile.age}}</h4>
+    <h4>Certification: {{basicprofile.trainerprofile.certification}}</h4>
+    <button type="submit" class="btn" {{action "requestTrainer" basicprofile}}>Request</button>
+   	</div>
+
+   	</table>
+  
+  	{{else}}
+  
+  	{{/if}}
+{{/each}}
+ {{/if}}
+ {{else}}
+
+Login as client user to do this
+{{/if}}

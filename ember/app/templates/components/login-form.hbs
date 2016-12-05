@@ -1,0 +1,29 @@
+{{!-- <label>Username</label>
+
+{{input value=username class="form-control" type="text"}}
+
+<label>Password</label>
+
+
+{{input value=password class="form-control" type="password"}}
+<br>
+<button type="button" class="btn" {{action 'login'}}>Log in</button> --}}
+
+<form class="form-inline pull-right">
+	{{#if auth.errorMsg}}
+		<div class="auth-error alert">
+			{{auth.errorMsg}}
+		</div>
+	{{/if}}
+	{{input type="text" class="input-sm form-control" value=auth.username enter="login" placeholder="Username"}}
+	{{input type="text"class="input-sm form-control" value=auth.password enter="login" placeholder="Password" type="password"}}
+	<label class="checkbox">
+		{{input type="checkbox" checked=auth.remember}}
+		Remember me
+	</label>
+	<button type="button" class="btn btn-default btn-sm" {{action "login"}}>Sign in</button>
+	<br>
+	<p class="right margin-3">Don't have an account? 
+		{{#link-to "register"}}Register Now.{{/link-to}}
+	</p>
+</form>

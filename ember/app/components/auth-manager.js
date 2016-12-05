@@ -1,17 +1,17 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  isLoggedIn: false,
-  username: 'Test',
+  auth: Ember.inject.service('session'),
   actions: {
-    login: function(){
+
+  //   login: function(){
+		// 	this.get('auth').login();
+		// },
+	logout: function(){
+			this.get('auth').logout();
+		}
 
 
-    },
-    logout: function(){
-
-
-    }
   },
 
 });
