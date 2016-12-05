@@ -5,5 +5,5 @@ https://www.digitalocean.com/community/tutorials/how-to-serve-django-application
 
 1. git clone https://github.com/dlellis/SimpleFit/tree/master/SimpleFit
 2. cd into install directory
-```cd install
+`cd install`
 3. 
