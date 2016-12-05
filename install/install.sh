@@ -11,9 +11,7 @@ cp apache.conf /etc/apache2/sites-available/000-default.conf
 
 chmod 664 /var/www/production/db.sqlite3
 
-chown :www-data /var/www/production/db.sqlite3
-
-chown :www-data /var/www/production/
+chown -R www-data:www-data /var/www/production/
 
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
