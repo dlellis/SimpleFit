@@ -1,0 +1,8 @@
+Django==1.10.2
+django-filter==0.15.3
+djangorestframework==3.5.1
+djangorestframework-jsonapi==2.1.1
+drf-nested-routers==0.11.1
+inflection==0.3.1
+Markdown==2.6.7
+wheel==0.24.0
