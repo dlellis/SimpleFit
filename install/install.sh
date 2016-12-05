@@ -15,8 +15,7 @@ chown :www-data /var/www/production/db.sqlite3
 
 chown :www-data /var/www/production/
 
-service apache2 restart
-
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-echo "Listen 0.0.0.0:80"
+service apache2 restart
+
