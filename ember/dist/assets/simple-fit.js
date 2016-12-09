@@ -12654,7 +12654,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+2276e35e"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+72d4a393"});
 }
 
 /* jshint ignore:end */
