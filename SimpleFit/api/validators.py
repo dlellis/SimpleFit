@@ -28,8 +28,10 @@ def check_password(value):
 	if len(value) < 8 :
 		return 'Password must be at least 8 characters'
 
+	
+
 def check_gender(value):
-	choices = ['male', 'female', 'other']
+	choices = ['Male', 'Female', 'Other']
 	if value not in choices:
 		return 'Not a valid gender'
 
