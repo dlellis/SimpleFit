@@ -14,5 +14,5 @@ https://www.digitalocean.com/community/tutorials/how-to-serve-django-application
 4. Run install.sh as administrator (on dev environment):<br>
 `sudo bash install.sh`
 5. Run ipconfig on the guest machine to get IP address: <br>
-`ipconfig`
+`ifconfig`
 6. Visit ip address in a browser
