@@ -10,6 +10,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 	#queryset = User.objects)
 	read_only=True)
 
+	email = serializers.EmailField()
+
 
 	class Meta:
 		model = User

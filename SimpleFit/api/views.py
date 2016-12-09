@@ -11,6 +11,8 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
 from rest_framework_json_api.views import RelationshipView
+from api.validators import check_basic
+from rest_framework_json_api import serializers
 
 
 class Cregister(APIView):
@@ -18,19 +20,25 @@ class Cregister(APIView):
 
 	def post(self, request, *args, **kwargs):
 		# Login
-		username = request.POST.get('username') #you need to apply validators to these
-		password = request.POST.get('password') #you need to apply validators to these
-		email = request.POST.get('email') #you need to apply validators to these
-		gender = request.POST.get('gender') #you need to apply validators to these
-		age = request.POST.get('age') #you need to apply validators to these
-		firstname = request.POST.get('firstname') #you need to apply validators to these
+		username = request.POST.get('username') 
+		password = request.POST.get('password') 
+		email = request.POST.get('email') 
+		gender = request.POST.get('gender') 
+		age = request.POST.get('age') 
+		firstname = request.POST.get('firstname') 
 		lastname = request.POST.get('lastname')
-		city = request.POST.get('city') #you need to apply validators to these
-		state = request.POST.get('state') #you need to apply validators to these
+		city = request.POST.get('city') 
+		state = request.POST.get('state')
 		membertype = 'client'
 		cert = request.POST.get('certification')
 
-		print request.POST.get('username')
+		response = check_basic(username,password,email,gender,age,firstname,lastname,city,state)
+		#If dictionary is not empty
+		if response:
+			return Response(response)
+
+		if not valid_email:
+			return Response({'username': 'Username is taken.', 'email': 'Bad email', 'status': 'error'})
 		if User.objects.filter(username=username).exists():
 			return Response({'username': 'Username is taken.', 'status': 'error'})
 		elif User.objects.filter(email=email).exists():
@@ -52,15 +60,15 @@ class Tregister(APIView):
 
 	def post(self, request, *args, **kwargs):
 		# Login
-		username = request.POST.get('username') #you need to apply validators to these
-		password = request.POST.get('password') #you need to apply validators to these
-		email = request.POST.get('email') #you need to apply validators to these
-		gender = request.POST.get('gender') #you need to apply validators to these
-		age = request.POST.get('age') #you need to apply validators to these
-		firstname = request.POST.get('firstname') #you need to apply validators to these
+		username = request.POST.get('username') 
+		password = request.POST.get('password') 
+		email = request.POST.get('email') 
+		gender = request.POST.get('gender') 
+		age = request.POST.get('age') 
+		firstname = request.POST.get('firstname') 
 		lastname = request.POST.get('lastname')
-		city = request.POST.get('city') #you need to apply validators to these
-		state = request.POST.get('state') #you need to apply validators to these
+		city = request.POST.get('city') 
+		state = request.POST.get('state')
 		membertype = 'trainer'
 		cert = request.POST.get('certification')
 

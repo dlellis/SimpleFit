@@ -65,11 +65,17 @@ class BasicProfile(models.Model):
 	(client, client),
 	)
 
+	gender_choices = (
+		('male', 'male'),
+		('female', 'female'),
+		('other', 'other'),
+		)
+
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	firstname = models.CharField(max_length=30, default=None)
 	lastname = models.CharField(max_length=30, default=None)
-	gender = models.CharField(max_length=100, blank=False, default=None)
+	gender = models.CharField(max_length=100, choices=gender_choices, blank=False, default=None)
 	age = models.IntegerField(blank=False, default=0)
 	city = models.CharField(max_length=200, blank=False, default=None)
 	state = models.CharField(max_length=200, blank=False, default=None)
