@@ -123,7 +123,7 @@ define('simple-fit/tests/controllers/cregister.jshint', ['exports'], function (e
   QUnit.module('JSHint | controllers/cregister.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/cregister.js should pass jshint.\ncontrollers/cregister.js: line 18, col 31, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 18, col 64, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 42, col 11, \'trainerprofile\' is defined but never used.\n\n3 errors');
+    assert.ok(false, 'controllers/cregister.js should pass jshint.\ncontrollers/cregister.js: line 18, col 31, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 18, col 64, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 64, col 55, Missing semicolon.\ncontrollers/cregister.js: line 69, col 52, Missing semicolon.\ncontrollers/cregister.js: line 73, col 52, Missing semicolon.\ncontrollers/cregister.js: line 76, col 53, Missing semicolon.\ncontrollers/cregister.js: line 42, col 11, \'trainerprofile\' is defined but never used.\n\n7 errors');
   });
 });
 define('simple-fit/tests/controllers/login.jshint', ['exports'], function (exports) {

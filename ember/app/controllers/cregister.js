@@ -1,12 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-	confirmpassword: '',
-	showPolicy: false,
-	success: false,
-	genders: ['Male', 'Female', 'Other'],
-	states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
-	agree: false,
+  confirmpassword: '',
+  showPolicy: false,
+  success: false,
+  genders: ['Male', 'Female', 'Other'],
+  states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
+  agree: false,
 
 
   //client-side validators
@@ -31,18 +31,18 @@ export default Ember.Controller.extend({
   //...other validators go here
 
   //actions
-	actions: {
-		showPolicy: function(){
-			this.set('showPolicy', !this.get('showPolicy'));
-		},
-		cregister: function(){
-			this.set('validationErrorMsg', '');
-			var user = this.get('content').user;
+  actions: {
+    showPolicy: function(){
+      this.set('showPolicy', !this.get('showPolicy'));
+    },
+    cregister: function(){
+      this.set('validationErrorMsg', '');
+      var user = this.get('content').user;
       var basicprofile = this.get('content').basicprofile;
       var trainerprofile = this.get('content').trainerprofile;
       var t = this;
       //probably want to do some additional validation here
-			if(user.get('password') === this.get('confirmpassword')){
+      if(user.get('password') === this.get('confirmpassword')){
         var requestdata = {
           'username': user.get('username'),
           'password': user.get('password'),
@@ -56,19 +56,29 @@ export default Ember.Controller.extend({
           'membertype': basicprofile.get('membertype')
           
         };
-				Ember.$.post('../api/cregister/', requestdata, function(response){
-          var errMsg = '';
+        Ember.$.post('../api/cregister/', requestdata, function(response){
+          //var errMsg = '';
+          var errMsg = [];
           if(response.data.status ==="error"){
             if(response.data.username){
-              errMsg = response.data.username;
+              errMsg.addObject(response.data.username)
+
             } 
-            else if(response.data.email){
-              errMsg = response.data.email;
+            if(response.data.email){
+              
+              errMsg.addObject(response.data.email)
             }
-            else {
-              errMsg = "An unknown error occured. Please try again";
+            if(response.data.email){
+              
+              errMsg.addObject(response.data.email)
             }
+            if(response.data.gender){
+              errMsg.addObject(response.data.gender)
+            }
+                        
+
             t.set('validationErrorMsg', errMsg);
+           
           }
           else{
             //success
@@ -79,12 +89,12 @@ export default Ember.Controller.extend({
           
           
         });
-			}
-			else {
-				this.set('validationErrorMsg', 'Passwords don\'t match');
-			}
+      }
+      else {
+        this.set('validationErrorMsg', ['Passwords don\'t match']);
+      }
 
-		},
-		
-	}
+    },
+    
+  }
 });

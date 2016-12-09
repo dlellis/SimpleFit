@@ -1,3 +1,9 @@
+<style>
+.market {
+  border: 1px solid black;
+}
+
+</style>
 {{!-- Search --}}
 {{#if (eq auth.user.basicprofile.membertype "client")}}
 
@@ -19,28 +25,23 @@ You have a trainer.
 
  {{!-- else for if you have a pending request --}}
 {{else}}
-<h1>Request a trainer:</h1>
-
+<h1>Available Trainers:</h1>
+<ul class="row-fluid block-grid-3">
 {{#each model as |basicprofile|}}
-	{{#if (eq basicprofile.membertype "trainer")}}
-	<table class="table">
-  
-	<div class="container-fluid">
-
-  	
-    <h4>Name: {{basicprofile.firstname}} {{basicprofile.lastname}}</h4>
+  {{#if (eq basicprofile.membertype "trainer")}}
+    <li class="market">
+    <h4>{{basicprofile.firstname}} {{basicprofile.lastname}}</h4>
     <h4>Gender: {{basicprofile.gender}}</h4>
     <h4>Age: {{basicprofile.age}}</h4>
     <h4>Certification: {{basicprofile.trainerprofile.certification}}</h4>
     <button type="submit" class="btn" {{action "requestTrainer" basicprofile}}>Request</button>
-   	</div>
-
-   	</table>
+    </li>
+    {{else}}
   
-  	{{else}}
-  
-  	{{/if}}
+    {{/if}}
 {{/each}}
+</ul>
+
  {{/if}}
 
 

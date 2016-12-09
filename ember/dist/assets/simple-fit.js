@@ -521,15 +521,24 @@ define('simple-fit/controllers/cregister', ['exports', 'ember'], function (expor
 
           };
           _ember['default'].$.post('../api/cregister/', requestdata, function (response) {
-            var errMsg = '';
+            //var errMsg = '';
+            var errMsg = [];
             if (response.data.status === "error") {
               if (response.data.username) {
-                errMsg = response.data.username;
-              } else if (response.data.email) {
-                errMsg = response.data.email;
-              } else {
-                errMsg = "An unknown error occured. Please try again";
+                errMsg.addObject(response.data.username);
               }
+              if (response.data.email) {
+
+                errMsg.addObject(response.data.email);
+              }
+              if (response.data.email) {
+
+                errMsg.addObject(response.data.email);
+              }
+              if (response.data.gender) {
+                errMsg.addObject(response.data.gender);
+              }
+
               t.set('validationErrorMsg', errMsg);
             } else {
               //success
@@ -539,7 +548,7 @@ define('simple-fit/controllers/cregister', ['exports', 'ember'], function (expor
             }
           });
         } else {
-            this.set('validationErrorMsg', 'Passwords don\'t match');
+            this.set('validationErrorMsg', ['Passwords don\'t match']);
           }
       }
 
@@ -5689,6 +5698,41 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
       })();
       var child1 = (function () {
         var child0 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 16,
+                    "column": 14
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 48
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("Trainer Home");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
           return {
             meta: {
               "revision": "Ember@2.8.2+31ba4c74",
@@ -5696,11 +5740,11 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
                 "source": null,
                 "start": {
                   "line": 15,
-                  "column": 14
+                  "column": 10
                 },
                 "end": {
-                  "line": 15,
-                  "column": 48
+                  "line": 17,
+                  "column": 10
                 }
               },
               "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
@@ -5711,31 +5755,74 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("Trainer Home");
+              var el1 = dom.createTextNode("          ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("li");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
               dom.appendChild(el0, el1);
               return el0;
             },
-            buildRenderNodes: function buildRenderNodes() {
-              return [];
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+              return morphs;
             },
-            statements: [],
+            statements: [["block", "link-to", ["trainer"], [], 0, null, ["loc", [null, [16, 14], [16, 60]]]]],
             locals: [],
-            templates: []
+            templates: [child0]
           };
         })();
         var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 18,
+                    "column": 14
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 45
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("Client Home");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
           return {
             meta: {
               "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 16,
-                  "column": 14
+                  "line": 17,
+                  "column": 10
                 },
                 "end": {
-                  "line": 16,
-                  "column": 45
+                  "line": 19,
+                  "column": 10
                 }
               },
               "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
@@ -5746,16 +5833,24 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("Client Home");
+              var el1 = dom.createTextNode("          ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("li");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
               dom.appendChild(el0, el1);
               return el0;
             },
-            buildRenderNodes: function buildRenderNodes() {
-              return [];
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+              return morphs;
             },
-            statements: [],
+            statements: [["block", "link-to", ["index"], [], 0, null, ["loc", [null, [18, 14], [18, 57]]]]],
             locals: [],
-            templates: []
+            templates: [child0]
           };
         })();
         return {
@@ -5768,7 +5863,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
                 "column": 8
               },
               "end": {
-                "line": 17,
+                "line": 21,
                 "column": 8
               }
             },
@@ -5780,29 +5875,19 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("          ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("li");
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n          ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("li");
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
+            var el1 = dom.createComment("");
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
             dom.appendChild(el0, el1);
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(2);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
-            morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
             return morphs;
           },
-          statements: [["block", "link-to", ["trainer"], [], 0, null, ["loc", [null, [15, 14], [15, 60]]]], ["block", "link-to", ["index"], [], 1, null, ["loc", [null, [16, 14], [16, 57]]]]],
+          statements: [["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [15, 20], [15, 53]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [15, 16], [15, 64]]], 0, 0]], [], 0, 1, ["loc", [null, [15, 10], [19, 17]]]]],
           locals: [],
           templates: [child0, child1]
         };
@@ -5817,7 +5902,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
               "column": 8
             },
             "end": {
-              "line": 18,
+              "line": 22,
               "column": 8
             }
           },
@@ -5846,7 +5931,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "bs-dropdown-toggle", [], [], 0, null, ["loc", [null, [13, 8], [13, 89]]]], ["block", "bs-dropdown-menu", [], [], 1, null, ["loc", [null, [14, 8], [17, 29]]]]],
+        statements: [["block", "bs-dropdown-toggle", [], [], 0, null, ["loc", [null, [13, 8], [13, 89]]]], ["block", "bs-dropdown-menu", [], [], 1, null, ["loc", [null, [14, 8], [21, 29]]]]],
         locals: [],
         templates: [child0, child1]
       };
@@ -5859,11 +5944,11 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             "loc": {
               "source": null,
               "start": {
-                "line": 21,
+                "line": 25,
                 "column": 8
               },
               "end": {
-                "line": 21,
+                "line": 25,
                 "column": 68
               }
             },
@@ -5892,18 +5977,53 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
       })();
       var child1 = (function () {
         var child0 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 28,
+                    "column": 14
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 52
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("Dietitian Home");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
           return {
             meta: {
               "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 23,
-                  "column": 14
+                  "line": 27,
+                  "column": 10
                 },
                 "end": {
-                  "line": 23,
-                  "column": 52
+                  "line": 29,
+                  "column": 10
                 }
               },
               "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
@@ -5914,31 +6034,74 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("Dietitian Home");
+              var el1 = dom.createTextNode("          ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("li");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
               dom.appendChild(el0, el1);
               return el0;
             },
-            buildRenderNodes: function buildRenderNodes() {
-              return [];
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+              return morphs;
             },
-            statements: [],
+            statements: [["block", "link-to", ["dietitian"], [], 0, null, ["loc", [null, [28, 14], [28, 64]]]]],
             locals: [],
-            templates: []
+            templates: [child0]
           };
         })();
         var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 30,
+                    "column": 14
+                  },
+                  "end": {
+                    "line": 30,
+                    "column": 47
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("Client Home");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
           return {
             meta: {
               "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 24,
-                  "column": 14
+                  "line": 29,
+                  "column": 10
                 },
                 "end": {
-                  "line": 24,
-                  "column": 47
+                  "line": 31,
+                  "column": 10
                 }
               },
               "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
@@ -5949,16 +6112,24 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("Client Home");
+              var el1 = dom.createTextNode("          ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("li");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
               dom.appendChild(el0, el1);
               return el0;
             },
-            buildRenderNodes: function buildRenderNodes() {
-              return [];
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+              return morphs;
             },
-            statements: [],
+            statements: [["block", "link-to", ["dclient"], [], 0, null, ["loc", [null, [30, 14], [30, 59]]]]],
             locals: [],
-            templates: []
+            templates: [child0]
           };
         })();
         var child2 = (function () {
@@ -5968,11 +6139,11 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 25,
+                  "line": 32,
                   "column": 14
                 },
                 "end": {
-                  "line": 25,
+                  "line": 32,
                   "column": 43
                 }
               },
@@ -6003,11 +6174,11 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 26,
+                  "line": 33,
                   "column": 14
                 },
                 "end": {
-                  "line": 26,
+                  "line": 33,
                   "column": 44
                 }
               },
@@ -6037,11 +6208,11 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             "loc": {
               "source": null,
               "start": {
-                "line": 22,
+                "line": 26,
                 "column": 8
               },
               "end": {
-                "line": 27,
+                "line": 35,
                 "column": 8
               }
             },
@@ -6053,6 +6224,8 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("          ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("li");
@@ -6065,31 +6238,19 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n          ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("li");
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n          ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("li");
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
+            var el1 = dom.createTextNode("\n        \n");
             dom.appendChild(el0, el1);
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(4);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
-            morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
-            morphs[2] = dom.createMorphAt(dom.childAt(fragment, [5]), 0, 0);
-            morphs[3] = dom.createMorphAt(dom.childAt(fragment, [7]), 0, 0);
+            var morphs = new Array(3);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 0, 0);
+            morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]), 0, 0);
+            dom.insertBoundary(fragment, 0);
             return morphs;
           },
-          statements: [["block", "link-to", ["dietitian"], [], 0, null, ["loc", [null, [23, 14], [23, 64]]]], ["block", "link-to", ["dclient"], [], 1, null, ["loc", [null, [24, 14], [24, 59]]]], ["block", "link-to", ["recipes"], [], 2, null, ["loc", [null, [25, 14], [25, 55]]]], ["block", "link-to", ["vchat"], [], 3, null, ["loc", [null, [26, 14], [26, 56]]]]],
+          statements: [["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [27, 20], [27, 53]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [27, 16], [27, 64]]], 0, 0]], [], 0, 1, ["loc", [null, [27, 10], [31, 17]]]], ["block", "link-to", ["recipes"], [], 2, null, ["loc", [null, [32, 14], [32, 55]]]], ["block", "link-to", ["vchat"], [], 3, null, ["loc", [null, [33, 14], [33, 56]]]]],
           locals: [],
           templates: [child0, child1, child2, child3]
         };
@@ -6100,11 +6261,11 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
           "loc": {
             "source": null,
             "start": {
-              "line": 20,
+              "line": 24,
               "column": 8
             },
             "end": {
-              "line": 28,
+              "line": 36,
               "column": 8
             }
           },
@@ -6133,47 +6294,12 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "bs-dropdown-toggle", [], [], 0, null, ["loc", [null, [21, 8], [21, 91]]]], ["block", "bs-dropdown-menu", [], [], 1, null, ["loc", [null, [22, 8], [27, 29]]]]],
+        statements: [["block", "bs-dropdown-toggle", [], [], 0, null, ["loc", [null, [25, 8], [25, 91]]]], ["block", "bs-dropdown-menu", [], [], 1, null, ["loc", [null, [26, 8], [35, 29]]]]],
         locals: [],
         templates: [child0, child1]
       };
     })();
     var child3 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.2+31ba4c74",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 31,
-              "column": 10
-            },
-            "end": {
-              "line": 33,
-              "column": 10
-            }
-          },
-          "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("          Marketplace\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child4 = (function () {
       var child0 = (function () {
         var child0 = (function () {
           return {
@@ -6182,11 +6308,119 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 45,
+                  "line": 40,
                   "column": 10
                 },
                 "end": {
-                  "line": 48,
+                  "line": 40,
+                  "column": 72
+                }
+              },
+              "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("Marketplace ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("span");
+              dom.setAttribute(el1, "class", "caret");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 42,
+                    "column": 16
+                  },
+                  "end": {
+                    "line": 42,
+                    "column": 51
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("Trainer Market");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
+          var child1 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 43,
+                    "column": 16
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 53
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("Dietitian Market");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 41,
+                  "column": 10
+                },
+                "end": {
+                  "line": 44,
                   "column": 10
                 }
               },
@@ -6200,18 +6434,224 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
               var el0 = dom.createDocumentFragment();
               var el1 = dom.createTextNode("            ");
               dom.appendChild(el0, el1);
-              var el1 = dom.createComment("");
+              var el1 = dom.createElement("li");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n            \n");
+              var el1 = dom.createTextNode("\n            ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("li");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(2);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+              morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
+              return morphs;
+            },
+            statements: [["block", "link-to", ["market"], [], 0, null, ["loc", [null, [42, 16], [42, 63]]]], ["block", "link-to", ["market"], [], 1, null, ["loc", [null, [43, 16], [43, 65]]]]],
+            locals: [],
+            templates: [child0, child1]
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 39,
+                "column": 10
+              },
+              "end": {
+                "line": 45,
+                "column": 10
+              }
+            },
+            "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(2);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "bs-dropdown-toggle", [], [], 0, null, ["loc", [null, [40, 10], [40, 95]]]], ["block", "bs-dropdown-menu", [], [], 1, null, ["loc", [null, [41, 10], [44, 31]]]]],
+          locals: [],
+          templates: [child0, child1]
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 38,
+              "column": 8
+            },
+            "end": {
+              "line": 46,
+              "column": 8
+            }
+          },
+          "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "bs-dropdown", [], ["tagName", "li"], 0, null, ["loc", [null, [39, 10], [45, 26]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })();
+    var child4 = (function () {
+      var child0 = (function () {
+        var child0 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 50,
+                    "column": 10
+                  },
+                  "end": {
+                    "line": 52,
+                    "column": 10
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("            ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var morphs = new Array(1);
+                morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                return morphs;
+              },
+              statements: [["inline", "render", ["notifications"], [], ["loc", [null, [51, 12], [51, 38]]], 0, 0]],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 49,
+                  "column": 10
+                },
+                "end": {
+                  "line": 53,
+                  "column": 10
+                }
+              },
+              "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment("");
               dom.appendChild(el0, el1);
               return el0;
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
               var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
               return morphs;
             },
-            statements: [["inline", "render", ["notifications"], [], ["loc", [null, [46, 12], [46, 38]]], 0, 0]],
+            statements: [["block", "bs-modal", [], ["open", ["subexpr", "@mut", [["get", "showNotifications", ["loc", [null, [50, 27], [50, 44]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Notifications", "footer", false], 0, null, ["loc", [null, [50, 10], [52, 23]]]]],
+            locals: [],
+            templates: [child0]
+          };
+        })();
+        var child1 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 53,
+                  "column": 10
+                },
+                "end": {
+                  "line": 54,
+                  "column": 10
+                }
+              },
+              "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
+            },
+            isEmpty: true,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
             locals: [],
             templates: []
           };
@@ -6222,11 +6662,11 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             "loc": {
               "source": null,
               "start": {
-                "line": 44,
+                "line": 48,
                 "column": 10
               },
               "end": {
-                "line": 49,
+                "line": 57,
                 "column": 10
               }
             },
@@ -6240,18 +6680,29 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             var el0 = dom.createDocumentFragment();
             var el1 = dom.createComment("");
             dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("button");
+            dom.setAttribute(el1, "class", "btn btn-danger navbar-btn");
+            dom.setAttribute(el1, "type", "button");
+            var el2 = dom.createTextNode("new alert!");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
+            var element1 = dom.childAt(fragment, [2]);
+            var morphs = new Array(2);
             morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            morphs[1] = dom.createElementMorph(element1);
             dom.insertBoundary(fragment, 0);
-            dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "bs-modal", [], ["open", ["subexpr", "@mut", [["get", "showNotifications", ["loc", [null, [45, 27], [45, 44]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Notifications", "footer", false], 0, null, ["loc", [null, [45, 10], [48, 23]]]]],
+          statements: [["block", "if", [["get", "value", ["loc", [null, [49, 16], [49, 21]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [49, 10], [54, 17]]]], ["element", "action", ["showNotifications"], [], ["loc", [null, [56, 66], [56, 96]]], 0, 0]],
           locals: [],
-          templates: [child0]
+          templates: [child0, child1]
         };
       })();
       var child1 = (function () {
@@ -6261,28 +6712,41 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             "loc": {
               "source": null,
               "start": {
-                "line": 49,
+                "line": 57,
                 "column": 10
               },
               "end": {
-                "line": 50,
+                "line": 60,
                 "column": 10
               }
             },
             "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
           },
-          isEmpty: true,
+          isEmpty: false,
           arity: 0,
           cachedFragment: null,
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("          ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("button");
+            dom.setAttribute(el1, "class", "btn navbar-btn");
+            dom.setAttribute(el1, "type", "button");
+            var el2 = dom.createTextNode("no alerts");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n\n");
+            dom.appendChild(el0, el1);
             return el0;
           },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(1);
+            morphs[0] = dom.createElementMorph(element0);
+            return morphs;
           },
-          statements: [],
+          statements: [["element", "action", ["showNotifications"], [], ["loc", [null, [58, 55], [58, 85]]], 0, 0]],
           locals: [],
           templates: []
         };
@@ -6293,12 +6757,12 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
           "loc": {
             "source": null,
             "start": {
-              "line": 43,
-              "column": 10
+              "line": 47,
+              "column": 8
             },
             "end": {
-              "line": 53,
-              "column": 10
+              "line": 61,
+              "column": 8
             }
           },
           "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
@@ -6311,75 +6775,18 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
           var el0 = dom.createDocumentFragment();
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n          ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("button");
-          dom.setAttribute(el1, "class", "btn btn-block btn-warning");
-          dom.setAttribute(el1, "type", "button");
-          var el2 = dom.createTextNode("You've got Notifications");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [2]);
-          var morphs = new Array(2);
+          var morphs = new Array(1);
           morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          morphs[1] = dom.createElementMorph(element1);
           dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "if", [["get", "value", ["loc", [null, [44, 16], [44, 21]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [44, 10], [50, 17]]]], ["element", "action", ["showNotifications"], [], ["loc", [null, [52, 66], [52, 96]]], 0, 0]],
+        statements: [["block", "if", [["get", "auth.user.basicprofile.trainerprofile.trainerpending", ["loc", [null, [48, 16], [48, 68]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [48, 10], [60, 17]]]]],
         locals: [],
         templates: [child0, child1]
-      };
-    })();
-    var child5 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.2+31ba4c74",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 53,
-              "column": 10
-            },
-            "end": {
-              "line": 56,
-              "column": 10
-            }
-          },
-          "moduleName": "simple-fit/templates/components/navigation-menu.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("            ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("button");
-          dom.setAttribute(el1, "class", "btn btn-block btn-warning");
-          dom.setAttribute(el1, "type", "button");
-          var el2 = dom.createTextNode("You have no new notifications");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var morphs = new Array(1);
-          morphs[0] = dom.createElementMorph(element0);
-          return morphs;
-        },
-        statements: [["element", "action", ["showNotifications"], [], ["loc", [null, [54, 68], [54, 98]]], 0, 0]],
-        locals: [],
-        templates: []
       };
     })();
     return {
@@ -6392,7 +6799,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
             "column": 0
           },
           "end": {
-            "line": 68,
+            "line": 75,
             "column": 0
           }
         },
@@ -6420,32 +6827,28 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         dom.appendChild(el3, el4);
         var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n      ");
+        var el4 = dom.createTextNode("    ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("ul");
-        dom.setAttribute(el4, "class", "nav navbar-nav");
-        var el5 = dom.createTextNode("\n");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("li");
-        var el6 = dom.createTextNode("\n");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createComment("");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n    ");
-        dom.appendChild(el4, el5);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("ul");
+        dom.setAttribute(el3, "class", "nav navbar-nav");
+        var el4 = dom.createTextNode("\n");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n    ");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("  \n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -6459,23 +6862,7 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("li");
-        var el6 = dom.createTextNode("\n        ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("div");
-        var el7 = dom.createTextNode("\n\n");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createComment("");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createTextNode("          ");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("li");
-        var el6 = dom.createTextNode("\n\n          ");
+        var el6 = dom.createTextNode("\n          ");
         dom.appendChild(el5, el6);
         var el6 = dom.createComment("");
         dom.appendChild(el5, el6);
@@ -6485,10 +6872,10 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
         var el5 = dom.createTextNode("\n      ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n  ");
+        var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
+        var el3 = dom.createTextNode("\n    \n    \n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -6500,21 +6887,19 @@ define("simple-fit/templates/components/navigation-menu", ["exports"], function 
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element2 = dom.childAt(fragment, [1, 1]);
-        var element3 = dom.childAt(element2, [1]);
-        var element4 = dom.childAt(element3, [3]);
-        var element5 = dom.childAt(element2, [3, 1]);
+        var element3 = dom.childAt(element2, [3]);
         var morphs = new Array(6);
-        morphs[0] = dom.createMorphAt(element3, 1, 1);
-        morphs[1] = dom.createMorphAt(element4, 1, 1);
-        morphs[2] = dom.createMorphAt(element4, 3, 3);
-        morphs[3] = dom.createMorphAt(dom.childAt(element4, [5]), 1, 1);
-        morphs[4] = dom.createMorphAt(dom.childAt(element5, [1, 1]), 1, 1);
-        morphs[5] = dom.createMorphAt(dom.childAt(element5, [3]), 1, 1);
+        morphs[0] = dom.createMorphAt(dom.childAt(element2, [1]), 1, 1);
+        morphs[1] = dom.createMorphAt(element3, 1, 1);
+        morphs[2] = dom.createMorphAt(element3, 3, 3);
+        morphs[3] = dom.createMorphAt(element3, 5, 5);
+        morphs[4] = dom.createMorphAt(element3, 6, 6);
+        morphs[5] = dom.createMorphAt(dom.childAt(element2, [5, 1, 1]), 1, 1);
         return morphs;
       },
-      statements: [["block", "link-to", ["application"], ["class", "navbar-brand"], 0, null, ["loc", [null, [6, 6], [8, 18]]]], ["block", "bs-dropdown", [], ["tagName", "li"], 1, null, ["loc", [null, [12, 8], [18, 24]]]], ["block", "bs-dropdown", [], ["tagName", "li"], 2, null, ["loc", [null, [20, 8], [28, 24]]]], ["block", "link-to", ["market"], ["class", "nav-link"], 3, null, ["loc", [null, [31, 10], [33, 22]]]], ["block", "if", [["get", "auth.user.basicprofile.trainerprofile.trainerpending", ["loc", [null, [43, 16], [43, 68]]], 0, 0, 0, 0]], [], 4, 5, ["loc", [null, [43, 10], [56, 17]]]], ["content", "auth-manager", ["loc", [null, [62, 10], [62, 26]]], 0, 0, 0, 0]],
+      statements: [["block", "link-to", ["application"], ["class", "navbar-brand"], 0, null, ["loc", [null, [6, 6], [8, 18]]]], ["block", "bs-dropdown", [], ["tagName", "li"], 1, null, ["loc", [null, [12, 8], [22, 24]]]], ["block", "bs-dropdown", [], ["tagName", "li"], 2, null, ["loc", [null, [24, 8], [36, 24]]]], ["block", "unless", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [38, 22], [38, 55]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [38, 18], [38, 66]]], 0, 0]], [], 3, null, ["loc", [null, [38, 8], [46, 19]]]], ["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [47, 18], [47, 51]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [47, 14], [47, 62]]], 0, 0]], [], 4, null, ["loc", [null, [47, 8], [61, 15]]]], ["content", "auth-manager", ["loc", [null, [67, 10], [67, 26]]], 0, 0, 0, 0]],
       locals: [],
-      templates: [child0, child1, child2, child3, child4, child5]
+      templates: [child0, child1, child2, child3, child4]
     };
   })());
 });
@@ -6960,11 +7345,11 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
             "loc": {
               "source": null,
               "start": {
-                "line": 4,
+                "line": 10,
                 "column": 0
               },
               "end": {
-                "line": 7,
+                "line": 13,
                 "column": 0
               }
             },
@@ -6996,11 +7381,11 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 10,
+                  "line": 16,
                   "column": 0
                 },
                 "end": {
-                  "line": 21,
+                  "line": 27,
                   "column": 0
                 }
               },
@@ -7045,7 +7430,7 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
               morphs[1] = dom.createElementMorph(element3);
               return morphs;
             },
-            statements: [["content", "auth.user.basicprofile.clientprofile.trainerpending.basicinfo.firstname", ["loc", [null, [12, 34], [12, 109]]], 0, 0, 0, 0], ["element", "action", ["cancelRequest"], [], ["loc", [null, [14, 37], [14, 63]]], 0, 0]],
+            statements: [["content", "auth.user.basicprofile.clientprofile.trainerpending.basicinfo.firstname", ["loc", [null, [18, 34], [18, 109]]], 0, 0, 0, 0], ["element", "action", ["cancelRequest"], [], ["loc", [null, [20, 37], [20, 63]]], 0, 0]],
             locals: [],
             templates: []
           };
@@ -7059,12 +7444,12 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 25,
-                      "column": 1
+                      "line": 31,
+                      "column": 2
                     },
                     "end": {
-                      "line": 40,
-                      "column": 3
+                      "line": 39,
+                      "column": 4
                     }
                   },
                   "moduleName": "simple-fit/templates/components/trainer-search.hbs"
@@ -7075,82 +7460,73 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                   var el0 = dom.createDocumentFragment();
-                  var el1 = dom.createTextNode("	");
+                  var el1 = dom.createTextNode("    ");
                   dom.appendChild(el0, el1);
-                  var el1 = dom.createElement("table");
-                  dom.setAttribute(el1, "class", "table");
-                  var el2 = dom.createTextNode("\n  \n	");
+                  var el1 = dom.createElement("li");
+                  dom.setAttribute(el1, "class", "market");
+                  var el2 = dom.createTextNode("\n    ");
                   dom.appendChild(el1, el2);
-                  var el2 = dom.createElement("div");
-                  dom.setAttribute(el2, "class", "container-fluid");
-                  var el3 = dom.createTextNode("\n\n  	\n    ");
+                  var el2 = dom.createElement("h4");
+                  var el3 = dom.createComment("");
                   dom.appendChild(el2, el3);
-                  var el3 = dom.createElement("h4");
-                  var el4 = dom.createTextNode("Name: ");
-                  dom.appendChild(el3, el4);
-                  var el4 = dom.createComment("");
-                  dom.appendChild(el3, el4);
-                  var el4 = dom.createTextNode(" ");
-                  dom.appendChild(el3, el4);
-                  var el4 = dom.createComment("");
-                  dom.appendChild(el3, el4);
+                  var el3 = dom.createTextNode(" ");
                   dom.appendChild(el2, el3);
-                  var el3 = dom.createTextNode("\n    ");
-                  dom.appendChild(el2, el3);
-                  var el3 = dom.createElement("h4");
-                  var el4 = dom.createTextNode("Gender: ");
-                  dom.appendChild(el3, el4);
-                  var el4 = dom.createComment("");
-                  dom.appendChild(el3, el4);
-                  dom.appendChild(el2, el3);
-                  var el3 = dom.createTextNode("\n    ");
-                  dom.appendChild(el2, el3);
-                  var el3 = dom.createElement("h4");
-                  var el4 = dom.createTextNode("Age: ");
-                  dom.appendChild(el3, el4);
-                  var el4 = dom.createComment("");
-                  dom.appendChild(el3, el4);
-                  dom.appendChild(el2, el3);
-                  var el3 = dom.createTextNode("\n    ");
-                  dom.appendChild(el2, el3);
-                  var el3 = dom.createElement("h4");
-                  var el4 = dom.createTextNode("Certification: ");
-                  dom.appendChild(el3, el4);
-                  var el4 = dom.createComment("");
-                  dom.appendChild(el3, el4);
-                  dom.appendChild(el2, el3);
-                  var el3 = dom.createTextNode("\n    ");
-                  dom.appendChild(el2, el3);
-                  var el3 = dom.createElement("button");
-                  dom.setAttribute(el3, "type", "submit");
-                  dom.setAttribute(el3, "class", "btn");
-                  var el4 = dom.createTextNode("Request");
-                  dom.appendChild(el3, el4);
-                  dom.appendChild(el2, el3);
-                  var el3 = dom.createTextNode("\n   	");
+                  var el3 = dom.createComment("");
                   dom.appendChild(el2, el3);
                   dom.appendChild(el1, el2);
-                  var el2 = dom.createTextNode("\n\n   	");
+                  var el2 = dom.createTextNode("\n    ");
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createElement("h4");
+                  var el3 = dom.createTextNode("Gender: ");
+                  dom.appendChild(el2, el3);
+                  var el3 = dom.createComment("");
+                  dom.appendChild(el2, el3);
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createTextNode("\n    ");
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createElement("h4");
+                  var el3 = dom.createTextNode("Age: ");
+                  dom.appendChild(el2, el3);
+                  var el3 = dom.createComment("");
+                  dom.appendChild(el2, el3);
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createTextNode("\n    ");
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createElement("h4");
+                  var el3 = dom.createTextNode("Certification: ");
+                  dom.appendChild(el2, el3);
+                  var el3 = dom.createComment("");
+                  dom.appendChild(el2, el3);
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createTextNode("\n    ");
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createElement("button");
+                  dom.setAttribute(el2, "type", "submit");
+                  dom.setAttribute(el2, "class", "btn");
+                  var el3 = dom.createTextNode("Request");
+                  dom.appendChild(el2, el3);
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createTextNode("\n    ");
                   dom.appendChild(el1, el2);
                   dom.appendChild(el0, el1);
-                  var el1 = dom.createTextNode("\n  \n");
+                  var el1 = dom.createTextNode("\n");
                   dom.appendChild(el0, el1);
                   return el0;
                 },
                 buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                  var element0 = dom.childAt(fragment, [1, 1]);
+                  var element0 = dom.childAt(fragment, [1]);
                   var element1 = dom.childAt(element0, [1]);
                   var element2 = dom.childAt(element0, [9]);
                   var morphs = new Array(6);
-                  morphs[0] = dom.createMorphAt(element1, 1, 1);
-                  morphs[1] = dom.createMorphAt(element1, 3, 3);
+                  morphs[0] = dom.createMorphAt(element1, 0, 0);
+                  morphs[1] = dom.createMorphAt(element1, 2, 2);
                   morphs[2] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
                   morphs[3] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
                   morphs[4] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
                   morphs[5] = dom.createElementMorph(element2);
                   return morphs;
                 },
-                statements: [["content", "basicprofile.firstname", ["loc", [null, [31, 14], [31, 40]]], 0, 0, 0, 0], ["content", "basicprofile.lastname", ["loc", [null, [31, 41], [31, 66]]], 0, 0, 0, 0], ["content", "basicprofile.gender", ["loc", [null, [32, 16], [32, 39]]], 0, 0, 0, 0], ["content", "basicprofile.age", ["loc", [null, [33, 13], [33, 33]]], 0, 0, 0, 0], ["content", "basicprofile.trainerprofile.certification", ["loc", [null, [34, 23], [34, 68]]], 0, 0, 0, 0], ["element", "action", ["requestTrainer", ["get", "basicprofile", ["loc", [null, [35, 64], [35, 76]]], 0, 0, 0, 0]], [], ["loc", [null, [35, 38], [35, 78]]], 0, 0]],
+                statements: [["content", "basicprofile.firstname", ["loc", [null, [33, 8], [33, 34]]], 0, 0, 0, 0], ["content", "basicprofile.lastname", ["loc", [null, [33, 35], [33, 60]]], 0, 0, 0, 0], ["content", "basicprofile.gender", ["loc", [null, [34, 16], [34, 39]]], 0, 0, 0, 0], ["content", "basicprofile.age", ["loc", [null, [35, 13], [35, 33]]], 0, 0, 0, 0], ["content", "basicprofile.trainerprofile.certification", ["loc", [null, [36, 23], [36, 68]]], 0, 0, 0, 0], ["element", "action", ["requestTrainer", ["get", "basicprofile", ["loc", [null, [37, 64], [37, 76]]], 0, 0, 0, 0]], [], ["loc", [null, [37, 38], [37, 78]]], 0, 0]],
                 locals: [],
                 templates: []
               };
@@ -7162,12 +7538,12 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 40,
-                      "column": 3
+                      "line": 39,
+                      "column": 4
                     },
                     "end": {
-                      "line": 42,
-                      "column": 3
+                      "line": 41,
+                      "column": 4
                     }
                   },
                   "moduleName": "simple-fit/templates/components/trainer-search.hbs"
@@ -7196,11 +7572,11 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 24,
+                    "line": 30,
                     "column": 0
                   },
                   "end": {
-                    "line": 43,
+                    "line": 42,
                     "column": 0
                   }
                 },
@@ -7223,7 +7599,7 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["block", "if", [["subexpr", "eq", [["get", "basicprofile.membertype", ["loc", [null, [25, 11], [25, 34]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [25, 7], [25, 45]]], 0, 0]], [], 0, 1, ["loc", [null, [25, 1], [42, 10]]]]],
+              statements: [["block", "if", [["subexpr", "eq", [["get", "basicprofile.membertype", ["loc", [null, [31, 12], [31, 35]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [31, 8], [31, 46]]], 0, 0]], [], 0, 1, ["loc", [null, [31, 2], [41, 11]]]]],
               locals: ["basicprofile"],
               templates: [child0, child1]
             };
@@ -7234,11 +7610,11 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 21,
+                  "line": 27,
                   "column": 0
                 },
                 "end": {
-                  "line": 44,
+                  "line": 45,
                   "column": 1
                 }
               },
@@ -7251,22 +7627,28 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
               var el1 = dom.createElement("h1");
-              var el2 = dom.createTextNode("Request a trainer:");
+              var el2 = dom.createTextNode("Available Trainers:");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("ul");
+              dom.setAttribute(el1, "class", "row-fluid block-grid-3");
+              var el2 = dom.createTextNode("\n");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode("\n\n");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createComment("");
               dom.appendChild(el0, el1);
               return el0;
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
               var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 2, 2, contextualElement);
-              dom.insertBoundary(fragment, null);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
               return morphs;
             },
-            statements: [["block", "each", [["get", "model", ["loc", [null, [24, 8], [24, 13]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 0], [43, 9]]]]],
+            statements: [["block", "each", [["get", "model", ["loc", [null, [30, 8], [30, 13]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [30, 0], [42, 9]]]]],
             locals: [],
             templates: [child0]
           };
@@ -7277,11 +7659,11 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
             "loc": {
               "source": null,
               "start": {
-                "line": 7,
+                "line": 13,
                 "column": 0
               },
               "end": {
-                "line": 48,
+                "line": 49,
                 "column": 0
               }
             },
@@ -7306,7 +7688,7 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["block", "if", [["get", "auth.user.basicprofile.clientprofile.trainerpending.id", ["loc", [null, [10, 6], [10, 60]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [10, 0], [44, 8]]]]],
+          statements: [["block", "if", [["get", "auth.user.basicprofile.clientprofile.trainerpending.id", ["loc", [null, [16, 6], [16, 60]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [16, 0], [45, 8]]]]],
           locals: [],
           templates: [child0, child1]
         };
@@ -7317,11 +7699,11 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
           "loc": {
             "source": null,
             "start": {
-              "line": 2,
+              "line": 8,
               "column": 0
             },
             "end": {
-              "line": 50,
+              "line": 51,
               "column": 1
             }
           },
@@ -7346,7 +7728,7 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["block", "if", [["get", "auth.user.basicprofile.clientprofile.trainer.id", ["loc", [null, [4, 6], [4, 53]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [4, 0], [48, 7]]]]],
+        statements: [["block", "if", [["get", "auth.user.basicprofile.clientprofile.trainer.id", ["loc", [null, [10, 6], [10, 53]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [10, 0], [49, 7]]]]],
         locals: [],
         templates: [child0, child1]
       };
@@ -7358,11 +7740,11 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
           "loc": {
             "source": null,
             "start": {
-              "line": 50,
+              "line": 51,
               "column": 1
             },
             "end": {
-              "line": 54,
+              "line": 55,
               "column": 0
             }
           },
@@ -7396,7 +7778,7 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
             "column": 0
           },
           "end": {
-            "line": 54,
+            "line": 55,
             "column": 7
           }
         },
@@ -7408,18 +7790,23 @@ define("simple-fit/templates/components/trainer-search", ["exports"], function (
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("style");
+        var el2 = dom.createTextNode("\n.market {\n  border: 1px solid black;\n}\n\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        dom.insertBoundary(fragment, 0);
+        morphs[0] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [2, 10], [2, 43]]], 0, 0, 0, 0], "client"], [], ["loc", [null, [2, 6], [2, 53]]], 0, 0]], [], 0, 1, ["loc", [null, [2, 0], [54, 7]]]]],
+      statements: [["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [8, 10], [8, 43]]], 0, 0, 0, 0], "client"], [], ["loc", [null, [8, 6], [8, 53]]], 0, 0]], [], 0, 1, ["loc", [null, [8, 0], [55, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -7484,17 +7871,65 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
     })();
     var child1 = (function () {
       var child0 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 11,
+                  "column": 6
+                },
+                "end": {
+                  "line": 15,
+                  "column": 6
+                }
+              },
+              "moduleName": "simple-fit/templates/cregister.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("						");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("div");
+              dom.setAttribute(el1, "class", "col-sm-7 alert alert-warning fade in");
+              var el2 = dom.createTextNode("\n						");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n						");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
+              return morphs;
+            },
+            statements: [["content", "error", ["loc", [null, [13, 6], [13, 15]]], 0, 0, 0, 0]],
+            locals: ["error"],
+            templates: []
+          };
+        })();
         return {
           meta: {
             "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
-                "line": 24,
+                "line": 9,
                 "column": 5
               },
               "end": {
-                "line": 28,
+                "line": 18,
                 "column": 5
               }
             },
@@ -7506,32 +7941,22 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("						");
+            var el1 = dom.createTextNode("						\n");
             dom.appendChild(el0, el1);
-            var el1 = dom.createElement("div");
-            dom.setAttribute(el1, "class", "col-sm-5");
-            var el2 = dom.createTextNode("\n							");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("p");
-            dom.setAttribute(el2, "class", "reg-label");
-            var el3 = dom.createComment("");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n						");
-            dom.appendChild(el1, el2);
+            var el1 = dom.createComment("");
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
+            var el1 = dom.createTextNode("\n						\n");
             dom.appendChild(el0, el1);
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
             var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["content", "usernameerror", ["loc", [null, [26, 28], [26, 45]]], 0, 0, 0, 0]],
+          statements: [["block", "each", [["get", "validationErrorMsg", ["loc", [null, [11, 14], [11, 32]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [11, 6], [15, 15]]]]],
           locals: [],
-          templates: []
+          templates: [child0]
         };
       })();
       var child1 = (function () {
@@ -7541,11 +7966,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 35,
+                "line": 38,
                 "column": 5
               },
               "end": {
-                "line": 39,
+                "line": 42,
                 "column": 5
               }
             },
@@ -7580,7 +8005,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
             return morphs;
           },
-          statements: [["content", "passworderror", ["loc", [null, [37, 28], [37, 45]]], 0, 0, 0, 0]],
+          statements: [["content", "usernameerror", ["loc", [null, [40, 28], [40, 45]]], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -7592,11 +8017,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 52,
+                "line": 49,
                 "column": 5
               },
               "end": {
-                "line": 56,
+                "line": 53,
                 "column": 5
               }
             },
@@ -7631,12 +8056,63 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
             return morphs;
           },
-          statements: [["content", "emailerror", ["loc", [null, [54, 28], [54, 42]]], 0, 0, 0, 0]],
+          statements: [["content", "passworderror", ["loc", [null, [51, 28], [51, 45]]], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
       })();
       var child3 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 66,
+                "column": 5
+              },
+              "end": {
+                "line": 70,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/cregister.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "emailerror", ["loc", [null, [68, 28], [68, 42]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child4 = (function () {
         var child0 = (function () {
           return {
             meta: {
@@ -7644,11 +8120,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 69,
+                  "line": 83,
                   "column": 7
                 },
                 "end": {
-                  "line": 69,
+                  "line": 83,
                   "column": 71
                 }
               },
@@ -7680,11 +8156,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 71,
+                    "line": 85,
                     "column": 8
                   },
                   "end": {
-                    "line": 71,
+                    "line": 85,
                     "column": 35
                   }
                 },
@@ -7707,7 +8183,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["content", "g", ["loc", [null, [71, 30], [71, 35]]], 0, 0, 0, 0]],
+              statements: [["content", "g", ["loc", [null, [85, 30], [85, 35]]], 0, 0, 0, 0]],
               locals: [],
               templates: []
             };
@@ -7718,11 +8194,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 70,
+                  "line": 84,
                   "column": 7
                 },
                 "end": {
-                  "line": 73,
+                  "line": 87,
                   "column": 7
                 }
               },
@@ -7747,7 +8223,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "g", ["loc", [null, [71, 27], [71, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [71, 8], [71, 49]]]]],
+            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "g", ["loc", [null, [85, 27], [85, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [85, 8], [85, 49]]]]],
             locals: ["g"],
             templates: [child0]
           };
@@ -7758,11 +8234,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 68,
+                "line": 82,
                 "column": 6
               },
               "end": {
-                "line": 74,
+                "line": 88,
                 "column": 6
               }
             },
@@ -7791,12 +8267,12 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [69, 7], [69, 85]]]], ["block", "each", [["get", "genders", ["loc", [null, [70, 15], [70, 22]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [70, 7], [73, 16]]]]],
+          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [83, 7], [83, 85]]]], ["block", "each", [["get", "genders", ["loc", [null, [84, 15], [84, 22]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [84, 7], [87, 16]]]]],
           locals: ["xs"],
           templates: [child0, child1]
         };
       })();
-      var child4 = (function () {
+      var child5 = (function () {
         var child0 = (function () {
           return {
             meta: {
@@ -7804,11 +8280,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 90,
+                  "line": 104,
                   "column": 7
                 },
                 "end": {
-                  "line": 90,
+                  "line": 104,
                   "column": 73
                 }
               },
@@ -7840,11 +8316,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 92,
+                    "line": 106,
                     "column": 8
                   },
                   "end": {
-                    "line": 92,
+                    "line": 106,
                     "column": 35
                   }
                 },
@@ -7867,7 +8343,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["content", "s", ["loc", [null, [92, 30], [92, 35]]], 0, 0, 0, 0]],
+              statements: [["content", "s", ["loc", [null, [106, 30], [106, 35]]], 0, 0, 0, 0]],
               locals: [],
               templates: []
             };
@@ -7878,11 +8354,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 91,
+                  "line": 105,
                   "column": 7
                 },
                 "end": {
-                  "line": 94,
+                  "line": 108,
                   "column": 7
                 }
               },
@@ -7907,7 +8383,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "s", ["loc", [null, [92, 27], [92, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [92, 8], [92, 49]]]]],
+            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "s", ["loc", [null, [106, 27], [106, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [106, 8], [106, 49]]]]],
             locals: ["s"],
             templates: [child0]
           };
@@ -7918,11 +8394,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 89,
+                "line": 103,
                 "column": 6
               },
               "end": {
-                "line": 95,
+                "line": 109,
                 "column": 6
               }
             },
@@ -7951,23 +8427,23 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [90, 7], [90, 87]]]], ["block", "each", [["get", "states", ["loc", [null, [91, 15], [91, 21]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [91, 7], [94, 16]]]]],
+          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [104, 7], [104, 87]]]], ["block", "each", [["get", "states", ["loc", [null, [105, 15], [105, 21]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [105, 7], [108, 16]]]]],
           locals: ["xs"],
           templates: [child0, child1]
         };
       })();
-      var child5 = (function () {
+      var child6 = (function () {
         return {
           meta: {
             "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
-                "line": 100,
+                "line": 114,
                 "column": 6
               },
               "end": {
-                "line": 102,
+                "line": 116,
                 "column": 6
               }
             },
@@ -7992,55 +8468,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "render", ["privacypolicy"], [], ["loc", [null, [101, 7], [101, 33]]], 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child6 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.2+31ba4c74",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 116,
-                "column": 5
-              },
-              "end": {
-                "line": 121,
-                "column": 5
-              }
-            },
-            "moduleName": "simple-fit/templates/cregister.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("						");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("div");
-            dom.setAttribute(el1, "class", "col-sm-7 alert alert-error fade in");
-            var el2 = dom.createTextNode("\n							");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n\n						");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
-            return morphs;
-          },
-          statements: [["content", "validationErrorMsg", ["loc", [null, [118, 7], [118, 29]]], 0, 0, 0, 0]],
+          statements: [["inline", "render", ["privacypolicy"], [], ["loc", [null, [115, 7], [115, 33]]], 0, 0]],
           locals: [],
           templates: []
         };
@@ -8055,7 +8483,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "column": 0
             },
             "end": {
-              "line": 126,
+              "line": 133,
               "column": 0
             }
           },
@@ -8081,6 +8509,17 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
           var el3 = dom.createElement("form");
           dom.setAttribute(el3, "class", "form-inline");
           var el4 = dom.createTextNode("\n				");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "row");
+          var el5 = dom.createTextNode("\n\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n				");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("			\n				");
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("div");
           dom.setAttribute(el4, "class", "row");
@@ -8449,18 +8888,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
           var el5 = dom.createTextNode("\n				");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n				");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createElement("div");
-          dom.setAttribute(el4, "class", "row");
-          var el5 = dom.createTextNode("\n");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createComment("");
-          dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("				");
-          dom.appendChild(el4, el5);
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n			");
+          var el4 = dom.createTextNode("\n\n			");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n		");
@@ -8477,38 +8905,38 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1, 1, 1]);
-          var element1 = dom.childAt(element0, [5]);
-          var element2 = dom.childAt(element0, [7]);
+          var element1 = dom.childAt(element0, [7]);
+          var element2 = dom.childAt(element0, [9]);
           var element3 = dom.childAt(element2, [3]);
-          var element4 = dom.childAt(element0, [11]);
+          var element4 = dom.childAt(element0, [13]);
           var element5 = dom.childAt(element4, [3]);
-          var element6 = dom.childAt(element0, [21, 1]);
+          var element6 = dom.childAt(element0, [23, 1]);
           var element7 = dom.childAt(element6, [3]);
-          var element8 = dom.childAt(element0, [23, 1, 1]);
+          var element8 = dom.childAt(element0, [25, 1, 1]);
           var morphs = new Array(20);
-          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1, 3]), 1, 1);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
           morphs[1] = dom.createMorphAt(dom.childAt(element0, [3, 3]), 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
-          morphs[3] = dom.createMorphAt(element1, 5, 5);
-          morphs[4] = dom.createAttrMorph(element3, 'class');
-          morphs[5] = dom.createMorphAt(element3, 1, 1);
-          morphs[6] = dom.createMorphAt(element2, 5, 5);
-          morphs[7] = dom.createMorphAt(dom.childAt(element0, [9, 3]), 1, 1);
-          morphs[8] = dom.createAttrMorph(element5, 'class');
-          morphs[9] = dom.createMorphAt(element5, 1, 1);
-          morphs[10] = dom.createMorphAt(element4, 5, 5);
-          morphs[11] = dom.createMorphAt(dom.childAt(element0, [13, 3]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element0, [5, 3]), 1, 1);
+          morphs[3] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
+          morphs[4] = dom.createMorphAt(element1, 5, 5);
+          morphs[5] = dom.createAttrMorph(element3, 'class');
+          morphs[6] = dom.createMorphAt(element3, 1, 1);
+          morphs[7] = dom.createMorphAt(element2, 5, 5);
+          morphs[8] = dom.createMorphAt(dom.childAt(element0, [11, 3]), 1, 1);
+          morphs[9] = dom.createAttrMorph(element5, 'class');
+          morphs[10] = dom.createMorphAt(element5, 1, 1);
+          morphs[11] = dom.createMorphAt(element4, 5, 5);
           morphs[12] = dom.createMorphAt(dom.childAt(element0, [15, 3]), 1, 1);
           morphs[13] = dom.createMorphAt(dom.childAt(element0, [17, 3]), 1, 1);
           morphs[14] = dom.createMorphAt(dom.childAt(element0, [19, 3]), 1, 1);
-          morphs[15] = dom.createMorphAt(element6, 1, 1);
-          morphs[16] = dom.createElementMorph(element7);
-          morphs[17] = dom.createMorphAt(dom.childAt(element6, [5]), 1, 1);
-          morphs[18] = dom.createElementMorph(element8);
-          morphs[19] = dom.createMorphAt(dom.childAt(element0, [25]), 1, 1);
+          morphs[15] = dom.createMorphAt(dom.childAt(element0, [21, 3]), 1, 1);
+          morphs[16] = dom.createMorphAt(element6, 1, 1);
+          morphs[17] = dom.createElementMorph(element7);
+          morphs[18] = dom.createMorphAt(dom.childAt(element6, [5]), 1, 1);
+          morphs[19] = dom.createElementMorph(element8);
           return morphs;
         },
-        statements: [["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.firstname", ["loc", [null, [10, 32], [10, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "firstname"], ["loc", [null, [10, 6], [10, 143]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.lastname", ["loc", [null, [16, 32], [16, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "lastname"], ["loc", [null, [16, 6], [16, 141]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.username", ["loc", [null, [22, 32], [22, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Username"], ["loc", [null, [22, 6], [22, 133]]], 0, 0], ["block", "if", [["get", "usernameerror", ["loc", [null, [24, 11], [24, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 5], [28, 12]]]], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "passwordclasses", ["loc", [null, [32, 28], [32, 43]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.password", ["loc", [null, [33, 32], [33, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Password", "type", "password"], ["loc", [null, [33, 6], [33, 149]]], 0, 0], ["block", "if", [["get", "passworderror", ["loc", [null, [35, 11], [35, 24]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [35, 5], [39, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "confirmpassword", ["loc", [null, [44, 32], [44, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Confirm Password", "type", "password"], ["loc", [null, [44, 6], [44, 151]]], 0, 0], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "emailclasses", ["loc", [null, [49, 28], [49, 40]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.email", ["loc", [null, [50, 32], [50, 50]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Email"], ["loc", [null, [50, 6], [50, 127]]], 0, 0], ["block", "if", [["get", "emailerror", ["loc", [null, [52, 11], [52, 21]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [52, 5], [56, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.age", ["loc", [null, [61, 32], [61, 56]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "age"], ["loc", [null, [61, 6], [61, 131]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.gender", ["loc", [null, [68, 61], [68, 88]]], 0, 0, 0, 0]], [], [], 0, 0]], 3, null, ["loc", [null, [68, 6], [74, 19]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.city", ["loc", [null, [83, 32], [83, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "city"], ["loc", [null, [83, 6], [83, 133]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.state", ["loc", [null, [89, 60], [89, 86]]], 0, 0, 0, 0]], [], [], 0, 0]], 4, null, ["loc", [null, [89, 6], [95, 19]]]], ["block", "bs-modal", [], ["open", ["subexpr", "@mut", [["get", "showPolicy", ["loc", [null, [100, 23], [100, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Privacy Policy", "footer", false], 5, null, ["loc", [null, [100, 6], [102, 19]]]], ["element", "action", ["showPolicy"], [], ["loc", [null, [103, 62], [103, 85]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "name", "doesAgree", "checked", ["subexpr", "@mut", [["get", "agree", ["loc", [null, [105, 56], [105, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [105, 7], [105, 63]]], 0, 0], ["element", "action", ["cregister"], [], ["loc", [null, [112, 62], [112, 84]]], 0, 0], ["block", "if", [["get", "validationErrorMsg", ["loc", [null, [116, 11], [116, 29]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [116, 5], [121, 12]]]]],
+        statements: [["block", "if", [["get", "validationErrorMsg", ["loc", [null, [9, 11], [9, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [9, 5], [18, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.firstname", ["loc", [null, [24, 32], [24, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "firstname"], ["loc", [null, [24, 6], [24, 143]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.lastname", ["loc", [null, [30, 32], [30, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "lastname"], ["loc", [null, [30, 6], [30, 141]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.username", ["loc", [null, [36, 32], [36, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Username"], ["loc", [null, [36, 6], [36, 133]]], 0, 0], ["block", "if", [["get", "usernameerror", ["loc", [null, [38, 11], [38, 24]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [38, 5], [42, 12]]]], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "passwordclasses", ["loc", [null, [46, 28], [46, 43]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.password", ["loc", [null, [47, 32], [47, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Password", "type", "password"], ["loc", [null, [47, 6], [47, 149]]], 0, 0], ["block", "if", [["get", "passworderror", ["loc", [null, [49, 11], [49, 24]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [49, 5], [53, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "confirmpassword", ["loc", [null, [58, 32], [58, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Confirm Password", "type", "password"], ["loc", [null, [58, 6], [58, 151]]], 0, 0], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "emailclasses", ["loc", [null, [63, 28], [63, 40]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.email", ["loc", [null, [64, 32], [64, 50]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Email"], ["loc", [null, [64, 6], [64, 127]]], 0, 0], ["block", "if", [["get", "emailerror", ["loc", [null, [66, 11], [66, 21]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [66, 5], [70, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.age", ["loc", [null, [75, 32], [75, 56]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "age"], ["loc", [null, [75, 6], [75, 131]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.gender", ["loc", [null, [82, 61], [82, 88]]], 0, 0, 0, 0]], [], [], 0, 0]], 4, null, ["loc", [null, [82, 6], [88, 19]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.city", ["loc", [null, [97, 32], [97, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "city"], ["loc", [null, [97, 6], [97, 133]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.state", ["loc", [null, [103, 60], [103, 86]]], 0, 0, 0, 0]], [], [], 0, 0]], 5, null, ["loc", [null, [103, 6], [109, 19]]]], ["block", "bs-modal", [], ["open", ["subexpr", "@mut", [["get", "showPolicy", ["loc", [null, [114, 23], [114, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Privacy Policy", "footer", false], 6, null, ["loc", [null, [114, 6], [116, 19]]]], ["element", "action", ["showPolicy"], [], ["loc", [null, [117, 62], [117, 85]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "name", "doesAgree", "checked", ["subexpr", "@mut", [["get", "agree", ["loc", [null, [119, 56], [119, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [119, 7], [119, 63]]], 0, 0], ["element", "action", ["cregister"], [], ["loc", [null, [126, 62], [126, 84]]], 0, 0]],
         locals: [],
         templates: [child0, child1, child2, child3, child4, child5, child6]
       };
@@ -8523,7 +8951,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 126,
+            "line": 133,
             "column": 7
           }
         },
@@ -8546,7 +8974,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["get", "success", ["loc", [null, [1, 6], [1, 13]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [126, 7]]]]],
+      statements: [["block", "if", [["get", "success", ["loc", [null, [1, 6], [1, 13]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [133, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -9422,8 +9850,8 @@ define("simple-fit/templates/market", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 2,
-            "column": 0
+            "line": 5,
+            "column": 10
           }
         },
         "moduleName": "simple-fit/templates/market.hbs"
@@ -9434,19 +9862,28 @@ define("simple-fit/templates/market", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h1");
+        var el2 = dom.createTextNode("Marketplace for Personal Trainers");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        dom.insertBoundary(fragment, 0);
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "trainer-search", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [1, 23], [1, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [1, 0], [1, 30]]], 0, 0]],
+      statements: [["inline", "trainer-search", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [3, 23], [3, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 0], [3, 30]]], 0, 0], ["content", "outlet", ["loc", [null, [5, 0], [5, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -12217,7 +12654,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+9f65a935"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+2276e35e"});
 }
 
 /* jshint ignore:end */

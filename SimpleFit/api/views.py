@@ -37,13 +37,6 @@ class Cregister(APIView):
 		if response:
 			return Response(response)
 
-		if not valid_email:
-			return Response({'username': 'Username is taken.', 'email': 'Bad email', 'status': 'error'})
-		if User.objects.filter(username=username).exists():
-			return Response({'username': 'Username is taken.', 'status': 'error'})
-		elif User.objects.filter(email=email).exists():
-			return Response({'email': 'Email is taken.', 'status': 'error'})
-
 		#especially before you pass them in here
 		newuser = User.objects.create_user(email=email, username=username, password=password)
 
