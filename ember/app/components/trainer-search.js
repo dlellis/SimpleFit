@@ -15,6 +15,15 @@ export default Ember.Component.extend({
 
     
     },
+    cancelRequest() {
+        var cid = this.get('auth.user.basicprofile.clientprofile.id')
+        let c = this.get('store').peekRecord('clientprofile',cid)
+        c.set('trainerpending',null)
+        c.save();
+
+
+    
+    },
    
 	}
 });

@@ -1,6 +1,41 @@
 <h1>Trainer Home Page</h1>
+Gib: Please set this up for me the way you want it and I will make those connections for you.
+Do the marketplace too, thanks lol.
+<h2> Real Client Page </h2>
+{{#if (eq auth.user.basicprofile.membertype "trainer")}}
 
-<h2>Client List</h2>
+
+
+
+{{#each auth.user.basicprofile.trainerprofile.trainer as |clientprofile|}}
+  
+  <table class="table">
+  <div class="container-fluid">
+  First Name: {{clientprofile.basicinfo.firstname}}<br>
+  Last Name: {{clientprofile.basicinfo.lastname}}<br>
+<button type="submit" class="btn" {{action "" client}}>Action</button>
+    
+
+  
+
+    
+    </div>
+
+    </table>
+  
+
+{{/each}}
+
+{{!-- {{/each}} --}}
+
+{{else}}
+You must login as trainer to view trainer clients
+
+{{/if}}
+
+
+<h2>Fake Client List</h2>
+Leave this here. You will want to use this as example of how to modify data.
 <ul class="row-fluid">
   {{#each model as |client|}}
     <li class="client">

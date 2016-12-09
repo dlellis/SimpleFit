@@ -6,6 +6,19 @@ You have a trainer.
 
 {{else}}
 
+{{!-- if for if you have a pending request --}}
+{{#if auth.user.basicprofile.clientprofile.trainerpending.id}}
+  You have a pending trainer request. <br>
+   Name of trainer you requested: {{auth.user.basicprofile.clientprofile.trainerpending.basicinfo.firstname}}<br>
+   Cancel request?<br>
+   <button type="submit" class="btn" {{action "cancelRequest"}}>Cancel</button>
+    
+  
+
+
+
+ {{!-- else for if you have a pending request --}}
+{{else}}
 <h1>Request a trainer:</h1>
 
 {{#each model as |basicprofile|}}
@@ -29,7 +42,13 @@ You have a trainer.
   	{{/if}}
 {{/each}}
  {{/if}}
+
+
+
+{{/if}}
+
  {{else}}
+
 
 Login as client user to do this
 {{/if}}

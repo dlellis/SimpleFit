@@ -105,7 +105,7 @@ define('simple-fit/tests/components/trainer-search.jshint', ['exports'], functio
   QUnit.module('JSHint | components/trainer-search.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/trainer-search.js should pass jshint.\ncomponents/trainer-search.js: line 8, col 70, Missing semicolon.\n\n1 error');
+    assert.ok(false, 'components/trainer-search.js should pass jshint.\ncomponents/trainer-search.js: line 8, col 70, Missing semicolon.\ncomponents/trainer-search.js: line 19, col 70, Missing semicolon.\ncomponents/trainer-search.js: line 20, col 66, Missing semicolon.\ncomponents/trainer-search.js: line 21, col 37, Missing semicolon.\n\n4 errors');
   });
 });
 define('simple-fit/tests/controllers/application.jshint', ['exports'], function (exports) {
