@@ -29,11 +29,29 @@ def check_password(value):
 		return 'Password must be at least 8 characters'
 
 	
-
 def check_gender(value):
 	choices = ['Male', 'Female', 'Other']
 	if value not in choices:
 		return 'Not a valid gender'
+
+def check_state(value):
+	states = [
+	'Alaska','Alabama','Arkansas','Arizona','California','Colorado','Connecticut',
+	'District of Columbia','Delaware','Florida','Georgia', 'Hawaii',
+	'Iowa','Idaho','Illinois','Indiana','Kansas','Kentucky','Louisiana','Massachusetts',
+	'Maryland','Maine','Michigan','Minnesota','Missouri','Mississippi','Montana',
+	'North Carolina','North Dakota','Nebraska','New Hampshire','New Jersey','New Mexico',
+	'Nevada','New York','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island',
+	'South Carolina','South Dakota','Tennessee','Texas','Utah','Virginia','Vermont',
+	'Washington','Wisconsin','West Virginia','Wyoming',
+	]
+	if value not in states:
+		return 'Please pick one of the 50 states'
+
+def check_name(value):
+	pass
+
+
 
 def check_basic(username,password,email,gender,age,firstname,lastname,city,state):
 	x = {}

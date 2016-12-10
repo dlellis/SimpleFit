@@ -33,6 +33,7 @@ class Cregister(APIView):
 		cert = request.POST.get('certification')
 
 		response = check_basic(username,password,email,gender,age,firstname,lastname,city,state)
+		
 		#If dictionary is not empty
 		if response:
 			return Response(response)
