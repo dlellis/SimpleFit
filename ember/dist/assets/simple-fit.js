@@ -474,23 +474,99 @@ define('simple-fit/controllers/cregister', ['exports', 'ember'], function (expor
     genders: ['Male', 'Female', 'Other'],
     states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District Of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
     agree: false,
+    err: [],
 
     //client-side validators
     usernameChanged: _ember['default'].observer('content.user.username', function () {
-      //validate here
-    }),
-    passwordChanged: _ember['default'].observer('content.user.password', function () {
       var user = this.get('content').user;
-      if (user.get('password') == undefined || user.get('password') == '') {
-        this.set('passworderror', 'You must specify a password.');
+    }),
+    passwordChanged: _ember['default'].observer('content.user.password', function (err) {
+      var user = this.get('content').user;
+      var one = 'Passwords don\'t match';
+      var two = 'You must specify a password.';
+      var three = 'Your password must be at least 8 characters';
+      // if (!(user.get('password') === this.get('confirmpassword'))){
+      //     this.set('passworderror', one);
+      //     this.set('passwordclasses', 'has-error');
+      //     console.log(this.get('passworderror'))
+      //     this.err.addObject(this.get('passworderror'));
+      // }
+
+      if (user.get('password') != undefined && user.get('password') == '') {
+        this.err.removeObject(three);
+        this.set('passworderror', two);
         this.set('passwordclasses', 'has-error');
-      } else if (user.get('password').length < 8) {
-        this.set('passworderror', 'Your password must be at least 8 characters');
+        this.err.addObject(two);
+      } else if (user.get('password') != undefined && user.get('password').length < 8) {
+        this.err.removeObject(two);
+        this.set('passworderror', three);
         this.set('passwordclasses', 'has-error');
+        this.err.addObject(three);
       } else {
+        this.err.removeObjects([one, two, three]);
+        this.get('validationErrorMsg', this.err);
         this.set('passworderror', null);
         this.set('passwordclasses', '');
       }
+    }),
+    firstnameChange: _ember['default'].observer('content.basicprofile.firstname', function (err) {
+      var basicprofile = this.get('content').basicprofile;
+      var one = 'Your first name must contain only letters';
+      var two = 'Uhm.. your first name should only be 30 characters or less';
+      if (!/^[a-z]+$/i.test(basicprofile.get('firstname'))) {
+        this.err.removeObject(two), this.set('firstnameerror', one);
+        this.set('firstnameclasses', 'has-error');
+        this.err.addObject(one);
+        //this.set('validationErrorMsg', this.err);
+      } else if (basicprofile.get('firstname') != undefined && basicprofile.get('firstname').length > 30) {
+          this.err.removeObject(one);
+
+          console.log(this.get('validationErrorMsg'));
+          this.set('firstnameerror', two);
+          this.set('firstnameclasses', 'has-error');
+          //this.set('validationErrorMsg', ['less than 30'])
+          this.err.addObject(two);
+          //this.set('validationErrorMsg', this.err); 
+        } else {
+            this.err.removeObjects([one, two]);
+            this.get('validationErrorMsg', this.err);
+            this.set('firstnameerror', null);
+            this.set('firstnameclasses', '');
+          }
+    }),
+    lastnameChange: _ember['default'].observer('content.basicprofile.lastname', function () {
+      var basicprofile = this.get('content').basicprofile;
+      var one = 'Your last name must contain only letters';
+      var two = 'Uhm.. your last name should only be 30 characters or less';
+      if (!/^[a-z]+$/i.test(basicprofile.get('lastname'))) {
+        this.err.removeObject(two), this.err.addObject(one);
+        this.set('lastnameerror', one);
+        this.set('lastnameclasses', 'has-error');
+      } else if (basicprofile.get('lastname') != undefined && basicprofile.get('lastname').length > 30) {
+        this.err.removeObject(one), this.err.addObject(two);
+        this.set('lastnameerror', two);
+        this.set('lastnameclasses', 'has-error');
+      } else {
+        this.err.removeObjects([one, two]);
+        this.get('validationErrorMsg', this.err);
+        this.set('lastnameerror', null);
+        this.set('lastnameclasses', '');
+      }
+    }),
+    emailChange: _ember['default'].observer('content.user.email', function () {
+      //var user = this.get('content').user;
+    }),
+    ageChange: _ember['default'].observer('content.basicprofile.age', function () {
+      //var user = this.get('content').user;
+    }),
+    genderChange: _ember['default'].observer('content.basicprofile.gender', function () {
+      //var user = this.get('content').user;
+    }),
+    cityChange: _ember['default'].observer('content.basicprofile.city', function () {
+      //var user = this.get('content').user;
+    }),
+    stateChange: _ember['default'].observer('content.user.state', function () {
+      //var user = this.get('content').user;
     }),
     //...other validators go here
 
@@ -499,57 +575,145 @@ define('simple-fit/controllers/cregister', ['exports', 'ember'], function (expor
       showPolicy: function showPolicy() {
         this.set('showPolicy', !this.get('showPolicy'));
       },
-      cregister: function cregister() {
-        this.set('validationErrorMsg', '');
+      cregister: function cregister(err) {
+        console.log('clicked regster');
+        this.set('validationErrorMsg', []);
         var user = this.get('content').user;
         var basicprofile = this.get('content').basicprofile;
         var trainerprofile = this.get('content').trainerprofile;
         var t = this;
-        //probably want to do some additional validation here
-        if (user.get('password') === this.get('confirmpassword')) {
-          var requestdata = {
-            'username': user.get('username'),
-            'password': user.get('password'),
-            'email': user.get('email'),
-            'firstname': basicprofile.get('firstname'),
-            'lastname': basicprofile.get('lastname'),
-            'gender': basicprofile.get('gender'),
-            'age': basicprofile.get('age'),
-            'city': basicprofile.get('city'),
-            'state': basicprofile.get('state'),
-            'membertype': basicprofile.get('membertype')
+        if (user.get('username') == undefined || user.get('password') == undefined || user.get('email') == undefined || basicprofile.get('firstname') == undefined || basicprofile.get('lastname') == undefined || basicprofile.get('gender') == undefined || basicprofile.get('age') == undefined || basicprofile.get('city') == undefined || basicprofile.get('state') == undefined) {
+          this.err.addObject('No field can be blank. Sorry');
+          this.set('validationErrorMsg', this.err);
+        } else if (!(user.get('username') == undefined || user.get('password') == undefined || user.get('email') == undefined || basicprofile.get('firstname') == undefined || basicprofile.get('lastname') == undefined || basicprofile.get('gender') == undefined || basicprofile.get('age') == undefined || basicprofile.get('city') == undefined || basicprofile.get('state') == undefined)) {
+          this.err.removeObject('No field can be blank. Sorry');
+          this.set('validationErrorMsg', this.err);
+          if (!this.err[0]) {
+            console.log('hit call');
+            var requestdata = {
+              'username': user.get('username'),
+              'password': user.get('password'),
+              'email': user.get('email'),
+              'firstname': basicprofile.get('firstname'),
+              'lastname': basicprofile.get('lastname'),
+              'gender': basicprofile.get('gender'),
+              'age': basicprofile.get('age'),
+              'city': basicprofile.get('city'),
+              'state': basicprofile.get('state'),
+              'membertype': basicprofile.get('membertype')
 
-          };
-          _ember['default'].$.post('../api/cregister/', requestdata, function (response) {
-            //var errMsg = '';
-            var errMsg = [];
-            if (response.data.status === "error") {
-              if (response.data.username) {
-                errMsg.addObject(response.data.username);
-              }
-              if (response.data.email) {
+            };
+            _ember['default'].$.post('../api/cregister/', requestdata, function (response) {
+              //var errMsg = '';
+              var errMsg = [];
+              if (response.data.status === "error") {
+                if (response.data.username) {
+                  errMsg.addObject(response.data.username);
+                }
+                if (response.data.email) {
 
-                errMsg.addObject(response.data.email);
-              }
-              if (response.data.email) {
+                  errMsg.addObject(response.data.email);
+                }
+                if (response.data.password) {
 
-                errMsg.addObject(response.data.email);
+                  errMsg.addObject(response.data.password);
+                }
+                if (response.data.gender) {
+                  errMsg.addObject(response.data.gender);
+                }
+                if (response.data.state) {
+                  errMsg.addObject(response.data.state);
+                }
+                if (response.data.age) {
+                  errMsg.addObject(response.data.age);
+                }
+                if (response.data.firstname) {
+                  errMsg.addObject(response.data.firstname);
+                }
+                if (response.data.lastname) {
+                  errMsg.addObject(response.data.lastname);
+                }
+                if (response.data.city) {
+                  errMsg.addObject(response.data.city);
+                }
+                t.set('validationErrorMsg', errMsg);
+              } else {
+                //success
+                t.set('success', true);
+                //could forward the user to another page (like home)
+                //t.transitionTo('home');
               }
-              if (response.data.gender) {
-                errMsg.addObject(response.data.gender);
-              }
-
-              t.set('validationErrorMsg', errMsg);
-            } else {
-              //success
-              t.set('success', true);
-              //could forward the user to another page (like home)
-              //t.transitionTo('home');
+            });
+          } else {
+              console.log(this.err);
+              this.set('validationErrorMsg', this.err);
             }
-          });
-        } else {
-            this.set('validationErrorMsg', ['Passwords don\'t match']);
-          }
+        } else {}
+        // else if (this.err[0]){
+        //   console.log('hit call')
+        //   var requestdata = {
+        //     'username': user.get('username'),
+        //     'password': user.get('password'),
+        //     'email': user.get('email'),
+        //     'firstname': basicprofile.get('firstname'),
+        //     'lastname': basicprofile.get('lastname'),
+        //     'gender': basicprofile.get('gender'),
+        //     'age': basicprofile.get('age'),
+        //     'city': basicprofile.get('city'),
+        //     'state': basicprofile.get('state'),
+        //     'membertype': basicprofile.get('membertype')
+
+        //   };
+        //   Ember.$.post('../api/cregister/', requestdata, function(response){
+        //     //var errMsg = '';
+        //     var errMsg = [];
+        //     if(response.data.status ==="error"){
+        //       if(response.data.username){
+        //         errMsg.addObject(response.data.username)
+
+        //       }
+        //       if(response.data.email){
+
+        //         errMsg.addObject(response.data.email)
+        //       }
+        //       if(response.data.password){
+
+        //         errMsg.addObject(response.data.password)
+        //       }
+        //       if(response.data.gender){
+        //         errMsg.addObject(response.data.gender)
+        //       }
+        //       if(response.data.state){
+        //         errMsg.addObject(response.data.state)
+        //       }                       
+        //       if(response.data.age){
+        //         errMsg.addObject(response.data.age)
+        //       }
+        //       if(response.data.firstname){
+        //         errMsg.addObject(response.data.firstname)
+        //       }            
+        //       if(response.data.lastname){
+        //         errMsg.addObject(response.data.lastname)
+        //       }            
+        //       if(response.data.city){
+        //         errMsg.addObject(response.data.city)
+        //       }            
+        //       t.set('validationErrorMsg', errMsg);
+
+        //     }
+        //     else{
+        //       //success
+        //       t.set('success', true);
+        //       //could forward the user to another page (like home)
+        //       //t.transitionTo('home');
+        //     }
+
+        //   });
+        // }
+        // else {
+        //   console.log(this.err)
+        //   this.set('validationErrorMsg', this.err);
+        // }
       }
 
     }
@@ -7966,11 +8130,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 38,
+                "line": 26,
                 "column": 5
               },
               "end": {
-                "line": 42,
+                "line": 30,
                 "column": 5
               }
             },
@@ -8005,7 +8169,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
             return morphs;
           },
-          statements: [["content", "usernameerror", ["loc", [null, [40, 28], [40, 45]]], 0, 0, 0, 0]],
+          statements: [["content", "firstnameerror", ["loc", [null, [28, 28], [28, 46]]], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -8017,11 +8181,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 49,
+                "line": 37,
                 "column": 5
               },
               "end": {
-                "line": 53,
+                "line": 41,
                 "column": 5
               }
             },
@@ -8056,7 +8220,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
             return morphs;
           },
-          statements: [["content", "passworderror", ["loc", [null, [51, 28], [51, 45]]], 0, 0, 0, 0]],
+          statements: [["content", "lastnameerror", ["loc", [null, [39, 28], [39, 45]]], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -8068,11 +8232,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 66,
+                "line": 48,
                 "column": 5
               },
               "end": {
-                "line": 70,
+                "line": 52,
                 "column": 5
               }
             },
@@ -8107,12 +8271,114 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
             return morphs;
           },
-          statements: [["content", "emailerror", ["loc", [null, [68, 28], [68, 42]]], 0, 0, 0, 0]],
+          statements: [["content", "usernameerror", ["loc", [null, [50, 28], [50, 45]]], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
       })();
       var child4 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 59,
+                "column": 5
+              },
+              "end": {
+                "line": 63,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/cregister.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "passworderror", ["loc", [null, [61, 28], [61, 45]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child5 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 76,
+                "column": 5
+              },
+              "end": {
+                "line": 80,
+                "column": 5
+              }
+            },
+            "moduleName": "simple-fit/templates/cregister.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("						");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "col-sm-5");
+            var el2 = dom.createTextNode("\n							");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            dom.setAttribute(el2, "class", "reg-label");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n						");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "emailerror", ["loc", [null, [78, 28], [78, 42]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child6 = (function () {
         var child0 = (function () {
           return {
             meta: {
@@ -8120,11 +8386,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 83,
+                  "line": 93,
                   "column": 7
                 },
                 "end": {
-                  "line": 83,
+                  "line": 93,
                   "column": 71
                 }
               },
@@ -8156,11 +8422,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 85,
+                    "line": 95,
                     "column": 8
                   },
                   "end": {
-                    "line": 85,
+                    "line": 95,
                     "column": 35
                   }
                 },
@@ -8183,7 +8449,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["content", "g", ["loc", [null, [85, 30], [85, 35]]], 0, 0, 0, 0]],
+              statements: [["content", "g", ["loc", [null, [95, 30], [95, 35]]], 0, 0, 0, 0]],
               locals: [],
               templates: []
             };
@@ -8194,11 +8460,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 84,
+                  "line": 94,
                   "column": 7
                 },
                 "end": {
-                  "line": 87,
+                  "line": 97,
                   "column": 7
                 }
               },
@@ -8223,7 +8489,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "g", ["loc", [null, [85, 27], [85, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [85, 8], [85, 49]]]]],
+            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "g", ["loc", [null, [95, 27], [95, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [95, 8], [95, 49]]]]],
             locals: ["g"],
             templates: [child0]
           };
@@ -8234,11 +8500,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 82,
+                "line": 92,
                 "column": 6
               },
               "end": {
-                "line": 88,
+                "line": 98,
                 "column": 6
               }
             },
@@ -8267,12 +8533,12 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [83, 7], [83, 85]]]], ["block", "each", [["get", "genders", ["loc", [null, [84, 15], [84, 22]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [84, 7], [87, 16]]]]],
+          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [93, 7], [93, 85]]]], ["block", "each", [["get", "genders", ["loc", [null, [94, 15], [94, 22]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [94, 7], [97, 16]]]]],
           locals: ["xs"],
           templates: [child0, child1]
         };
       })();
-      var child5 = (function () {
+      var child7 = (function () {
         var child0 = (function () {
           return {
             meta: {
@@ -8280,11 +8546,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 104,
+                  "line": 114,
                   "column": 7
                 },
                 "end": {
-                  "line": 104,
+                  "line": 114,
                   "column": 73
                 }
               },
@@ -8316,11 +8582,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 106,
+                    "line": 116,
                     "column": 8
                   },
                   "end": {
-                    "line": 106,
+                    "line": 116,
                     "column": 35
                   }
                 },
@@ -8343,7 +8609,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
                 dom.insertBoundary(fragment, null);
                 return morphs;
               },
-              statements: [["content", "s", ["loc", [null, [106, 30], [106, 35]]], 0, 0, 0, 0]],
+              statements: [["content", "s", ["loc", [null, [116, 30], [116, 35]]], 0, 0, 0, 0]],
               locals: [],
               templates: []
             };
@@ -8354,11 +8620,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 105,
+                  "line": 115,
                   "column": 7
                 },
                 "end": {
-                  "line": 108,
+                  "line": 118,
                   "column": 7
                 }
               },
@@ -8383,7 +8649,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "s", ["loc", [null, [106, 27], [106, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [106, 8], [106, 49]]]]],
+            statements: [["block", "xs.option", [], ["value", ["subexpr", "@mut", [["get", "s", ["loc", [null, [116, 27], [116, 28]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [116, 8], [116, 49]]]]],
             locals: ["s"],
             templates: [child0]
           };
@@ -8394,11 +8660,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 103,
+                "line": 113,
                 "column": 6
               },
               "end": {
-                "line": 109,
+                "line": 119,
                 "column": 6
               }
             },
@@ -8427,23 +8693,23 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [104, 7], [104, 87]]]], ["block", "each", [["get", "states", ["loc", [null, [105, 15], [105, 21]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [105, 7], [108, 16]]]]],
+          statements: [["block", "xs.option", [], ["disabled", true, "selected", true], 0, null, ["loc", [null, [114, 7], [114, 87]]]], ["block", "each", [["get", "states", ["loc", [null, [115, 15], [115, 21]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [115, 7], [118, 16]]]]],
           locals: ["xs"],
           templates: [child0, child1]
         };
       })();
-      var child6 = (function () {
+      var child8 = (function () {
         return {
           meta: {
             "revision": "Ember@2.8.2+31ba4c74",
             "loc": {
               "source": null,
               "start": {
-                "line": 114,
+                "line": 124,
                 "column": 6
               },
               "end": {
-                "line": 116,
+                "line": 126,
                 "column": 6
               }
             },
@@ -8468,7 +8734,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
             return morphs;
           },
-          statements: [["inline", "render", ["privacypolicy"], [], ["loc", [null, [115, 7], [115, 33]]], 0, 0]],
+          statements: [["inline", "render", ["privacypolicy"], [], ["loc", [null, [125, 7], [125, 33]]], 0, 0]],
           locals: [],
           templates: []
         };
@@ -8483,7 +8749,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
               "column": 0
             },
             "end": {
-              "line": 133,
+              "line": 143,
               "column": 0
             }
           },
@@ -8546,7 +8812,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
           var el6 = dom.createTextNode("\n					");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("\n				");
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n				");
@@ -8576,7 +8846,11 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
           var el6 = dom.createTextNode("\n					");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
-          var el5 = dom.createTextNode("\n				");
+          var el5 = dom.createTextNode("\n");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("				");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n				");
@@ -8905,40 +9179,48 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1, 1, 1]);
-          var element1 = dom.childAt(element0, [7]);
-          var element2 = dom.childAt(element0, [9]);
-          var element3 = dom.childAt(element2, [3]);
-          var element4 = dom.childAt(element0, [13]);
-          var element5 = dom.childAt(element4, [3]);
-          var element6 = dom.childAt(element0, [23, 1]);
+          var element1 = dom.childAt(element0, [3]);
+          var element2 = dom.childAt(element1, [3]);
+          var element3 = dom.childAt(element0, [5]);
+          var element4 = dom.childAt(element3, [3]);
+          var element5 = dom.childAt(element0, [7]);
+          var element6 = dom.childAt(element0, [9]);
           var element7 = dom.childAt(element6, [3]);
-          var element8 = dom.childAt(element0, [25, 1, 1]);
-          var morphs = new Array(20);
+          var element8 = dom.childAt(element0, [13]);
+          var element9 = dom.childAt(element8, [3]);
+          var element10 = dom.childAt(element0, [23, 1]);
+          var element11 = dom.childAt(element10, [3]);
+          var element12 = dom.childAt(element0, [25, 1, 1]);
+          var morphs = new Array(24);
           morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
-          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3, 3]), 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element0, [5, 3]), 1, 1);
-          morphs[3] = dom.createMorphAt(dom.childAt(element1, [3]), 1, 1);
-          morphs[4] = dom.createMorphAt(element1, 5, 5);
-          morphs[5] = dom.createAttrMorph(element3, 'class');
-          morphs[6] = dom.createMorphAt(element3, 1, 1);
-          morphs[7] = dom.createMorphAt(element2, 5, 5);
-          morphs[8] = dom.createMorphAt(dom.childAt(element0, [11, 3]), 1, 1);
-          morphs[9] = dom.createAttrMorph(element5, 'class');
-          morphs[10] = dom.createMorphAt(element5, 1, 1);
-          morphs[11] = dom.createMorphAt(element4, 5, 5);
-          morphs[12] = dom.createMorphAt(dom.childAt(element0, [15, 3]), 1, 1);
-          morphs[13] = dom.createMorphAt(dom.childAt(element0, [17, 3]), 1, 1);
-          morphs[14] = dom.createMorphAt(dom.childAt(element0, [19, 3]), 1, 1);
-          morphs[15] = dom.createMorphAt(dom.childAt(element0, [21, 3]), 1, 1);
-          morphs[16] = dom.createMorphAt(element6, 1, 1);
-          morphs[17] = dom.createElementMorph(element7);
-          morphs[18] = dom.createMorphAt(dom.childAt(element6, [5]), 1, 1);
-          morphs[19] = dom.createElementMorph(element8);
+          morphs[1] = dom.createElementMorph(element2);
+          morphs[2] = dom.createMorphAt(element2, 1, 1);
+          morphs[3] = dom.createMorphAt(element1, 5, 5);
+          morphs[4] = dom.createElementMorph(element4);
+          morphs[5] = dom.createMorphAt(element4, 1, 1);
+          morphs[6] = dom.createMorphAt(element3, 5, 5);
+          morphs[7] = dom.createMorphAt(dom.childAt(element5, [3]), 1, 1);
+          morphs[8] = dom.createMorphAt(element5, 5, 5);
+          morphs[9] = dom.createAttrMorph(element7, 'class');
+          morphs[10] = dom.createMorphAt(element7, 1, 1);
+          morphs[11] = dom.createMorphAt(element6, 5, 5);
+          morphs[12] = dom.createMorphAt(dom.childAt(element0, [11, 3]), 1, 1);
+          morphs[13] = dom.createAttrMorph(element9, 'class');
+          morphs[14] = dom.createMorphAt(element9, 1, 1);
+          morphs[15] = dom.createMorphAt(element8, 5, 5);
+          morphs[16] = dom.createMorphAt(dom.childAt(element0, [15, 3]), 1, 1);
+          morphs[17] = dom.createMorphAt(dom.childAt(element0, [17, 3]), 1, 1);
+          morphs[18] = dom.createMorphAt(dom.childAt(element0, [19, 3]), 1, 1);
+          morphs[19] = dom.createMorphAt(dom.childAt(element0, [21, 3]), 1, 1);
+          morphs[20] = dom.createMorphAt(element10, 1, 1);
+          morphs[21] = dom.createElementMorph(element11);
+          morphs[22] = dom.createMorphAt(dom.childAt(element10, [5]), 1, 1);
+          morphs[23] = dom.createElementMorph(element12);
           return morphs;
         },
-        statements: [["block", "if", [["get", "validationErrorMsg", ["loc", [null, [9, 11], [9, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [9, 5], [18, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.firstname", ["loc", [null, [24, 32], [24, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "firstname"], ["loc", [null, [24, 6], [24, 143]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.lastname", ["loc", [null, [30, 32], [30, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "lastname"], ["loc", [null, [30, 6], [30, 141]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.username", ["loc", [null, [36, 32], [36, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Username"], ["loc", [null, [36, 6], [36, 133]]], 0, 0], ["block", "if", [["get", "usernameerror", ["loc", [null, [38, 11], [38, 24]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [38, 5], [42, 12]]]], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "passwordclasses", ["loc", [null, [46, 28], [46, 43]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.password", ["loc", [null, [47, 32], [47, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Password", "type", "password"], ["loc", [null, [47, 6], [47, 149]]], 0, 0], ["block", "if", [["get", "passworderror", ["loc", [null, [49, 11], [49, 24]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [49, 5], [53, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "confirmpassword", ["loc", [null, [58, 32], [58, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Confirm Password", "type", "password"], ["loc", [null, [58, 6], [58, 151]]], 0, 0], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "emailclasses", ["loc", [null, [63, 28], [63, 40]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.email", ["loc", [null, [64, 32], [64, 50]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Email"], ["loc", [null, [64, 6], [64, 127]]], 0, 0], ["block", "if", [["get", "emailerror", ["loc", [null, [66, 11], [66, 21]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [66, 5], [70, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.age", ["loc", [null, [75, 32], [75, 56]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "age"], ["loc", [null, [75, 6], [75, 131]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.gender", ["loc", [null, [82, 61], [82, 88]]], 0, 0, 0, 0]], [], [], 0, 0]], 4, null, ["loc", [null, [82, 6], [88, 19]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.city", ["loc", [null, [97, 32], [97, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "city"], ["loc", [null, [97, 6], [97, 133]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.state", ["loc", [null, [103, 60], [103, 86]]], 0, 0, 0, 0]], [], [], 0, 0]], 5, null, ["loc", [null, [103, 6], [109, 19]]]], ["block", "bs-modal", [], ["open", ["subexpr", "@mut", [["get", "showPolicy", ["loc", [null, [114, 23], [114, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Privacy Policy", "footer", false], 6, null, ["loc", [null, [114, 6], [116, 19]]]], ["element", "action", ["showPolicy"], [], ["loc", [null, [117, 62], [117, 85]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "name", "doesAgree", "checked", ["subexpr", "@mut", [["get", "agree", ["loc", [null, [119, 56], [119, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [119, 7], [119, 63]]], 0, 0], ["element", "action", ["cregister"], [], ["loc", [null, [126, 62], [126, 84]]], 0, 0]],
+        statements: [["block", "if", [["get", "validationErrorMsg", ["loc", [null, [9, 11], [9, 29]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [9, 5], [18, 12]]]], ["element", "firstnameclasses", [], [], ["loc", [null, [23, 27], [23, 47]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.firstname", ["loc", [null, [24, 32], [24, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "firstname"], ["loc", [null, [24, 6], [24, 143]]], 0, 0], ["block", "if", [["get", "firstnameerror", ["loc", [null, [26, 11], [26, 25]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [26, 5], [30, 12]]]], ["element", "lastnameclasses", [], [], ["loc", [null, [34, 27], [34, 46]]], 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.lastname", ["loc", [null, [35, 32], [35, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "lastname"], ["loc", [null, [35, 6], [35, 141]]], 0, 0], ["block", "if", [["get", "lastnameerror", ["loc", [null, [37, 11], [37, 24]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [37, 5], [41, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.username", ["loc", [null, [46, 32], [46, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Username"], ["loc", [null, [46, 6], [46, 133]]], 0, 0], ["block", "if", [["get", "usernameerror", ["loc", [null, [48, 11], [48, 24]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [48, 5], [52, 12]]]], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "passwordclasses", ["loc", [null, [56, 28], [56, 43]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.password", ["loc", [null, [57, 32], [57, 53]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Password", "type", "password"], ["loc", [null, [57, 6], [57, 149]]], 0, 0], ["block", "if", [["get", "passworderror", ["loc", [null, [59, 11], [59, 24]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [59, 5], [63, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "confirmpassword", ["loc", [null, [68, 32], [68, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Confirm Password", "type", "password"], ["loc", [null, [68, 6], [68, 151]]], 0, 0], ["attribute", "class", ["concat", ["col-sm-4 ", ["get", "emailclasses", ["loc", [null, [73, 28], [73, 40]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.user.email", ["loc", [null, [74, 32], [74, 50]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "Email"], ["loc", [null, [74, 6], [74, 127]]], 0, 0], ["block", "if", [["get", "emailerror", ["loc", [null, [76, 11], [76, 21]]], 0, 0, 0, 0]], [], 5, null, ["loc", [null, [76, 5], [80, 12]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.age", ["loc", [null, [85, 32], [85, 56]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "age"], ["loc", [null, [85, 6], [85, 131]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.gender", ["loc", [null, [92, 61], [92, 88]]], 0, 0, 0, 0]], [], [], 0, 0]], 6, null, ["loc", [null, [92, 6], [98, 19]]]], ["inline", "input", [], ["type", "text", "value", ["subexpr", "@mut", [["get", "content.basicprofile.city", ["loc", [null, [107, 32], [107, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control reg-input-field", "enter", "cregister", "placeholder", "city"], ["loc", [null, [107, 6], [107, 133]]], 0, 0], ["block", "x-select", [], ["class", "form-control reg-input-field", "value", ["subexpr", "@mut", [["get", "content.basicprofile.state", ["loc", [null, [113, 60], [113, 86]]], 0, 0, 0, 0]], [], [], 0, 0]], 7, null, ["loc", [null, [113, 6], [119, 19]]]], ["block", "bs-modal", [], ["open", ["subexpr", "@mut", [["get", "showPolicy", ["loc", [null, [124, 23], [124, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "title", "Privacy Policy", "footer", false], 8, null, ["loc", [null, [124, 6], [126, 19]]]], ["element", "action", ["showPolicy"], [], ["loc", [null, [127, 62], [127, 85]]], 0, 0], ["inline", "input", [], ["type", "checkbox", "name", "doesAgree", "checked", ["subexpr", "@mut", [["get", "agree", ["loc", [null, [129, 56], [129, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [129, 7], [129, 63]]], 0, 0], ["element", "action", ["cregister"], [], ["loc", [null, [136, 62], [136, 84]]], 0, 0]],
         locals: [],
-        templates: [child0, child1, child2, child3, child4, child5, child6]
+        templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8]
       };
     })();
     return {
@@ -8951,7 +9233,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 133,
+            "line": 143,
             "column": 7
           }
         },
@@ -8974,7 +9256,7 @@ define("simple-fit/templates/cregister", ["exports"], function (exports) {
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["get", "success", ["loc", [null, [1, 6], [1, 13]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [133, 7]]]]],
+      statements: [["block", "if", [["get", "success", ["loc", [null, [1, 6], [1, 13]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [1, 0], [143, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -12654,7 +12936,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+72d4a393"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+81d1fb08"});
 }
 
 /* jshint ignore:end */

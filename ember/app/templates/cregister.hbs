@@ -20,15 +20,25 @@
 				</div>			
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>First name:</b></p></div>
-					<div class="col-sm-4">
+					<div class="col-sm-4" {{firstnameclasses}}>
 						{{input type="text" value=content.basicprofile.firstname class='form-control reg-input-field' enter="cregister" placeholder="firstname"}}
 					</div>
+					{{#if firstnameerror}}
+						<div class="col-sm-5">
+							<p class="reg-label">{{firstnameerror}}</p>
+						</div>
+					{{/if}}					
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Last name:</b></p></div>
-					<div class="col-sm-4">
+					<div class="col-sm-4" {{lastnameclasses}}>
 						{{input type="text" value=content.basicprofile.lastname class='form-control reg-input-field' enter="cregister" placeholder="lastname"}}
 					</div>
+					{{#if lastnameerror}}
+						<div class="col-sm-5">
+							<p class="reg-label">{{lastnameerror}}</p>
+						</div>
+					{{/if}}	
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Username:</b></p></div>
