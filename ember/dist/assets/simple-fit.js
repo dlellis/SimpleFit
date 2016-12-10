@@ -14126,7 +14126,11 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
+<<<<<<< HEAD
   require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+b250decc"});
+=======
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+72d4a393"});
+>>>>>>> 1470c28ffb10f286ac1338ff935e07e97b7749a3
 }
 
 /* jshint ignore:end */
