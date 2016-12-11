@@ -342,6 +342,28 @@ define('simple-fit/components/bs-tooltip', ['exports', 'ember-bootstrap/componen
     }
   });
 });
+define('simple-fit/components/category-list', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    expanded: [],
+    actions: {
+      toggleExercise: function toggleExercise(value) {
+        this.expanded.forEach(function (element) {
+          element.toggleProperty('showExercise');
+        });
+        this.expanded.clear();
+        value.toggleProperty('showExercise');
+        this.expanded.addObject(value);
+      }
+    }
+  });
+
+  // expand(item) {
+  //   if (!item) {
+  //     return;
+  //   }
+  //   item.toggleProperty('isExpanded', true);
+  // }
+});
 define('simple-fit/components/ember-wormhole', ['exports', 'ember-wormhole/components/ember-wormhole'], function (exports, _emberWormholeComponentsEmberWormhole) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -349,6 +371,9 @@ define('simple-fit/components/ember-wormhole', ['exports', 'ember-wormhole/compo
       return _emberWormholeComponentsEmberWormhole['default'];
     }
   });
+});
+define('simple-fit/components/exercise-list', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({});
 });
 define('simple-fit/components/login-form', ['exports', 'ember'], function (exports, _ember) {
 		exports['default'] = _ember['default'].Component.extend({
@@ -1607,6 +1632,13 @@ define('simple-fit/models/basicprofile', ['exports', 'ember-data'], function (ex
 
 	});
 });
+define('simple-fit/models/category', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		name: _emberData['default'].attr('string'),
+		exercise: _emberData['default'].hasMany('exercise', { async: true })
+
+	});
+});
 define('simple-fit/models/client', ['exports', 'ember-data'], function (exports, _emberData) {
     exports['default'] = _emberData['default'].Model.extend({
         firstname: _emberData['default'].attr('string'),
@@ -1630,6 +1662,13 @@ define('simple-fit/models/dietitianprofile', ['exports', 'ember-data'], function
 		specialty: _emberData['default'].attr('string'),
 		dietitian: _emberData['default'].hasMany('clientprofile', { async: true, inverse: 'dietitian' }),
 		dietitianpending: _emberData['default'].hasMany('clientprofile', { async: true, inverse: 'dietitianpending' })
+	});
+});
+define('simple-fit/models/exercise', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		name: _emberData['default'].attr('string'),
+		category: _emberData['default'].belongsTo('category', { async: true })
+
 	});
 });
 define('simple-fit/models/profile', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -1714,6 +1753,7 @@ define('simple-fit/router', ['exports', 'ember', 'simple-fit/config/environment'
     this.route('cregister');
     this.route('dregister');
     this.route('tregister');
+    this.route('fakeroute');
   });
 
   exports['default'] = Router;
@@ -1752,6 +1792,13 @@ define('simple-fit/routes/dregister', ['exports', 'ember', 'rsvp'], function (ex
       });
     }
   });
+});
+define('simple-fit/routes/fakeroute', ['exports', 'ember'], function (exports, _ember) {
+	exports['default'] = _ember['default'].Route.extend({
+		model: function model() {
+			return this.store.findAll('category');
+		}
+	});
 });
 define('simple-fit/routes/index', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
@@ -4184,6 +4231,318 @@ define("simple-fit/templates/components/bs-select", ["exports"], function (expor
       statements: [["block", "if", [["get", "prompt", ["loc", [null, [1, 6], [1, 12]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [5, 7]]]], ["block", "each", [["get", "content", ["loc", [null, [7, 8], [7, 15]]], 0, 0, 0, 0]], ["key", "@identity"], 1, null, ["loc", [null, [7, 0], [12, 9]]]]],
       locals: [],
       templates: [child0, child1]
+    };
+  })());
+});
+define("simple-fit/templates/components/category-list", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 3,
+              "column": 2
+            },
+            "end": {
+              "line": 5,
+              "column": 2
+            }
+          },
+          "moduleName": "simple-fit/templates/components/category-list.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("			");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("button");
+          dom.setAttribute(el1, "class", "list-group-item");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element1 = dom.childAt(fragment, [1]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createElementMorph(element1);
+          morphs[1] = dom.createMorphAt(element1, 0, 0);
+          return morphs;
+        },
+        statements: [["element", "action", ["toggleExercise", ["get", "cat", ["loc", [null, [4, 60], [4, 63]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 34], [4, 65]]], 0, 0], ["content", "cat.name", ["loc", [null, [4, 66], [4, 78]]], 0, 0, 0, 0]],
+        locals: ["cat"],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      var child0 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 13,
+                  "column": 4
+                },
+                "end": {
+                  "line": 15,
+                  "column": 4
+                }
+              },
+              "moduleName": "simple-fit/templates/components/category-list.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("					");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("button");
+              dom.setAttribute(el1, "class", "list-group-item");
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var element0 = dom.childAt(fragment, [1]);
+              var morphs = new Array(2);
+              morphs[0] = dom.createElementMorph(element0);
+              morphs[1] = dom.createMorphAt(element0, 0, 0);
+              return morphs;
+            },
+            statements: [["element", "action", [""], [], ["loc", [null, [14, 36], [14, 49]]], 0, 0], ["content", "ex.name", ["loc", [null, [14, 50], [14, 61]]], 0, 0, 0, 0]],
+            locals: ["ex"],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 12,
+                "column": 3
+              },
+              "end": {
+                "line": 16,
+                "column": 3
+              }
+            },
+            "moduleName": "simple-fit/templates/components/category-list.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "each", [["get", "cat.exercise", ["loc", [null, [13, 12], [13, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 4], [15, 13]]]]],
+          locals: [],
+          templates: [child0]
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.2+31ba4c74",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 16,
+                "column": 3
+              },
+              "end": {
+                "line": 17,
+                "column": 3
+              }
+            },
+            "moduleName": "simple-fit/templates/components/category-list.hbs"
+          },
+          isEmpty: true,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 11,
+              "column": 2
+            },
+            "end": {
+              "line": 18,
+              "column": 2
+            }
+          },
+          "moduleName": "simple-fit/templates/components/category-list.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "if", [["get", "cat.showExercise", ["loc", [null, [12, 9], [12, 25]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [12, 3], [17, 10]]]]],
+        locals: ["cat"],
+        templates: [child0, child1]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 26,
+            "column": 9
+          }
+        },
+        "moduleName": "simple-fit/templates/components/category-list.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "col-md-3");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "col-md-3");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "col-mod-3");
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
+        morphs[2] = dom.createMorphAt(fragment, 6, 6, contextualElement);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "model", ["loc", [null, [3, 10], [3, 15]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 2], [5, 11]]]], ["block", "each", [["get", "model", ["loc", [null, [11, 10], [11, 15]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [11, 2], [18, 11]]]], ["content", "yield", ["loc", [null, [26, 0], [26, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
+define("simple-fit/templates/components/exercise-list", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 0
+          }
+        },
+        "moduleName": "simple-fit/templates/components/exercise-list.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["content", "yield", ["loc", [null, [1, 0], [1, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
     };
   })());
 });
@@ -11845,6 +12204,52 @@ define("simple-fit/templates/dregister", ["exports"], function (exports) {
     };
   })());
 });
+define("simple-fit/templates/fakeroute", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.2+31ba4c74",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 17,
+            "column": 10
+          }
+        },
+        "moduleName": "simple-fit/templates/fakeroute.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["inline", "category-list", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [16, 22], [16, 27]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [16, 0], [16, 29]]], 0, 0], ["content", "outlet", ["loc", [null, [17, 0], [17, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 define("simple-fit/templates/index", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -15088,7 +15493,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+e72c7291"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+56f41aa2"});
 }
 
 /* jshint ignore:end */

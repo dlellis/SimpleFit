@@ -1,0 +1,26 @@
+<div class="col-md-3">
+	{{!-- <div class="list-group"> --}}
+		{{#each model as |cat|}}	
+			<button class="list-group-item"{{action "toggleExercise" cat}}>{{cat.name}}</button>
+		{{/each}}		
+	{{!-- </div> --}}
+</div>
+
+<div class="col-md-3">
+	{{!-- <div class="list-group"> --}}
+		{{#each model as |cat|}}	
+			{{#if cat.showExercise}}
+				{{#each cat.exercise as |ex|}}
+					<button class="list-group-item"{{action ""}}>{{ex.name}}</button>
+				{{/each}}
+			{{else}}
+			{{/if}}
+		{{/each}}		
+	{{!-- </div> --}}
+</div>
+
+<div class="col-mod-3">
+
+</div>
+
+{{yield}}
