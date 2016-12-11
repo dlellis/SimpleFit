@@ -6,6 +6,39 @@ from django.contrib.auth.models import *
 from django.contrib import admin
 
 
+
+
+class Exercise(models.Model):
+	name = models.CharField(max_length=30, default=None)
+	category = models.CharField(max_length=30, default=None)
+	suggestreps = models.PositiveIntegerField(default=0)
+	suggestsets = models.PositiveIntegerField(default=0)
+	actualreps = models.PositiveIntegerField(default=0)
+	actualsets = models.PositiveIntegerField(default=0)
+
+class Workout(models.Model):
+	exercise = models.ForeignKey(Exercise,null=True,blank=True, on_delete=models.CASCADE, related_name="workout")
+
+class ExCat(models.Model):
+	name = models.CharField(max_length=30, default=None)
+
+	class Admin(admin.ModelAdmin):
+		list_display = ('exercise',)	
+
+	def __str__(self):
+		return self.name
+
+
+class Ex(models.Model):
+	name = models.CharField(max_length=30, default=None)
+	exercise = models.ForeignKey(ExCat,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
+
+	# class Admin(admin.ModelAdmin):
+	# 	list_display = ('category',)
+
+
+
+
 class BasicProfile(models.Model):
 	trainer = 'trainer'
 	dietitian = 'dietitian'
@@ -74,7 +107,7 @@ class ClientProfile(models.Model):
 	trainer = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="trainer")
 	dietitian = models.ForeignKey(DietitianProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="dietitian")
 	trainerpending = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="trainerpending")
-	dietitian = models.ForeignKey(DietitianProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="dietitianpending")
+	dietitianpending = models.ForeignKey(DietitianProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="dietitianpending")
 	def __str__(self):
 		return self.basicinfo.firstname+" "+self.basicinfo.lastname
 
