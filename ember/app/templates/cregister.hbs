@@ -81,9 +81,14 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Age:</b></p></div>
-					<div class="col-sm-4">
+					<div class="col-sm-4" {{ageclasses}}>
 						{{input type="text" value=content.basicprofile.age class='form-control reg-input-field' enter="cregister" placeholder="age"}}
 					</div>
+					{{#if ageerror}}
+						<div class="col-sm-5">
+							<p class="reg-label">{{ageerror}}</p>
+						</div>
+					{{/if}}
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>Gender:</b></p></div>
@@ -103,9 +108,14 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>City you live in:</b></p></div>
-					<div class="col-sm-4">
+					<div class="col-sm-4" {{cityclasses}}>
 						{{input type="text" value=content.basicprofile.city class='form-control reg-input-field' enter="cregister" placeholder="city"}}
 					</div>
+					{{#if cityerror}}
+						<div class="col-sm-5">
+							<p class="reg-label">{{cityerror}}</p>
+						</div>
+					{{/if}}					
 				</div>
 				<div class="row">
 					<div class="col-sm-3"><p class="pull-right reg-label"><b>State:</b></p></div>

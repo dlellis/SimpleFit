@@ -13,18 +13,14 @@ export default Ember.Controller.extend({
   //client-side validators
   usernameChanged: Ember.observer('content.user.username', function(){
     var user = this.get('content').user;
+    //leave it up to server side(has to call anyways)
   }),
   passwordChanged: Ember.observer('content.user.password', function(err){
     var user = this.get('content').user;
     var one = 'Passwords don\'t match'
     var two = 'You must specify a password.'
     var three = 'Your password must be at least 8 characters'
-    // if (!(user.get('password') === this.get('confirmpassword'))){
-    //     this.set('passworderror', one);
-    //     this.set('passwordclasses', 'has-error');
-    //     console.log(this.get('passworderror'))
-    //     this.err.addObject(this.get('passworderror'));
-    // }
+
 
     if (user.get('password')!=undefined&&user.get('password')==''){
         this.err.removeObject(three)
@@ -101,21 +97,91 @@ export default Ember.Controller.extend({
     }
   }),
   emailChange: Ember.observer('content.user.email', function(){
-    //var user = this.get('content').user;
+    var user = this.get('content').user;
+    var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var one = 'Not a valid email';
+    
+    if (user.get('email')!=undefined&&!reg.test(user.get('email'))){
+      this.err.addObject(one);
+      this.set('emailerror', one);
+      this.set('emailclasses', 'has-error');
+
+    }
+    else{
+      this.err.removeObjects([one]);
+      this.get('validationErrorMsg', this.err);
+      this.set('emailerror', null);
+      this.set('emailclasses', '');
+
+    }
   }),
   ageChange: Ember.observer('content.basicprofile.age', function(){
-    //var user = this.get('content').user;
+    var basicprofile = this.get('content').basicprofile;
+    var one = 'Age must be a valid number';
+    var two = 'Must be at least 12 years old to use this page';
+    var three = 'You don\'t look a day over 130. Use your real age'
+
+    if (basicprofile.get('age')!=undefined&&!/^\+?(0|[1-9]\d*)$/.test(basicprofile.get('age'))){
+      this.err.addObject(one);
+      this.err.removeObjects([two,three]);
+      this.set('ageerror', one);
+      this.set('ageclasses', 'has-error');
+
+
+    }
+    else if (basicprofile.get('age')<12){
+      this.err.addObject(two);
+      this.err.removeObjects([one,three]);
+      this.set('ageerror', two);
+      this.set('ageclasses', 'has-error');      
+
+    }
+    else if (basicprofile.get('age')>130){
+      this.err.addObject(three);
+      this.err.removeObjects([one,two]);
+      this.set('ageerror', three);
+      this.set('ageclasses', 'has-error');
+    }
+    else{
+      this.err.removeObjects([one,two,three]);
+      this.set('ageerror', null);
+      this.set('ageclasses', '');    
+
+    }
+
   }),
   genderChange: Ember.observer('content.basicprofile.gender', function(){
-    //var user = this.get('content').user;
+    //noneed for validators here
   }),
   cityChange: Ember.observer('content.basicprofile.city', function(){
-    //var user = this.get('content').user;
+    var basicprofile = this.get('content').basicprofile;
+    var one = 'Your city must contain only letters';
+    var two = 'Uhm.. your city should only be 30 characters or less';
+    if (!/^[a-z]+$/i.test(basicprofile.get('city'))){
+      this.err.removeObject(two),
+      this.err.addObject(one);
+      this.set('cityerror', one);
+      this.set('cityclasses', 'has-error');
+
+    }
+    else if (basicprofile.get('city')!=undefined&&basicprofile.get('city').length>30){
+      this.err.removeObject(one),
+      this.err.addObject(two);      
+      this.set('cityerror', two);
+      this.set('cityclasses', 'has-error'); 
+          
+    }
+    else{
+      this.err.removeObjects([one,two]);
+      this.get('validationErrorMsg', this.err);
+      this.set('cityerror', null);
+      this.set('cityclasses', '');
+    }
   }),
   stateChange: Ember.observer('content.user.state', function(){
-    //var user = this.get('content').user;
+    //no need for validators here
   }),
-  //...other validators go here
+
 
   //actions
   actions: {
@@ -123,7 +189,6 @@ export default Ember.Controller.extend({
       this.set('showPolicy', !this.get('showPolicy'));
     },
     cregister: function(err){
-      console.log('clicked regster');
       this.set('validationErrorMsg', []);
       var user = this.get('content').user;
       var basicprofile = this.get('content').basicprofile;
@@ -144,7 +209,6 @@ export default Ember.Controller.extend({
         this.err.removeObject('No field can be blank. Sorry')
         this.set('validationErrorMsg', this.err)
       if (!this.err[0]){
-        console.log('hit call')
         var requestdata = {
           'username': user.get('username'),
           'password': user.get('password'),
@@ -206,79 +270,13 @@ export default Ember.Controller.extend({
         });
       }
       else {
-        console.log(this.err)
         this.set('validationErrorMsg', this.err);
       }        
       }
       else{
 
       }
-      // else if (this.err[0]){
-      //   console.log('hit call')
-      //   var requestdata = {
-      //     'username': user.get('username'),
-      //     'password': user.get('password'),
-      //     'email': user.get('email'),
-      //     'firstname': basicprofile.get('firstname'),
-      //     'lastname': basicprofile.get('lastname'),
-      //     'gender': basicprofile.get('gender'),
-      //     'age': basicprofile.get('age'),
-      //     'city': basicprofile.get('city'),
-      //     'state': basicprofile.get('state'),
-      //     'membertype': basicprofile.get('membertype')
-          
-      //   };
-      //   Ember.$.post('../api/cregister/', requestdata, function(response){
-      //     //var errMsg = '';
-      //     var errMsg = [];
-      //     if(response.data.status ==="error"){
-      //       if(response.data.username){
-      //         errMsg.addObject(response.data.username)
 
-      //       } 
-      //       if(response.data.email){
-              
-      //         errMsg.addObject(response.data.email)
-      //       }
-      //       if(response.data.password){
-              
-      //         errMsg.addObject(response.data.password)
-      //       }
-      //       if(response.data.gender){
-      //         errMsg.addObject(response.data.gender)
-      //       }
-      //       if(response.data.state){
-      //         errMsg.addObject(response.data.state)
-      //       }                        
-      //       if(response.data.age){
-      //         errMsg.addObject(response.data.age)
-      //       } 
-      //       if(response.data.firstname){
-      //         errMsg.addObject(response.data.firstname)
-      //       }             
-      //       if(response.data.lastname){
-      //         errMsg.addObject(response.data.lastname)
-      //       }             
-      //       if(response.data.city){
-      //         errMsg.addObject(response.data.city)
-      //       }             
-      //       t.set('validationErrorMsg', errMsg);
-           
-      //     }
-      //     else{
-      //       //success
-      //       t.set('success', true);
-      //       //could forward the user to another page (like home)
-      //       //t.transitionTo('home');
-      //     }
-          
-          
-      //   });
-      // }
-      // else {
-      //   console.log(this.err)
-      //   this.set('validationErrorMsg', this.err);
-      // }
 
     },
     
