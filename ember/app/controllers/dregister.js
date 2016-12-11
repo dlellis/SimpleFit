@@ -12,56 +12,50 @@ export default Ember.Controller.extend({
 
   //client-side validators
   usernameChanged: Ember.observer('content.user.username', function(){
-    var user = this.get('content').user;
     //leave it up to server side(has to call anyways)
   }),
-  passwordChanged: Ember.observer('content.user.password', function(err){
+  passwordChanged: Ember.observer('content.user.password', function(){
     var user = this.get('content').user;
-    var one = 'Passwords don\'t match'
-    var two = 'You must specify a password.'
-    var three = 'Your password must be at least 8 characters'
+    var one = 'Passwords don\'t match';
+    var two = 'You must specify a password.';
+    var three = 'Your password must be at least 8 characters';
 
 
     if (user.get('password')!=undefined&&user.get('password')==''){
-        this.err.removeObject(three)
+        this.err.removeObject(three);
         this.set('passworderror', two);
         this.set('passwordclasses', 'has-error');
         this.err.addObject(two);
     }
     else if (user.get('password')!=undefined&&user.get('password').length<8){
-      this.err.removeObject(two)
+      this.err.removeObject(two);
       this.set('passworderror', three);
       this.set('passwordclasses', 'has-error');
       this.err.addObject(three);
     }
     else {
-      this.err.removeObjects([one,two,three])
+      this.err.removeObjects([one,two,three]);
       this.get('validationErrorMsg', this.err);
       this.set('passworderror', null);
       this.set('passwordclasses', '');
       
     }
   }),
-  firstnameChange: Ember.observer('content.basicprofile.firstname', function(err){
+  firstnameChange: Ember.observer('content.basicprofile.firstname', function(){
     var basicprofile = this.get('content').basicprofile;
     var one = 'Your first name must contain only letters';
     var two = 'Uhm.. your first name should only be 30 characters or less';
     if (!/^[a-z]+$/i.test(basicprofile.get('firstname'))){
-      this.err.removeObject(two),
+      this.err.removeObject(two);
       this.set('firstnameerror', one);
       this.set('firstnameclasses', 'has-error');
       this.err.addObject(one);
-      //this.set('validationErrorMsg', this.err);
     }
     else if (basicprofile.get('firstname')!=undefined&&basicprofile.get('firstname').length>30){
-      this.err.removeObject(one)
-      
-      console.log(this.get('validationErrorMsg'))
+      this.err.removeObject(one);
       this.set('firstnameerror', two);
       this.set('firstnameclasses', 'has-error'); 
-      //this.set('validationErrorMsg', ['less than 30'])
       this.err.addObject(two);
-      //this.set('validationErrorMsg', this.err);   
     }
 
     else{
@@ -83,7 +77,7 @@ export default Ember.Controller.extend({
 
     }
     else if (basicprofile.get('lastname')!=undefined&&basicprofile.get('lastname').length>30){
-      this.err.removeObject(one),
+      this.err.removeObject(one);
       this.err.addObject(two);      
       this.set('lastnameerror', two);
       this.set('lastnameclasses', 'has-error'); 
@@ -188,10 +182,11 @@ export default Ember.Controller.extend({
     showPolicy: function(){
       this.set('showPolicy', !this.get('showPolicy'));
     },
-    cregister: function(err){
+    dregister: function(err){
       this.set('validationErrorMsg', []);
       var user = this.get('content').user;
       var basicprofile = this.get('content').basicprofile;
+      var dietitianprofile = this.get('content').dietitianprofile;
       var t = this;
       if (user.get('username')==undefined||user.get('password')==undefined||user.get('email')==undefined||
         basicprofile.get('firstname')==undefined||basicprofile.get('lastname')==undefined||
@@ -205,8 +200,8 @@ export default Ember.Controller.extend({
         basicprofile.get('firstname')==undefined||basicprofile.get('lastname')==undefined||
         basicprofile.get('gender')==undefined||basicprofile.get('age')==undefined||basicprofile.get('city')==undefined||
         basicprofile.get('state')==undefined)){
-        this.err.removeObject('No field can be blank. Sorry')
-        this.set('validationErrorMsg', this.err)
+        this.err.removeObject('No field can be blank. Sorry');
+        this.set('validationErrorMsg', this.err);
       if (!this.err[0]){
         var requestdata = {
           'username': user.get('username'),
@@ -218,42 +213,43 @@ export default Ember.Controller.extend({
           'age': basicprofile.get('age'),
           'city': basicprofile.get('city'),
           'state': basicprofile.get('state'),
-          'membertype': basicprofile.get('membertype')
+          'membertype': basicprofile.get('membertype'),
+          'specialty': dietitianprofile.get('specialty')
           
         };
-        Ember.$.post('../api/cregister/', requestdata, function(response){
+        Ember.$.post('../api/dregister/', requestdata, function(response){
           //var errMsg = '';
           var errMsg = [];
           if(response.data.status ==="error"){
             if(response.data.username){
-              errMsg.addObject(response.data.username)
+              errMsg.addObject(response.data.username);
 
             } 
             if(response.data.email){
               
-              errMsg.addObject(response.data.email)
+              errMsg.addObject(response.data.email);
             }
             if(response.data.password){
               
-              errMsg.addObject(response.data.password)
+              errMsg.addObject(response.data.password);
             }
             if(response.data.gender){
-              errMsg.addObject(response.data.gender)
+              errMsg.addObject(response.data.gender);
             }
             if(response.data.state){
-              errMsg.addObject(response.data.state)
+              errMsg.addObject(response.data.state);
             }                        
             if(response.data.age){
-              errMsg.addObject(response.data.age)
+              errMsg.addObject(response.data.age);
             } 
             if(response.data.firstname){
-              errMsg.addObject(response.data.firstname)
+              errMsg.addObject(response.data.firstname);
             }             
             if(response.data.lastname){
-              errMsg.addObject(response.data.lastname)
+              errMsg.addObject(response.data.lastname);
             }             
             if(response.data.city){
-              errMsg.addObject(response.data.city)
+              errMsg.addObject(response.data.city);
             }             
             t.set('validationErrorMsg', errMsg);
            

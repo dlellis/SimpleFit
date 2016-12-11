@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from api.models import Client, ClientProfile, BasicProfile, TrainerProfile
+from api.models import *
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from api.serializers import *
@@ -30,7 +30,7 @@ class Cregister(APIView):
 		city = request.POST.get('city') 
 		state = request.POST.get('state')
 		membertype = 'client'
-		cert = request.POST.get('certification')
+		
 
 		response = check_basic(username,password,email,gender,age,firstname,lastname,city,state)
 		
@@ -66,11 +66,11 @@ class Tregister(APIView):
 		membertype = 'trainer'
 		cert = request.POST.get('certification')
 
-		print request.POST.get('username')
-		if User.objects.filter(username=username).exists():
-			return Response({'username': 'Username is taken.', 'status': 'error'})
-		elif User.objects.filter(email=email).exists():
-			return Response({'email': 'Email is taken.', 'status': 'error'})
+		response = check_basic(username,password,email,gender,age,firstname,lastname,city,state)
+		
+		#If dictionary is not empty
+		if response:
+			return Response(response)
 
 		#especially before you pass them in here
 		newuser = User.objects.create_user(email=email, username=username, password=password)
@@ -82,37 +82,42 @@ class Tregister(APIView):
 
 		return Response({'status': 'success', 'userid': newuser.id, 'basicprofileid': newbasicprofile.id, 'trainerprofileid': newtrainerprofile.id})
 
-class Register(APIView):
+
+class Dregister(APIView):
 	permission_classes = (AllowAny,)
 
 	def post(self, request, *args, **kwargs):
 		# Login
-		username = request.POST.get('username') #you need to apply validators to these
-		password = request.POST.get('password') #you need to apply validators to these
-		email = request.POST.get('email') #you need to apply validators to these
-		gender = request.POST.get('gender') #you need to apply validators to these
-		age = request.POST.get('age') #you need to apply validators to these
-		firstname = request.POST.get('firstname') #you need to apply validators to these
+		username = request.POST.get('username') 
+		password = request.POST.get('password') 
+		email = request.POST.get('email') 
+		gender = request.POST.get('gender') 
+		age = request.POST.get('age') 
+		firstname = request.POST.get('firstname') 
 		lastname = request.POST.get('lastname')
-		city = request.POST.get('city') #you need to apply validators to these
-		state = request.POST.get('state') #you need to apply validators to these
-		cert = request.POST.get('certification')
+		city = request.POST.get('city') 
+		state = request.POST.get('state')
+		membertype = 'dietitian'
+		specialty = request.POST.get('specialty')
 
-		print request.POST.get('username')
-		if User.objects.filter(username=username).exists():
-			return Response({'username': 'Username is taken.', 'status': 'error'})
-		elif User.objects.filter(email=email).exists():
-			return Response({'email': 'Email is taken.', 'status': 'error'})
+		response = check_basic(username,password,email,gender,age,firstname,lastname,city,state)
+		
+		#If dictionary is not empty
+		if response:
+			return Response(response)
 
 		#especially before you pass them in here
 		newuser = User.objects.create_user(email=email, username=username, password=password)
 
-		newbasicprofile = BasicProfile(firstname=firstname, lastname=lastname, gender=gender, age=age, city=city, state=state)
+		newbasicprofile = BasicProfile(user=newuser, firstname=firstname, lastname=lastname, gender=gender, age=age, city=city, state=state, membertype=membertype)
 		newbasicprofile.save()
-		newclientprofile = ClientProfile(user=newuser, basicinfo=newbasicprofile, certification=cert )
-		newclientprofile.save()
+		newdietitianprofile = DietitianProfile(basicinfo=newbasicprofile, specialty=specialty )
+		newdietitianprofile.save()
 
-		return Response({'status': 'success', 'userid': newuser.id, 'basicprofileid': newbasicprofile.id, 'clientprofile': newclientprofile.id})
+		return Response({'status': 'success', 'userid': newuser.id, 'basicprofileid': newbasicprofile.id, 'dietitianprofileid': newdietitianprofile.id})
+
+
+
 
 
 class Session(APIView):
@@ -164,12 +169,15 @@ class ClientViewSet(viewsets.ModelViewSet):
 	resource_name = 'clients'
 
 
-
-
 class TrainerProfileViewSet(viewsets.ModelViewSet):
 	queryset = TrainerProfile.objects.all()
 	serializer_class = TrainerProfileSerializer
 	resource_name = 'trainerprofiles'
+
+class DietitianProfileViewSet(viewsets.ModelViewSet):
+	queryset = DietitianProfile.objects.all()
+	serializer_class = DietitianProfileSerializer
+	resource_name = 'dietitianprofiles'
 
 
 class ClientProfileViewSet(viewsets.ModelViewSet):

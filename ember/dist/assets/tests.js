@@ -123,7 +123,16 @@ define('simple-fit/tests/controllers/cregister.jshint', ['exports'], function (e
   QUnit.module('JSHint | controllers/cregister.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/cregister.js should pass jshint.\ncontrollers/cregister.js: line 15, col 9, \'user\' is defined but never used.\ncontrollers/cregister.js: line 20, col 39, Missing semicolon.\ncontrollers/cregister.js: line 21, col 45, Missing semicolon.\ncontrollers/cregister.js: line 22, col 62, Missing semicolon.\ncontrollers/cregister.js: line 25, col 31, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 25, col 64, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 26, col 37, Missing semicolon.\ncontrollers/cregister.js: line 31, col 36, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 32, col 33, Missing semicolon.\ncontrollers/cregister.js: line 38, col 46, Missing semicolon.\ncontrollers/cregister.js: line 18, col 69, \'err\' is defined but never used.\ncontrollers/cregister.js: line 51, col 37, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 56, col 45, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 57, col 33, Missing semicolon.\ncontrollers/cregister.js: line 59, col 50, Missing semicolon.\ncontrollers/cregister.js: line 45, col 78, \'err\' is defined but never used.\ncontrollers/cregister.js: line 80, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 85, col 44, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 87, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 104, col 28, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 122, col 68, Missing semicolon.\ncontrollers/cregister.js: line 124, col 34, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 162, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 167, col 40, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 169, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 197, col 33, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 197, col 66, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 197, col 96, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 198, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 198, col 81, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 199, col 37, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 199, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 199, col 110, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 200, col 36, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 201, col 59, Missing semicolon.\ncontrollers/cregister.js: line 202, col 49, Missing semicolon.\ncontrollers/cregister.js: line 205, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 205, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 205, col 103, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 206, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 206, col 81, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 207, col 37, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 207, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 207, col 110, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 208, col 36, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 209, col 62, Missing semicolon.\ncontrollers/cregister.js: line 210, col 49, Missing semicolon.\ncontrollers/cregister.js: line 230, col 55, Missing semicolon.\ncontrollers/cregister.js: line 235, col 52, Missing semicolon.\ncontrollers/cregister.js: line 239, col 55, Missing semicolon.\ncontrollers/cregister.js: line 239, col 55, Too many errors. (84% scanned).\n\n52 errors');
+    assert.ok(false, 'controllers/cregister.js should pass jshint.\ncontrollers/cregister.js: line 15, col 9, \'user\' is defined but never used.\ncontrollers/cregister.js: line 20, col 39, Missing semicolon.\ncontrollers/cregister.js: line 21, col 45, Missing semicolon.\ncontrollers/cregister.js: line 22, col 62, Missing semicolon.\ncontrollers/cregister.js: line 25, col 31, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 25, col 64, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 26, col 37, Missing semicolon.\ncontrollers/cregister.js: line 31, col 36, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 32, col 33, Missing semicolon.\ncontrollers/cregister.js: line 38, col 46, Missing semicolon.\ncontrollers/cregister.js: line 18, col 69, \'err\' is defined but never used.\ncontrollers/cregister.js: line 51, col 37, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 56, col 45, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 57, col 33, Missing semicolon.\ncontrollers/cregister.js: line 59, col 50, Missing semicolon.\ncontrollers/cregister.js: line 45, col 78, \'err\' is defined but never used.\ncontrollers/cregister.js: line 80, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 85, col 44, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 87, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 104, col 28, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 122, col 68, Missing semicolon.\ncontrollers/cregister.js: line 124, col 34, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 162, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 167, col 40, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/cregister.js: line 169, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/cregister.js: line 196, col 33, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 196, col 66, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 196, col 96, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 197, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 197, col 81, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 198, col 37, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 198, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 198, col 110, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 199, col 36, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 200, col 59, Missing semicolon.\ncontrollers/cregister.js: line 201, col 49, Missing semicolon.\ncontrollers/cregister.js: line 204, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 204, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 204, col 103, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 205, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 205, col 81, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 206, col 37, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 206, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 206, col 110, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 207, col 36, Expected \'===\' and instead saw \'==\'.\ncontrollers/cregister.js: line 208, col 62, Missing semicolon.\ncontrollers/cregister.js: line 209, col 49, Missing semicolon.\ncontrollers/cregister.js: line 229, col 55, Missing semicolon.\ncontrollers/cregister.js: line 234, col 52, Missing semicolon.\ncontrollers/cregister.js: line 238, col 55, Missing semicolon.\ncontrollers/cregister.js: line 238, col 55, Too many errors. (84% scanned).\n\n52 errors');
+  });
+});
+define('simple-fit/tests/controllers/dregister.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | controllers/dregister.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'controllers/dregister.js should pass jshint.\ncontrollers/dregister.js: line 24, col 31, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/dregister.js: line 24, col 64, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 30, col 36, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/dregister.js: line 54, col 45, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/dregister.js: line 74, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/dregister.js: line 79, col 44, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/dregister.js: line 98, col 28, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/dregister.js: line 116, col 68, Missing semicolon.\ncontrollers/dregister.js: line 118, col 34, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/dregister.js: line 156, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/dregister.js: line 161, col 40, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/dregister.js: line 163, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/dregister.js: line 191, col 33, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 191, col 66, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 191, col 96, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 192, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 192, col 81, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 193, col 37, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 193, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 193, col 110, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 194, col 36, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 195, col 59, Missing semicolon.\ncontrollers/dregister.js: line 196, col 49, Missing semicolon.\ncontrollers/dregister.js: line 199, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 199, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 199, col 103, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 200, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 200, col 81, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 201, col 37, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 201, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 201, col 110, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 202, col 36, Expected \'===\' and instead saw \'==\'.\ncontrollers/dregister.js: line 185, col 25, \'err\' is defined but never used.\n\n33 errors');
   });
 });
 define('simple-fit/tests/controllers/login.jshint', ['exports'], function (exports) {
@@ -168,7 +177,7 @@ define('simple-fit/tests/controllers/tregister.jshint', ['exports'], function (e
   QUnit.module('JSHint | controllers/tregister.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/tregister.js should pass jshint.\ncontrollers/tregister.js: line 18, col 31, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 18, col 64, Expected \'===\' and instead saw \'==\'.\n\n2 errors');
+    assert.ok(false, 'controllers/tregister.js should pass jshint.\ncontrollers/tregister.js: line 24, col 31, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/tregister.js: line 24, col 64, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 30, col 36, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/tregister.js: line 54, col 45, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/tregister.js: line 74, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/tregister.js: line 79, col 44, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/tregister.js: line 98, col 28, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/tregister.js: line 116, col 68, Missing semicolon.\ncontrollers/tregister.js: line 118, col 34, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/tregister.js: line 156, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/tregister.js: line 161, col 40, Expected \'!==\' and instead saw \'!=\'.\ncontrollers/tregister.js: line 163, col 29, Expected an assignment or function call and instead saw an expression.\ncontrollers/tregister.js: line 191, col 33, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 191, col 66, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 191, col 96, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 192, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 192, col 81, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 193, col 37, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 193, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 193, col 110, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 194, col 36, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 195, col 59, Missing semicolon.\ncontrollers/tregister.js: line 196, col 49, Missing semicolon.\ncontrollers/tregister.js: line 199, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 199, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 199, col 103, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 200, col 40, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 200, col 81, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 201, col 37, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 201, col 73, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 201, col 110, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 202, col 36, Expected \'===\' and instead saw \'==\'.\ncontrollers/tregister.js: line 185, col 25, \'err\' is defined but never used.\n\n33 errors');
   });
 });
 define('simple-fit/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
@@ -1347,6 +1356,15 @@ define('simple-fit/tests/models/clientprofile.jshint', ['exports'], function (ex
     assert.ok(true, 'models/clientprofile.js should pass jshint.');
   });
 });
+define('simple-fit/tests/models/dietitianprofile.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/dietitianprofile.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'models/dietitianprofile.js should pass jshint.\nmodels/dietitianprofile.js: line 4, col 31, Unexpected \')\'.\nmodels/dietitianprofile.js: line 4, col 31, Expected an identifier and instead saw \')\'.\nmodels/dietitianprofile.js: line 5, col 14, Expected \')\' and instead saw \':\'.\nmodels/dietitianprofile.js: line 5, col 16, Expected \'}\' to match \'{\' from line 3 and instead saw \'DS\'.\nmodels/dietitianprofile.js: line 5, col 44, Unexpected \')\'.\nmodels/dietitianprofile.js: line 5, col 44, Expected an identifier and instead saw \')\'.\nmodels/dietitianprofile.js: line 6, col 14, Expected \')\' and instead saw \':\'.\nmodels/dietitianprofile.js: line 6, col 16, Expected \')\' and instead saw \'DS\'.\nmodels/dietitianprofile.js: line 6, col 33, Missing semicolon.\nmodels/dietitianprofile.js: line 6, col 33, Expected an identifier and instead saw \',\'.\nmodels/dietitianprofile.js: line 6, col 33, Expected an assignment or function call and instead saw an expression.\nmodels/dietitianprofile.js: line 6, col 34, Missing semicolon.\nmodels/dietitianprofile.js: line 7, col 16, Label \'dietitian\' on DS statement.\nmodels/dietitianprofile.js: line 8, col 5, Expected an assignment or function call and instead saw an expression.\nmodels/dietitianprofile.js: line 8, col 21, Missing semicolon.\nmodels/dietitianprofile.js: line 8, col 5, Unrecoverable syntax error. (80% scanned).\n\n17 errors');
+  });
+});
 define('simple-fit/tests/models/profile.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1674,6 +1692,28 @@ define('simple-fit/tests/unit/controllers/cregister-test.jshint', ['exports'], f
     assert.ok(true, 'unit/controllers/cregister-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/unit/controllers/dregister-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleFor)('controller:dregister', 'Unit | Controller | dregister', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var controller = this.subject();
+    assert.ok(controller);
+  });
+});
+define('simple-fit/tests/unit/controllers/dregister-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/controllers/dregister-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/dregister-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/unit/controllers/newfeature-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleFor)('controller:newfeature', 'Unit | Controller | newfeature', {
@@ -1945,6 +1985,28 @@ define('simple-fit/tests/unit/models/clientprofile-test.jshint', ['exports'], fu
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/models/clientprofile-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/models/dietitianprofile-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('dietitianprofile', 'Unit | Model | dietitianprofile', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/dietitianprofile-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/dietitianprofile-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/dietitianprofile-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/models/profile-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {

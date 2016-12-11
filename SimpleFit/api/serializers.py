@@ -7,7 +7,7 @@ from rest_framework_nested.relations import NestedHyperlinkedRelatedField
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 	basicprofile = ResourceRelatedField(
-	#queryset = User.objects)
+
 	read_only=True)
 
 	email = serializers.EmailField()
@@ -46,6 +46,27 @@ class TrainerProfileSerializer(serializers.HyperlinkedModelSerializer):
 		model = TrainerProfile
 		fields = '__all__'
 
+class DietitianProfileSerializer(serializers.HyperlinkedModelSerializer):
+
+
+	dieitian = ResourceRelatedField(
+		queryset = ClientProfile.objects,
+		many = True,
+		
+		)
+
+	dietitianpending = ResourceRelatedField(
+	queryset = ClientProfile.objects,
+	many = True,
+	
+	
+	)
+
+
+	class Meta:
+		model = DietitianProfile
+		fields = '__all__'
+
 class BasicProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 	user = ResourceRelatedField(
@@ -60,31 +81,37 @@ class BasicProfileSerializer(serializers.HyperlinkedModelSerializer):
 	#queryset = User.objects)
 	read_only=True)
 
+	dietitianprofile = ResourceRelatedField(
+	#queryset = User.objects)
+	read_only=True)
+
 	class Meta:
 		model = BasicProfile
 		fields = '__all__'
 		
 
 class ClientProfileSerializer(serializers.HyperlinkedModelSerializer):
-	# basicinfo = BasicProfileSerializer(read_only=True)
-	# trainer = TrainerProfileSerializer(allow_null=True)
-	# trainerpending = TrainerProfileSerializer(allow_null=True)
-	basicinfo = ResourceRelatedField(
-		#queryset = BasicProfile.objects,
-		read_only = True,
-		)
+
 	basicinfo = BasicProfileSerializer(read_only=True)
 
 	trainer = ResourceRelatedField(
 		queryset = TrainerProfile.objects,
-		#read_only = True,
 		allow_null=True,
 		)
 
 
 	trainerpending = ResourceRelatedField(
 		queryset = TrainerProfile.objects,
-		#read_only = True,
+		allow_null=True,
+		)
+
+	dietitianpending = ResourceRelatedField(
+		queryset = DietitianProfile.objects,
+		allow_null=True,
+		)
+
+	dietitian = ResourceRelatedField(
+		queryset = DietitianProfile.objects,
 		allow_null=True,
 		)
 

@@ -12,6 +12,7 @@ router.register(r'clients', ClientViewSet)
 router.register(r'clientprofiles', ClientProfileViewSet),
 router.register(r'basicprofiles', BasicProfileViewSet),
 router.register(r'trainerprofiles', TrainerProfileViewSet),
+router.register(r'dietitianprofiles', DietitianProfileViewSet),
 
 
 
@@ -22,9 +23,9 @@ urlpatterns = [
     
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
 	url(r'^session/', csrf_exempt(Session.as_view())),
-	#url(r'^register', csrf_exempt(Register.as_view())),
 	url(r'^tregister', csrf_exempt(Tregister.as_view())),
 	url(r'^cregister', csrf_exempt(Cregister.as_view())),
+	url(r'^dregister', csrf_exempt(Dregister.as_view())),
 	url(r'^', include(router.urls)),
 
 ]
