@@ -27,22 +27,22 @@ You have a trainer.
 {{else}}
 <h1>Available Trainers:</h1>
 <ul class="row-fluid block-grid-3">
-{{#each model as |basicprofile|}}
-  {{#if (eq basicprofile.membertype "trainer")}}
+{{#each model as |prof|}}
+  {{!-- {{#if (eq basicprofile.membertype "trainer")}} --}}
     <li class="market">
-    <h4>{{basicprofile.firstname}} {{basicprofile.lastname}}</h4>
-    <h4>Gender: {{basicprofile.gender}}</h4>
-    <h4>Age: {{basicprofile.age}}</h4>
-    <h4>Certification: {{basicprofile.trainerprofile.certification}}</h4>
-    <button type="submit" class="btn" {{action "requestTrainer" basicprofile}}>Request</button>
+    <h4>{{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h4>
+    <h4>Gender: {{prof.basicinfo.gender}}</h4>
+    <h4>Age: {{prof.basicinfo.age}}</h4>
+    <h4>Certification: {{prof.certification}}</h4>
+    <button type="submit" class="btn" {{action "requestTrainer" prof}}>Request</button>
     </li>
-    {{else}}
+{{!--     {{else}}
   
-    {{/if}}
+    {{/if}} --}}
 {{/each}}
 </ul>
 
- {{/if}}
+{{/if}}
 
 
 

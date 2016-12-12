@@ -27,18 +27,14 @@ You have a dietitian.
 {{else}}
 <h1>Available dietitians:</h1>
 <ul class="row-fluid block-grid-3">
-{{#each model as |basicprofile|}}
-  {{#if (eq basicprofile.membertype "dietitian")}}
+{{#each model as |dprofile|}}
     <li class="market">
-    <h4>{{basicprofile.firstname}} {{basicprofile.lastname}}</h4>
-    <h4>Gender: {{basicprofile.gender}}</h4>
-    <h4>Age: {{basicprofile.age}}</h4>
-    <h4>Certification: {{basicprofile.dietitianprofile.certification}}</h4>
-    <button type="submit" class="btn" {{action "requestDietitian" basicprofile}}>Request</button>
+    <h4>{{dprofile.basicinfo.firstname}} {{dprofile.basicinfo.lastname}}</h4>
+    <h4>Gender: {{bdprofile.basicinfo.gender}}</h4>
+    <h4>Age: {{bdprofile.basicinfo.age}}</h4>
+    <h4>Specialty: {{dprofile.specialty}}</h4>
+    <button type="submit" class="btn" {{action "requestDietitian" dprofile}}>Request</button>
     </li>
-    {{else}}
-  
-    {{/if}}
 {{/each}}
 </ul>
 
