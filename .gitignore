@@ -4,6 +4,10 @@
 /dist
 /tmp
 tmp/
+/dist/*
+dist/*
+dist/
+
 
 # dependencies
 /node_modules
