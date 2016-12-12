@@ -1645,6 +1645,13 @@ define('simple-fit/models/client', ['exports', 'ember-data'], function (exports,
         lastname: _emberData['default'].attr('string')
     });
 });
+define('simple-fit/models/clientexercise', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		name: _emberData['default'].attr('string'),
+		workout: _emberData['default'].belongsTo('clientworkout', { async: true })
+
+	});
+});
 define('simple-fit/models/clientprofile', ['exports', 'ember-data'], function (exports, _emberData) {
 	exports['default'] = _emberData['default'].Model.extend({
 		user: _emberData['default'].belongsTo('user', { async: true }),
@@ -1653,6 +1660,13 @@ define('simple-fit/models/clientprofile', ['exports', 'ember-data'], function (e
 		trainerpending: _emberData['default'].belongsTo('trainerprofile', { async: true, inverse: 'trainerpending' }),
 		dietitian: _emberData['default'].belongsTo('dietitianprofile', { async: true, inverse: 'dietitian' }),
 		dietitianpending: _emberData['default'].belongsTo('dietitianprofile', { async: true, inverse: 'dietitianpending' })
+	});
+});
+define('simple-fit/models/clientworkout', ['exports', 'ember-data'], function (exports, _emberData) {
+	exports['default'] = _emberData['default'].Model.extend({
+		name: _emberData['default'].attr('string'),
+		exercise: _emberData['default'].hasMany('clientexercise', { async: true })
+
 	});
 });
 define('simple-fit/models/dietitianprofile', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -1793,10 +1807,14 @@ define('simple-fit/routes/dregister', ['exports', 'ember', 'rsvp'], function (ex
     }
   });
 });
-define('simple-fit/routes/fakeroute', ['exports', 'ember'], function (exports, _ember) {
+define('simple-fit/routes/fakeroute', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
 	exports['default'] = _ember['default'].Route.extend({
 		model: function model() {
-			return this.store.findAll('category');
+			return _rsvp['default'].hash({
+				category: this.store.findAll('category'),
+				workout: this.store.findRecord('clientworkout', 1)
+
+			});
 		}
 	});
 });
@@ -4243,11 +4261,11 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
           "loc": {
             "source": null,
             "start": {
-              "line": 3,
+              "line": 7,
               "column": 2
             },
             "end": {
-              "line": 5,
+              "line": 9,
               "column": 2
             }
           },
@@ -4277,7 +4295,7 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
           morphs[1] = dom.createMorphAt(element1, 0, 0);
           return morphs;
         },
-        statements: [["element", "action", ["toggleExercise", ["get", "cat", ["loc", [null, [4, 60], [4, 63]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 34], [4, 65]]], 0, 0], ["content", "cat.name", ["loc", [null, [4, 66], [4, 78]]], 0, 0, 0, 0]],
+        statements: [["element", "action", ["toggleExercise", ["get", "cat", ["loc", [null, [8, 60], [8, 63]]], 0, 0, 0, 0]], [], ["loc", [null, [8, 34], [8, 65]]], 0, 0], ["content", "cat.name", ["loc", [null, [8, 66], [8, 78]]], 0, 0, 0, 0]],
         locals: ["cat"],
         templates: []
       };
@@ -4285,48 +4303,122 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
     var child1 = (function () {
       var child0 = (function () {
         var child0 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.2+31ba4c74",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 15,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 4
+                  }
+                },
+                "moduleName": "simple-fit/templates/components/category-list.hbs"
+              },
+              isEmpty: false,
+              arity: 1,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("					");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("button");
+                dom.setAttribute(el1, "class", "list-group-item");
+                var el2 = dom.createComment("");
+                dom.appendChild(el1, el2);
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                var element0 = dom.childAt(fragment, [1]);
+                var morphs = new Array(2);
+                morphs[0] = dom.createElementMorph(element0);
+                morphs[1] = dom.createMorphAt(element0, 0, 0);
+                return morphs;
+              },
+              statements: [["element", "action", [""], [], ["loc", [null, [16, 36], [16, 49]]], 0, 0], ["content", "ex.name", ["loc", [null, [16, 50], [16, 61]]], 0, 0, 0, 0]],
+              locals: ["ex"],
+              templates: []
+            };
+          })();
           return {
             meta: {
               "revision": "Ember@2.8.2+31ba4c74",
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 13,
-                  "column": 4
+                  "line": 14,
+                  "column": 3
                 },
                 "end": {
-                  "line": 15,
-                  "column": 4
+                  "line": 18,
+                  "column": 3
                 }
               },
               "moduleName": "simple-fit/templates/components/category-list.hbs"
             },
             isEmpty: false,
-            arity: 1,
+            arity: 0,
             cachedFragment: null,
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("					");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("button");
-              dom.setAttribute(el1, "class", "list-group-item");
-              var el2 = dom.createComment("");
-              dom.appendChild(el1, el2);
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
+              var el1 = dom.createComment("");
               dom.appendChild(el0, el1);
               return el0;
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element0 = dom.childAt(fragment, [1]);
-              var morphs = new Array(2);
-              morphs[0] = dom.createElementMorph(element0);
-              morphs[1] = dom.createMorphAt(element0, 0, 0);
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
               return morphs;
             },
-            statements: [["element", "action", [""], [], ["loc", [null, [14, 36], [14, 49]]], 0, 0], ["content", "ex.name", ["loc", [null, [14, 50], [14, 61]]], 0, 0, 0, 0]],
-            locals: ["ex"],
+            statements: [["block", "each", [["get", "cat.exercise", ["loc", [null, [15, 12], [15, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 4], [17, 13]]]]],
+            locals: [],
+            templates: [child0]
+          };
+        })();
+        var child1 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.2+31ba4c74",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 18,
+                  "column": 3
+                },
+                "end": {
+                  "line": 21,
+                  "column": 3
+                }
+              },
+              "moduleName": "simple-fit/templates/components/category-list.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("\n\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
             templates: []
           };
         })();
@@ -4336,18 +4428,18 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
             "loc": {
               "source": null,
               "start": {
-                "line": 12,
-                "column": 3
+                "line": 13,
+                "column": 2
               },
               "end": {
-                "line": 16,
-                "column": 3
+                "line": 22,
+                "column": 2
               }
             },
             "moduleName": "simple-fit/templates/components/category-list.hbs"
           },
           isEmpty: false,
-          arity: 0,
+          arity: 1,
           cachedFragment: null,
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
@@ -4363,42 +4455,9 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "each", [["get", "cat.exercise", ["loc", [null, [13, 12], [13, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 4], [15, 13]]]]],
-          locals: [],
-          templates: [child0]
-        };
-      })();
-      var child1 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.2+31ba4c74",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 16,
-                "column": 3
-              },
-              "end": {
-                "line": 17,
-                "column": 3
-              }
-            },
-            "moduleName": "simple-fit/templates/components/category-list.hbs"
-          },
-          isEmpty: true,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
-          },
-          statements: [],
-          locals: [],
-          templates: []
+          statements: [["block", "if", [["get", "cat.showExercise", ["loc", [null, [14, 9], [14, 25]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [14, 3], [21, 10]]]]],
+          locals: ["cat"],
+          templates: [child0, child1]
         };
       })();
       return {
@@ -4411,32 +4470,74 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
               "column": 2
             },
             "end": {
-              "line": 18,
+              "line": 23,
               "column": 2
             }
           },
           "moduleName": "simple-fit/templates/components/category-list.hbs"
         },
         isEmpty: false,
-        arity: 1,
+        arity: 0,
         cachedFragment: null,
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("		");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("h2");
+          var el2 = dom.createTextNode("Select Exercise");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          dom.insertBoundary(fragment, 0);
+          morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "if", [["get", "cat.showExercise", ["loc", [null, [12, 9], [12, 25]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [12, 3], [17, 10]]]]],
-        locals: ["cat"],
-        templates: [child0, child1]
+        statements: [["block", "each", [["get", "model.category", ["loc", [null, [13, 10], [13, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 2], [22, 11]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })();
+    var child2 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2+31ba4c74",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 23,
+              "column": 2
+            },
+            "end": {
+              "line": 25,
+              "column": 2
+            }
+          },
+          "moduleName": "simple-fit/templates/components/category-list.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
       };
     })();
     return {
@@ -4449,7 +4550,7 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
             "column": 0
           },
           "end": {
-            "line": 26,
+            "line": 40,
             "column": 9
           }
         },
@@ -4461,27 +4562,45 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "col-md-3");
-        var el2 = dom.createTextNode("\n");
+        var el1 = dom.createElement("h1");
+        var el2 = dom.createTextNode("Create Workout");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "col-md-3");
-        var el2 = dom.createTextNode("\n");
+        dom.setAttribute(el1, "class", "col-md-4");
+        var el2 = dom.createTextNode("\n\n	");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "list-group");
+        var el3 = dom.createTextNode("\n	\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("	");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("hr");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n	");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "col-mod-3");
-        var el2 = dom.createTextNode("\n\n");
+        dom.setAttribute(el1, "class", "col-mod-4");
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -4491,16 +4610,17 @@ define("simple-fit/templates/components/category-list", ["exports"], function (e
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element2 = dom.childAt(fragment, [3, 1]);
         var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
-        morphs[2] = dom.createMorphAt(fragment, 6, 6, contextualElement);
+        morphs[0] = dom.createMorphAt(element2, 1, 1);
+        morphs[1] = dom.createMorphAt(element2, 5, 5);
+        morphs[2] = dom.createMorphAt(fragment, 8, 8, contextualElement);
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [3, 10], [3, 15]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 2], [5, 11]]]], ["block", "each", [["get", "model", ["loc", [null, [11, 10], [11, 15]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [11, 2], [18, 11]]]], ["content", "yield", ["loc", [null, [26, 0], [26, 9]]], 0, 0, 0, 0]],
+      statements: [["block", "each", [["get", "model.category", ["loc", [null, [7, 10], [7, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 2], [9, 11]]]], ["block", "if", [["get", "expanded", ["loc", [null, [11, 8], [11, 16]]], 0, 0, 0, 0]], [], 1, 2, ["loc", [null, [11, 2], [25, 9]]]], ["content", "yield", ["loc", [null, [40, 0], [40, 9]]], 0, 0, 0, 0]],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0, child1, child2]
     };
   })());
 });
@@ -15493,7 +15613,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+56f41aa2"});
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+54744e48"});
 }
 
 /* jshint ignore:end */

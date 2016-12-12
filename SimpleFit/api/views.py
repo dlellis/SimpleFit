@@ -158,6 +158,24 @@ class Session(APIView):
 
 
 # Create your views here.
+class ClientWorkoutViewSet(viewsets.ModelViewSet):
+	queryset = ClientWorkout.objects.all()
+	serializer_class = ClientWorkoutSerializer	
+
+class ClientExerciseViewSet(viewsets.ModelViewSet):
+	queryset = ClientExercise.objects.all()
+	serializer_class = ClientExerciseSerializer	
+
+class CategoryViewSet(viewsets.ModelViewSet):
+	queryset = Category.objects.all()
+	serializer_class = CategorySerializer
+
+
+class ExerciseViewSet(viewsets.ModelViewSet):
+	queryset = Exercise.objects.all()
+	serializer_class = ExerciseSerializer
+
+
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
@@ -174,10 +192,14 @@ class TrainerProfileViewSet(viewsets.ModelViewSet):
 	serializer_class = TrainerProfileSerializer
 	resource_name = 'trainerprofiles'
 
+
+
 class DietitianProfileViewSet(viewsets.ModelViewSet):
 	queryset = DietitianProfile.objects.all()
 	serializer_class = DietitianProfileSerializer
 	resource_name = 'dietitianprofiles'
+
+
 
 
 class ClientProfileViewSet(viewsets.ModelViewSet):

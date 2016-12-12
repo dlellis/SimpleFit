@@ -2,8 +2,52 @@
 from rest_framework_json_api import serializers
 from api.models import *
 from django.contrib.auth.models import User
-from rest_framework_json_api.relations import ResourceRelatedField, HyperlinkedIdentityField#, NestedHyperlinkedRelatedField
-from rest_framework_nested.relations import NestedHyperlinkedRelatedField
+from rest_framework_json_api.relations import ResourceRelatedField
+
+class ClientWorkoutSerializer(serializers.HyperlinkedModelSerializer):
+	exercise = ResourceRelatedField(
+	#queryset = User.objects)
+	many=True,
+	read_only=True)
+
+	class Meta:
+		model = ClientWorkout
+		fields = '__all__'
+
+
+
+class ClientExerciseSerializer(serializers.HyperlinkedModelSerializer):
+	workout = ResourceRelatedField(
+	#queryset = User.objects)
+	read_only=True)
+
+	class Meta:
+		model = ClientExercise
+		fields = '__all__'
+
+
+class ExerciseSerializer(serializers.HyperlinkedModelSerializer):
+
+	category = ResourceRelatedField(
+	#queryset = User.objects)
+	read_only=True)
+
+
+	class Meta:
+		model = Exercise
+		fields = '__all__'
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+
+	exercise = ResourceRelatedField(
+	#queryset = User.objects)
+	many=True,
+	read_only=True)
+
+	class Meta:
+		model = Category
+		fields = '__all__'
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 	basicprofile = ResourceRelatedField(
@@ -49,7 +93,7 @@ class TrainerProfileSerializer(serializers.HyperlinkedModelSerializer):
 class DietitianProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 
-	dieitian = ResourceRelatedField(
+	dietitian = ResourceRelatedField(
 		queryset = ClientProfile.objects,
 		many = True,
 		
@@ -118,4 +162,6 @@ class ClientProfileSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = ClientProfile
 		fields = '__all__'
+
+
 		

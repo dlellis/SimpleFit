@@ -72,3 +72,7 @@ ul.block-grid-3 > li {
 ul.block-grid-3 > li:nth-of-type(3n+1) {
    clear: left;
 }
+
+button:focus {
+ outline:0;
+}

@@ -9,10 +9,14 @@ from rest_framework_nested import routers
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'clients', ClientViewSet)
-router.register(r'clientprofiles', ClientProfileViewSet),
-router.register(r'basicprofiles', BasicProfileViewSet),
-router.register(r'trainerprofiles', TrainerProfileViewSet),
-router.register(r'dietitianprofiles', DietitianProfileViewSet),
+router.register(r'clientprofiles', ClientProfileViewSet)
+router.register(r'basicprofiles', BasicProfileViewSet)
+router.register(r'trainerprofiles', TrainerProfileViewSet)
+router.register(r'dietitianprofiles', DietitianProfileViewSet)
+router.register(r'categories',CategoryViewSet)
+router.register(r'exercises',ExerciseViewSet)
+router.register(r'clientworkouts',ClientWorkoutViewSet)
+router.register(r'clientexercises',ClientExerciseViewSet)
 
 
 

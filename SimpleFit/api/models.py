@@ -6,38 +6,40 @@ from django.contrib.auth.models import *
 from django.contrib import admin
 
 
+class Category(models.Model):
+	name = models.CharField(max_length=30, default=None)
 
+	class JSONAPIMeta:
+		resource_name = "category"
 
 class Exercise(models.Model):
 	name = models.CharField(max_length=30, default=None)
-	category = models.CharField(max_length=30, default=None)
-	suggestreps = models.PositiveIntegerField(default=0)
-	suggestsets = models.PositiveIntegerField(default=0)
-	actualreps = models.PositiveIntegerField(default=0)
-	actualsets = models.PositiveIntegerField(default=0)
+	category = models.ForeignKey(Category,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
 
-class Workout(models.Model):
-	exercise = models.ForeignKey(Exercise,null=True,blank=True, on_delete=models.CASCADE, related_name="workout")
+	class JSONAPIMeta:
+		resource_name = "exercise"
 
-class ExCat(models.Model):
+
+class ClientWorkout(models.Model):
 	name = models.CharField(max_length=30, default=None)
-
-	class Admin(admin.ModelAdmin):
-		list_display = ('exercise',)	
 
 	def __str__(self):
 		return self.name
 
+	class JSONAPIMeta:
+		resource_name = "clientworkout"
 
-class Ex(models.Model):
+
+class ClientExercise(models.Model):
 	name = models.CharField(max_length=30, default=None)
-	exercise = models.ForeignKey(ExCat,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
+	suggestreps = models.PositiveIntegerField(default=0)
+	suggestsets = models.PositiveIntegerField(default=0)
+	actualreps = models.PositiveIntegerField(default=0)
+	actualsets = models.PositiveIntegerField(default=0)
+	workout = models.ForeignKey(ClientWorkout,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
 
-	# class Admin(admin.ModelAdmin):
-	# 	list_display = ('category',)
-
-
-
+	class JSONAPIMeta:
+		resource_name = "clientexercise"
 
 class BasicProfile(models.Model):
 	trainer = 'trainer'

@@ -20,17 +20,16 @@ class BasicProfileAdmin(admin.ModelAdmin):
 class TrainerProfileAdmin(admin.ModelAdmin):
 	inlines = [ClientProfileInlineAdmin]
 
-class ExInlineAdmin(admin.TabularInline):
-	model = Ex
-	fk_name = "exercise"
 
-class ExCatAdmin(admin.ModelAdmin):
-	inlines = [ExInlineAdmin]
+class ClientExerciseInlineAdmin(admin.TabularInline):
+	model = ClientExercise
+	fk_name = "workout"
 
+class ClientWorkoutAdmin(admin.ModelAdmin):
+	inlines = [ClientExerciseInlineAdmin]
 
 
 admin.site.register(ClientProfile, ClientAdmin)
 admin.site.register(BasicProfile, BasicProfileAdmin)
 admin.site.register(TrainerProfile, TrainerProfileAdmin)
-admin.site.register(ExCat, ExCatAdmin)
-
+admin.site.register(ClientWorkout, ClientWorkoutAdmin)

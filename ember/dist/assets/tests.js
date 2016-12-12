@@ -1654,6 +1654,15 @@ define('simple-fit/tests/models/client.jshint', ['exports'], function (exports) 
     assert.ok(true, 'models/client.js should pass jshint.');
   });
 });
+define('simple-fit/tests/models/clientexercise.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/clientexercise.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/clientexercise.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/models/clientprofile.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1661,6 +1670,15 @@ define('simple-fit/tests/models/clientprofile.jshint', ['exports'], function (ex
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'models/clientprofile.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/models/clientworkout.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | models/clientworkout.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/clientworkout.js should pass jshint.');
   });
 });
 define('simple-fit/tests/models/dietitianprofile.jshint', ['exports'], function (exports) {
@@ -2312,6 +2330,28 @@ define('simple-fit/tests/unit/models/client-test.jshint', ['exports'], function 
     assert.ok(true, 'unit/models/client-test.js should pass jshint.');
   });
 });
+define('simple-fit/tests/unit/models/clientexercise-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('clientexercise', 'Unit | Model | clientexercise', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/clientexercise-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/clientexercise-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/clientexercise-test.js should pass jshint.');
+  });
+});
 define('simple-fit/tests/unit/models/clientprofile-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleForModel)('clientprofile', 'Unit | Model | clientprofile', {
@@ -2332,6 +2372,28 @@ define('simple-fit/tests/unit/models/clientprofile-test.jshint', ['exports'], fu
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/models/clientprofile-test.js should pass jshint.');
+  });
+});
+define('simple-fit/tests/unit/models/clientworkout-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForModel)('clientworkout', 'Unit | Model | clientworkout', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('simple-fit/tests/unit/models/clientworkout-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/models/clientworkout-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/clientworkout-test.js should pass jshint.');
   });
 });
 define('simple-fit/tests/unit/models/dietitianprofile-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
