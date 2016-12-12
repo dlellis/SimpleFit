@@ -7,10 +7,12 @@ export default Ember.Component.extend({
 		showNotifications: function(){
 		this.set('showNotifications', !this.get('showNotifications'));
 		this.set('value', true)
+		},
 
-
+		noteCount: function(){
+			return 1;
+		},
 
 	},
-},
 
 });

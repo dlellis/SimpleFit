@@ -1,49 +1,63 @@
+<style>
+body.modal-open {
+ overflow: auto;
+ padding-right: 0 !important;
 
+}
+</style>
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-
       {{#link-to 'application' class="navbar-brand"}}
-      Simple
+      SimpleFit
       {{/link-to}}
     </div>
-
+      {{#if auth.isLoggedIn}}
       <ul class="nav navbar-nav">
+       {{!--  client navigation --}}
+        {{#if (eq auth.user.basicprofile.membertype "client")}}
+        {{#bs-dropdown tagName="li"}}
+        {{#bs-dropdown-toggle}}Home <span class="caret"></span>{{/bs-dropdown-toggle}}
+        {{#bs-dropdown-menu}}
+          <li>{{#link-to "index"}}Client Home{{/link-to}}</li>
+          <li>{{#link-to "dclient"}}Diet Home{{/link-to}}</li>
+          <li>{{#link-to "recipes"}}Recipes{{/link-to}}</li>
+          <li>{{#link-to "vchat"}}Video Chat{{/link-to}}</li>
+        {{/bs-dropdown-menu}}
+        {{/bs-dropdown}}
+        {{/if}}
+        
+        {{!-- trainer navigation --}}
+        {{#if (eq auth.user.basicprofile.membertype "trainer")}}
         {{#bs-dropdown tagName="li"}}
         {{#bs-dropdown-toggle}}Trainer <span class="caret"></span>{{/bs-dropdown-toggle}}
         {{#bs-dropdown-menu}}
-          {{#if (eq auth.user.basicprofile.membertype "trainer")}}
           <li>{{#link-to "trainer"}}Trainer Home{{/link-to}}</li>
-          {{else}}
-          <li>{{#link-to "index"}}Client Home{{/link-to}}</li>
-          {{/if}}
-
         {{/bs-dropdown-menu}}
         {{/bs-dropdown}}
+        {{/if}}
 
+        {{#if (eq auth.user.basicprofile.membertype "dietitian")}}
         {{#bs-dropdown tagName="li"}}
         {{#bs-dropdown-toggle}}Dietitian <span class="caret"></span>{{/bs-dropdown-toggle}}
         {{#bs-dropdown-menu}}
-          {{#if (eq auth.user.basicprofile.membertype "trainer")}}
           <li>{{#link-to "dietitian"}}Dietitian Home{{/link-to}}</li>
-          {{else}}
-          <li>{{#link-to "dclient"}}Client Home{{/link-to}}</li>
-          {{/if}}
           <li>{{#link-to "recipes"}}Recipes{{/link-to}}</li>
           <li>{{#link-to "vchat"}}Video Chat{{/link-to}}</li>
-        
         {{/bs-dropdown-menu}}
         {{/bs-dropdown}}
+        {{/if}}
 
-        {{#unless (eq auth.user.basicprofile.membertype "trainer")}}
+        {{#if (eq auth.user.basicprofile.membertype "client")}}
           {{#bs-dropdown tagName="li"}}
           {{#bs-dropdown-toggle}}Marketplace <span class="caret"></span>{{/bs-dropdown-toggle}}
           {{#bs-dropdown-menu}}
             <li>{{#link-to "market"}}Trainer Market{{/link-to}}</li>
-            <li>{{#link-to "market"}}Dietitian Market{{/link-to}}</li>
+            <li>{{#link-to "dmarket"}}Dietitian Market{{/link-to}}</li>
           {{/bs-dropdown-menu}}
           {{/bs-dropdown}}
-        {{/unless}}
+        {{/if}}
+
         {{#if (eq auth.user.basicprofile.membertype "trainer")}}
           {{#if auth.user.basicprofile.trainerprofile.trainerpending}}
           {{#if value}}
@@ -53,14 +67,34 @@
           {{else}}
           {{/if}}
 
-          <button class="btn btn-danger navbar-btn" type="button" {{action "showNotifications"}}>new alert!</button>
+          <button class="btn navbar-btn btn-danger" type="button" {{action "showNotifications"}}>
+            alerts <span class="badge">1</span>
+          </button>
           {{else}}
           <button class="btn navbar-btn" type="button" {{action "showNotifications"}}>no alerts</button>
 
           {{/if}}
         {{/if}}
-  
+        {{#if (eq auth.user.basicprofile.membertype "dietitian")}}
+          {{#if auth.user.basicprofile.dietitianprofile.dietitianpending}}
+          {{#if value}}
+          {{#bs-modal open=showNotifications title="Notifications" footer=false}}
+            {{render "notifications"}}
+          {{/bs-modal}}
+          {{else}}
+          {{/if}}
+
+          <button class="btn navbar-btn btn-danger" type="button" {{action "showNotifications"}}>
+            alerts <span class="badge">1</span>
+          </button>
+          {{else}}
+          <button class="btn navbar-btn" type="button" {{action "showNotifications"}}>no alerts</button>
+
+          {{/if}}
+        {{/if}}
+      }
     </ul>
+    {{/if}}
     <div class="nav-login">
       <ul class="nav navbar-nav navbar-right">
         <li>

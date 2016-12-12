@@ -23,6 +23,7 @@ Router.map(function() {
   this.route('dregister');
   this.route('tregister');
   this.route('fakeroute');
+  this.route('dmarket');
 });
 
 export default Router;
