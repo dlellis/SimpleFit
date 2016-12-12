@@ -5,7 +5,9 @@ export default Ember.Route.extend({
 	model(){
 		return RSVP.hash({
 		category: this.store.findAll('category'),
-		workout: this.store.findRecord('clientworkout',1),
+		// clientexercise: this.store.findAll('clientexercise'),
+		// workout: this.store.findRecord('clientworkout',1),
+		workout: this.store.createRecord('clientworkout'),
 
 		});
 	}	
