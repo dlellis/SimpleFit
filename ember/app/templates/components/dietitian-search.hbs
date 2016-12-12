@@ -8,35 +8,67 @@
 {{#if (eq auth.user.basicprofile.membertype "client")}}
 
 {{#if auth.user.basicprofile.clientprofile.dietitian.id}}
-You have a dietitian.
+<div class="page-header">
+  <h1><small>You already have a dietitian!</small></h1>
+</div>
 
 {{else}}
 
 {{!-- if for if you have a pending request --}}
 {{#if auth.user.basicprofile.clientprofile.dietitianpending.id}}
-  You have a pending dietitian request. <br>
-   Name of dietitian you requested: {{auth.user.basicprofile.clientprofile.dietitianpending.basicinfo.firstname}}<br>
-   Cancel request?<br>
-   <button type="submit" class="btn" {{action "cancelRequest"}}>Cancel</button>
+<div class="jumbotron">
+  <h1>You have a pending dietitian request.</h1>
+  <p>Name of dietitian you requested: {{auth.user.basicprofile.clientprofile.dietitianpending.basicinfo.firstname}} {{auth.user.basicprofile.clientprofile.dietitianpending.basicinfo.lastname}}</p>
+  <p>Need to cancel the request?</p>
+  <p><button type="submit" class="btn btn-lg btn-danger" {{action "cancelRequest"}}>Cancel</button></p>
+</div>
+   
     
-  
-
-
 
  {{!-- else for if you have a pending request --}}
 {{else}}
-<h1>Available dietitians:</h1>
-<ul class="row-fluid block-grid-3">
-{{#each model as |dprofile|}}
-    <li class="market">
-    <h4>{{dprofile.basicinfo.firstname}} {{dprofile.basicinfo.lastname}}</h4>
-    <h4>Gender: {{bdprofile.basicinfo.gender}}</h4>
-    <h4>Age: {{bdprofile.basicinfo.age}}</h4>
-    <h4>Specialty: {{dprofile.specialty}}</h4>
-    <button type="submit" class="btn" {{action "requestDietitian" dprofile}}>Request</button>
-    </li>
+<div class="page-header">
+  <h1><small>Available Dietitians</small></h1>
+</div>
+<div class="row">
+{{#each model as |prof|}}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="https://avatars1.githubusercontent.com/u/14190058?v=3&s=400" alt="alt" height="242" width="200">
+        <div class="caption">
+          <h3>{{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h3>
+          <p>...</p>
+          <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Info</button> <button type="submit" class="btn btn-warning" {{action "requestDietitian" prof}}>Request</button></p>
+        </div>
+      </div>
+    </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Dietitian Information</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+
+        <h4>Gender: {{prof.basicinfo.gender}}</h4>
+        <h4>Age: {{prof.basicinfo.age}}</h4>
+        <h4>Certification: {{prof.specialty}}</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 {{/each}}
-</ul>
+</div>
 
  {{/if}}
 

@@ -8,16 +8,20 @@
 {{#if (eq auth.user.basicprofile.membertype "client")}}
 
 {{#if auth.user.basicprofile.clientprofile.trainer.id}}
-You have a trainer.
+<div class="page-header">
+  <h1><small>You already have a trainer!</small></h1>
+</div>
 
 {{else}}
 
 {{!-- if for if you have a pending request --}}
 {{#if auth.user.basicprofile.clientprofile.trainerpending.id}}
-  You have a pending trainer request. <br>
-   Name of trainer you requested: {{auth.user.basicprofile.clientprofile.trainerpending.basicinfo.firstname}}<br>
-   Cancel request?<br>
-   <button type="submit" class="btn" {{action "cancelRequest"}}>Cancel</button>
+<div class="jumbotron">
+  <h1>You already have a pending trainer request!</h1>
+  <p>Name of trainer you requested: {{auth.user.basicprofile.clientprofile.trainerpending.basicinfo.firstname}} {{auth.user.basicprofile.clientprofile.trainerpending.basicinfo.lastname}}</p>
+  <p>Need to cancel the request?</p>
+  <p><button type="submit" class="btn btn-lg btn-danger" {{action "cancelRequest"}}>Cancel</button></p>
+</div>
     
   
 
@@ -25,22 +29,48 @@ You have a trainer.
 
  {{!-- else for if you have a pending request --}}
 {{else}}
-<h1>Available Trainers:</h1>
-<ul class="row-fluid block-grid-3">
+<div class="page-header">
+  <h1><small>Available Trainers</small></h1>
+</div>
+<div class="row">
 {{#each model as |prof|}}
-  {{!-- {{#if (eq basicprofile.membertype "trainer")}} --}}
-    <li class="market">
-    <h4>{{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h4>
-    <h4>Gender: {{prof.basicinfo.gender}}</h4>
-    <h4>Age: {{prof.basicinfo.age}}</h4>
-    <h4>Certification: {{prof.certification}}</h4>
-    <button type="submit" class="btn" {{action "requestTrainer" prof}}>Request</button>
-    </li>
-{{!--     {{else}}
-  
-    {{/if}} --}}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="https://avatars1.githubusercontent.com/u/14190058?v=3&s=400" alt="alt" height="242" width="200">
+        <div class="caption">
+          <h3>{{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h3>
+          <p>...</p>
+          <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Info</button> <button type="submit" class="btn btn-warning" {{action "requestTrainer" prof}}>Request</button></p>
+        </div>
+      </div>
+    </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Trainer Information</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+
+        <h4>Gender: {{prof.basicinfo.gender}}</h4>
+        <h4>Age: {{prof.basicinfo.age}}</h4>
+        <h4>Certification: {{prof.certification}}</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 {{/each}}
-</ul>
+</div>
 
 {{/if}}
 
@@ -53,3 +83,4 @@ You have a trainer.
 
 Login as client user to do this
 {{/if}}
+
