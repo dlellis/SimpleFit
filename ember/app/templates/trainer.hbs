@@ -1,38 +1,56 @@
 
-<style>
-.client {
-  border: 1px solid black;
-}
-</style>
-
 {{#if (eq auth.user.basicprofile.membertype "trainer")}}
 
 {{!-- 
 <button type="submit" class="btn" {{action "" client}}>Action</button>
      --}}
 
-<div class="wrap">
-  <h1>{{auth.user.basicprofile.firstname}} Home Page</h1>
-
-  <h2>Client List</h2>
-  <ul class="row-fluid block-grid-3">
-    {{#each auth.user.basicprofile.trainerprofile.trainer as |client|}}
-      <li class="client">
-        <h4>{{client.basicinfo.firstname}} {{client.basicinfo.lastname}}</h4>
-        <img src="http://www.unomaha.edu/college-of-information-science-and-technology/_files/images/faculty/Profile%20Head%20Shots/Matt%20Hale.jpg" height="180" widtch="180">
-        <br>
-        <p>
-          Cool graphing and tracking and stuff
-        </p>
-        <a href="/vchat/{{client.id}}">Initiate Video Conference</a>
+<div class="page-header">
+  <h1>{{auth.user.basicprofile.firstname}} Home Page<br><small>Client List</small></h1>
+</div>
+<div class="row">
+{{#each auth.user.basicprofile.trainerprofile.trainer as |client|}}
+    <div class="col-xs-6 col-md-3">
+      <div class="thumbnail">
+        <img src="http://www.unomaha.edu/college-of-information-science-and-technology/_files/images/faculty/Profile%20Head%20Shots/Matt%20Hale.jpg" height="242" width="200">
+      <div class="caption">
+        <h3>{{client.basicinfo.firstname}} {{client.basicinfo.lastname}}</h3>
+        <p><a href="/vchat/{{client.id}}">Initiate Video Conference</a>
         <br>
         <a href="/users/{{client.id}}">User Profile</a>
         <br>
         <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Actions</button>
-      </li>
-    {{/each}}
-  </ul>
+        </p>
+        <p><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Actions</button></p>
+      </div>
+      </div>
+    </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Trainer Information</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+
+        <h4>Gender: {{prof.basicinfo.gender}}</h4>
+        <h4>Age: {{prof.basicinfo.age}}</h4>
+        <h4>Certification: {{prof.certification}}</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{{/each}}
 </div>
 
 {{!-- {{/each}} --}}
