@@ -22,6 +22,7 @@ Router.map(function() {
   this.route('cregister');
   this.route('dregister');
   this.route('tregister');
+  this.route('fakeroute');
 });
 
 export default Router;

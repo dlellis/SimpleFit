@@ -5,5 +5,5 @@ export default DS.Model.extend({
 	basicinfo: DS.belongsTo('basicprofile',),
 	certification: DS.attr('string'),
 	trainer: DS.hasMany('clientprofile', {async: true, inverse: 'trainer'}),
-	trainerpending: DS.hasMany('clientprofile', {async: true, inverse: 'trainerpending'})
+	trainerpending: DS.hasMany('clientprofile', {async: true, inverse: 'trainerpending'}),
 });

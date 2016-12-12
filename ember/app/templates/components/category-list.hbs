@@ -1,0 +1,40 @@
+<h1>Create Workout</h1><hr>
+
+<div class="col-md-4">
+
+	<div class="list-group">
+	
+		{{#each model.category as |cat|}}	
+			<button class="list-group-item"{{action "toggleExercise" cat}}>{{cat.name}}</button>
+		{{/each}}	
+	<hr>
+		{{#if expanded}}
+		<h2>Select Exercise</h2>
+		{{#each model.category as |cat|}}	
+			{{#if cat.showExercise}}
+				{{#each cat.exercise as |ex|}}
+					<button class="list-group-item"{{action ""}}>{{ex.name}}</button>
+				{{/each}}
+			{{else}}
+
+
+			{{/if}}
+		{{/each}}
+		{{else}}
+
+		{{/if}}		
+
+	</div>
+</div>
+
+{{!-- <div class="col-md-4">
+
+</div> --}}
+
+<div class="col-mod-4">
+{{!-- {{#each model.workout.exercise as |ex|}}
+{{ex.name}}<br>
+{{/each}}
+ --}}</div>
+
+{{yield}}
