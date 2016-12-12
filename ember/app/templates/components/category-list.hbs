@@ -2,18 +2,18 @@
 
 <div class="col-md-4">
 
-	<div class="list-group">
-	
+
+		<h3>Select Category</h3>
 		{{#each model.category as |cat|}}	
 			<button class="list-group-item"{{action "toggleExercise" cat}}>{{cat.name}}</button>
 		{{/each}}	
 	<hr>
 		{{#if expanded}}
-		<h2>Select Exercise</h2>
+		<h3>Select Exercise</h3>
 		{{#each model.category as |cat|}}	
 			{{#if cat.showExercise}}
 				{{#each cat.exercise as |ex|}}
-					<button class="list-group-item"{{action ""}}>{{ex.name}}</button>
+					<button class="list-group-item"{{action "addExercise" ex}}>{{ex.name}}</button>
 				{{/each}}
 			{{else}}
 
@@ -24,17 +24,18 @@
 
 		{{/if}}		
 
-	</div>
+
+</div>
+<div class="col-md-4 margin33">
+
+{{errorhere}}
+{{#each model.workout.exercise as |ex|}}
+<div class="list-group-item">
+{{ex.name}}<br>
+</div>
+{{/each}}
+
+
+
 </div>
 
-{{!-- <div class="col-md-4">
-
-</div> --}}
-
-<div class="col-mod-4">
-{{!-- {{#each model.workout.exercise as |ex|}}
-{{ex.name}}<br>
-{{/each}}
- --}}</div>
-
-{{yield}}
