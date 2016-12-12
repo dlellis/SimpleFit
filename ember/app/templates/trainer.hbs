@@ -1,37 +1,52 @@
-<h1>Trainer Home Page</h1>
-Gib: Please set this up for me the way you want it and I will make those connections for you.
-Do the marketplace too, thanks lol.
-<h2> Real Client Page </h2>
+
+<style>
+.client {
+  border: 1px solid black;
+}
+</style>
+
 {{#if (eq auth.user.basicprofile.membertype "trainer")}}
 
-
-
-
-{{#each auth.user.basicprofile.trainerprofile.trainer as |clientprofile|}}
-  
-  <table class="table">
-  <div class="container-fluid">
-  First Name: {{clientprofile.basicinfo.firstname}}<br>
-  Last Name: {{clientprofile.basicinfo.lastname}}<br>
+{{!-- 
 <button type="submit" class="btn" {{action "" client}}>Action</button>
-    
+     --}}
 
-  
+<div class="wrap">
+  <h1>{{auth.user.basicprofile.firstname}} Home Page</h1>
 
-    
-    </div>
-
-    </table>
-  
-
-{{/each}}
+  <h2>Client List</h2>
+  <ul class="row-fluid block-grid-3">
+    {{#each auth.user.basicprofile.trainerprofile.trainer as |client|}}
+      <li class="client">
+        <h4>{{client.basicinfo.firstname}} {{client.basicinfo.lastname}}</h4>
+        <img src="http://www.unomaha.edu/college-of-information-science-and-technology/_files/images/faculty/Profile%20Head%20Shots/Matt%20Hale.jpg" height="180" widtch="180">
+        <br>
+        <p>
+          Cool graphing and tracking and stuff
+        </p>
+        <a href="/vchat/{{client.id}}">Initiate Video Conference</a>
+        <br>
+        <a href="/users/{{client.id}}">User Profile</a>
+        <br>
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Actions</button>
+      </li>
+    {{/each}}
+  </ul>
+</div>
 
 {{!-- {{/each}} --}}
 
 {{else}}
-You must login as trainer to view trainer clients
+<h2>You must login as trainer to view trainer clients</h2>
 
 {{/if}}
+
+
+
+
+
+
 
 
 <h2>Fake Client List</h2>
@@ -52,3 +67,26 @@ Leave this here. You will want to use this as example of how to modify data.
 </form>
 
 </ul>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{{outlet}}

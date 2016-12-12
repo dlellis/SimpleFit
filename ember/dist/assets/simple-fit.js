@@ -6808,7 +6808,7 @@ define("simple-fit/templates/components/login-form", ["exports"], function (expo
         var el2 = dom.createTextNode("\n	");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("button");
-        dom.setAttribute(el2, "type", "button");
+        dom.setAttribute(el2, "type", "submit");
         dom.setAttribute(el2, "class", "btn btn-default btn-sm");
         var el3 = dom.createTextNode("Sign in");
         dom.appendChild(el2, el3);
@@ -8336,7 +8336,7 @@ define("simple-fit/templates/components/register-modal", ["exports"], function (
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("button");
         dom.setAttribute(el1, "type", "button");
-        dom.setAttribute(el1, "class", "btn btn-info btn-lg");
+        dom.setAttribute(el1, "class", "btn btn-link");
         dom.setAttribute(el1, "data-toggle", "modal");
         dom.setAttribute(el1, "data-target", "#myModal");
         var el2 = dom.createTextNode("Register!");
@@ -12524,12 +12524,12 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 10,
-                "column": 0
+                "line": 19,
+                "column": 4
               },
               "end": {
-                "line": 27,
-                "column": 0
+                "line": 34,
+                "column": 4
               }
             },
             "moduleName": "simple-fit/templates/trainer.hbs"
@@ -12540,55 +12540,92 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("  \n  ");
+            var el1 = dom.createTextNode("      ");
             dom.appendChild(el0, el1);
-            var el1 = dom.createElement("table");
-            dom.setAttribute(el1, "class", "table");
-            var el2 = dom.createTextNode("\n  ");
+            var el1 = dom.createElement("li");
+            dom.setAttribute(el1, "class", "client");
+            var el2 = dom.createTextNode("\n        ");
             dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "container-fluid");
-            var el3 = dom.createTextNode("\n  First Name: ");
+            var el2 = dom.createElement("h4");
+            var el3 = dom.createComment("");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createTextNode(" ");
             dom.appendChild(el2, el3);
             var el3 = dom.createComment("");
             dom.appendChild(el2, el3);
-            var el3 = dom.createElement("br");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n  Last Name: ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createComment("");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("br");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("button");
-            dom.setAttribute(el3, "type", "submit");
-            dom.setAttribute(el3, "class", "btn");
-            var el4 = dom.createTextNode("Action");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n    \n\n  \n\n    \n    ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("img");
+            dom.setAttribute(el2, "src", "http://www.unomaha.edu/college-of-information-science-and-technology/_files/images/faculty/Profile%20Head%20Shots/Matt%20Hale.jpg");
+            dom.setAttribute(el2, "height", "180");
+            dom.setAttribute(el2, "widtch", "180");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("br");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("p");
+            var el3 = dom.createTextNode("\n          Cool graphing and tracking and stuff\n        ");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n\n    ");
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("a");
+            var el3 = dom.createTextNode("Initiate Video Conference");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("br");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("a");
+            var el3 = dom.createTextNode("User Profile");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("br");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment(" Trigger the modal with a button ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("button");
+            dom.setAttribute(el2, "type", "button");
+            dom.setAttribute(el2, "class", "btn btn-primary");
+            dom.setAttribute(el2, "data-toggle", "modal");
+            dom.setAttribute(el2, "data-target", "#myModal");
+            var el3 = dom.createTextNode("Actions");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n      ");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n  \n\n");
+            var el1 = dom.createTextNode("\n");
             dom.appendChild(el0, el1);
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element2 = dom.childAt(fragment, [1, 1]);
-            var element3 = dom.childAt(element2, [7]);
-            var morphs = new Array(3);
-            morphs[0] = dom.createMorphAt(element2, 1, 1);
-            morphs[1] = dom.createMorphAt(element2, 4, 4);
-            morphs[2] = dom.createElementMorph(element3);
+            var element2 = dom.childAt(fragment, [1]);
+            var element3 = dom.childAt(element2, [1]);
+            var element4 = dom.childAt(element2, [9]);
+            var element5 = dom.childAt(element2, [13]);
+            var morphs = new Array(4);
+            morphs[0] = dom.createMorphAt(element3, 0, 0);
+            morphs[1] = dom.createMorphAt(element3, 2, 2);
+            morphs[2] = dom.createAttrMorph(element4, 'href');
+            morphs[3] = dom.createAttrMorph(element5, 'href');
             return morphs;
           },
-          statements: [["content", "clientprofile.basicinfo.firstname", ["loc", [null, [14, 14], [14, 51]]], 0, 0, 0, 0], ["content", "clientprofile.basicinfo.lastname", ["loc", [null, [15, 13], [15, 49]]], 0, 0, 0, 0], ["element", "action", ["", ["get", "client", ["loc", [null, [16, 46], [16, 52]]], 0, 0, 0, 0]], [], ["loc", [null, [16, 34], [16, 54]]], 0, 0]],
-          locals: ["clientprofile"],
+          statements: [["content", "client.basicinfo.firstname", ["loc", [null, [21, 12], [21, 42]]], 0, 0, 0, 0], ["content", "client.basicinfo.lastname", ["loc", [null, [21, 43], [21, 72]]], 0, 0, 0, 0], ["attribute", "href", ["concat", ["/vchat/", ["get", "client.id", ["loc", [null, [27, 26], [27, 35]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "href", ["concat", ["/users/", ["get", "client.id", ["loc", [null, [29, 26], [29, 35]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+          locals: ["client"],
           templates: []
         };
       })();
@@ -12598,11 +12635,11 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 5,
+              "line": 8,
               "column": 0
             },
             "end": {
-              "line": 31,
+              "line": 40,
               "column": 0
             }
           },
@@ -12614,22 +12651,54 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("\n\n\n\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
+          var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "wrap");
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("h1");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" Home Page");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("h2");
+          var el3 = dom.createTextNode("Client List");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("ul");
+          dom.setAttribute(el2, "class", "row-fluid block-grid-3");
+          var el3 = dom.createTextNode("\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("  ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n");
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          var element6 = dom.childAt(fragment, [2]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(dom.childAt(element6, [1]), 0, 0);
+          morphs[1] = dom.createMorphAt(dom.childAt(element6, [5]), 1, 1);
           return morphs;
         },
-        statements: [["block", "each", [["get", "auth.user.basicprofile.trainerprofile.trainer", ["loc", [null, [10, 8], [10, 53]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [10, 0], [27, 9]]]]],
+        statements: [["content", "auth.user.basicprofile.firstname", ["loc", [null, [15, 6], [15, 42]]], 0, 0, 0, 0], ["block", "each", [["get", "auth.user.basicprofile.trainerprofile.trainer", ["loc", [null, [19, 12], [19, 57]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [19, 4], [34, 13]]]]],
         locals: [],
         templates: [child0]
       };
@@ -12641,11 +12710,11 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 31,
+              "line": 40,
               "column": 0
             },
             "end": {
-              "line": 34,
+              "line": 43,
               "column": 0
             }
           },
@@ -12657,7 +12726,11 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("You must login as trainer to view trainer clients\n\n");
+          var el1 = dom.createElement("h2");
+          var el2 = dom.createTextNode("You must login as trainer to view trainer clients");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -12676,11 +12749,11 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 40,
+              "line": 55,
               "column": 2
             },
             "end": {
-              "line": 46,
+              "line": 61,
               "column": 2
             }
           },
@@ -12730,7 +12803,7 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
           morphs[2] = dom.createElementMorph(element1);
           return morphs;
         },
-        statements: [["content", "client.firstname", ["loc", [null, [42, 10], [42, 30]]], 0, 0, 0, 0], ["content", "client.lastname", ["loc", [null, [42, 31], [42, 50]]], 0, 0, 0, 0], ["element", "action", ["delclient", ["get", "client", ["loc", [null, [43, 96], [43, 102]]], 0, 0, 0, 0]], [], ["loc", [null, [43, 74], [43, 104]]], 0, 0]],
+        statements: [["content", "client.firstname", ["loc", [null, [57, 10], [57, 30]]], 0, 0, 0, 0], ["content", "client.lastname", ["loc", [null, [57, 31], [57, 50]]], 0, 0, 0, 0], ["element", "action", ["delclient", ["get", "client", ["loc", [null, [58, 96], [58, 102]]], 0, 0, 0, 0]], [], ["loc", [null, [58, 74], [58, 104]]], 0, 0]],
         locals: ["client"],
         templates: []
       };
@@ -12745,8 +12818,8 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 54,
-            "column": 5
+            "line": 92,
+            "column": 10
           }
         },
         "moduleName": "simple-fit/templates/trainer.hbs"
@@ -12757,21 +12830,17 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h1");
-        var el2 = dom.createTextNode("Trainer Home Page");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\nGib: Please set this up for me the way you want it and I will make those connections for you.\nDo the marketplace too, thanks lol.\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("h2");
-        var el2 = dom.createTextNode(" Real Client Page ");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("style");
+        var el2 = dom.createTextNode("\n.client {\n  border: 1px solid black;\n}\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
+        var el1 = dom.createTextNode("\n\n\n\n\n\n\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h2");
         var el2 = dom.createTextNode("Fake Client List");
@@ -12814,20 +12883,109 @@ define("simple-fit/templates/trainer", ["exports"], function (exports) {
         var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment(" Modal ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "id", "myModal");
+        dom.setAttribute(el1, "class", "modal fade");
+        dom.setAttribute(el1, "role", "dialog");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "modal-dialog");
+        var el3 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" Modal content");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "modal-content");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "modal-header");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("button");
+        dom.setAttribute(el5, "type", "button");
+        dom.setAttribute(el5, "class", "close");
+        dom.setAttribute(el5, "data-dismiss", "modal");
+        var el6 = dom.createTextNode("×");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("h4");
+        dom.setAttribute(el5, "class", "modal-title");
+        var el6 = dom.createTextNode("Modal Header");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "modal-body");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("p");
+        var el6 = dom.createTextNode("Some text in the modal.");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "modal-footer");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("button");
+        dom.setAttribute(el5, "type", "button");
+        dom.setAttribute(el5, "class", "btn btn-default");
+        dom.setAttribute(el5, "data-dismiss", "modal");
+        var el6 = dom.createTextNode("Close");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element4 = dom.childAt(fragment, [8]);
-        var element5 = dom.childAt(element4, [4]);
-        var morphs = new Array(5);
-        morphs[0] = dom.createMorphAt(fragment, 4, 4, contextualElement);
-        morphs[1] = dom.createMorphAt(element4, 1, 1);
-        morphs[2] = dom.createElementMorph(element5);
-        morphs[3] = dom.createMorphAt(element5, 1, 1);
-        morphs[4] = dom.createMorphAt(element5, 3, 3);
+        var element7 = dom.childAt(fragment, [7]);
+        var element8 = dom.childAt(element7, [4]);
+        var morphs = new Array(6);
+        morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+        morphs[1] = dom.createMorphAt(element7, 1, 1);
+        morphs[2] = dom.createElementMorph(element8);
+        morphs[3] = dom.createMorphAt(element8, 1, 1);
+        morphs[4] = dom.createMorphAt(element8, 3, 3);
+        morphs[5] = dom.createMorphAt(fragment, 13, 13, contextualElement);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [5, 10], [5, 43]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [5, 6], [5, 54]]], 0, 0]], [], 0, 1, ["loc", [null, [5, 0], [34, 7]]]], ["block", "each", [["get", "model", ["loc", [null, [40, 10], [40, 15]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [40, 2], [46, 11]]]], ["element", "action", ["addclient"], ["on", "submit"], ["loc", [null, [48, 29], [48, 64]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "firstname", ["loc", [null, [49, 30], [49, 39]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [49, 16], [49, 41]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "lastname", ["loc", [null, [50, 29], [50, 37]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [50, 15], [50, 39]]], 0, 0]],
+      statements: [["block", "if", [["subexpr", "eq", [["get", "auth.user.basicprofile.membertype", ["loc", [null, [8, 10], [8, 43]]], 0, 0, 0, 0], "trainer"], [], ["loc", [null, [8, 6], [8, 54]]], 0, 0]], [], 0, 1, ["loc", [null, [8, 0], [43, 7]]]], ["block", "each", [["get", "model", ["loc", [null, [55, 10], [55, 15]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [55, 2], [61, 11]]]], ["element", "action", ["addclient"], ["on", "submit"], ["loc", [null, [63, 29], [63, 64]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "firstname", ["loc", [null, [64, 30], [64, 39]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [64, 16], [64, 41]]], 0, 0], ["inline", "input", [], ["value", ["subexpr", "@mut", [["get", "lastname", ["loc", [null, [65, 29], [65, 37]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [65, 15], [65, 39]]], 0, 0], ["content", "outlet", ["loc", [null, [92, 0], [92, 10]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0, child1, child2]
     };
@@ -14126,11 +14284,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-<<<<<<< HEAD
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+b250decc"});
-=======
-  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+72d4a393"});
->>>>>>> 1470c28ffb10f286ac1338ff935e07e97b7749a3
+  require("simple-fit/app")["default"].create({"name":"simple-fit","version":"0.0.0+2fc28950"});
 }
 
 /* jshint ignore:end */
