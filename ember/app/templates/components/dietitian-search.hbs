@@ -1,0 +1,57 @@
+<style>
+.market {
+  border: 1px solid black;
+}
+
+</style>
+{{!-- Search --}}
+{{#if (eq auth.user.basicprofile.membertype "client")}}
+
+{{#if auth.user.basicprofile.clientprofile.dietitian.id}}
+You have a dietitian.
+
+{{else}}
+
+{{!-- if for if you have a pending request --}}
+{{#if auth.user.basicprofile.clientprofile.dietitianpending.id}}
+  You have a pending dietitian request. <br>
+   Name of dietitian you requested: {{auth.user.basicprofile.clientprofile.dietitianpending.basicinfo.firstname}}<br>
+   Cancel request?<br>
+   <button type="submit" class="btn" {{action "cancelRequest"}}>Cancel</button>
+    
+  
+
+
+
+ {{!-- else for if you have a pending request --}}
+{{else}}
+<h1>Available dietitians:</h1>
+<ul class="row-fluid block-grid-3">
+{{#each model as |basicprofile|}}
+  {{#if (eq basicprofile.membertype "dietitian")}}
+    <li class="market">
+    <h4>{{basicprofile.firstname}} {{basicprofile.lastname}}</h4>
+    <h4>Gender: {{basicprofile.gender}}</h4>
+    <h4>Age: {{basicprofile.age}}</h4>
+    <h4>Certification: {{basicprofile.dietitianprofile.certification}}</h4>
+    <button type="submit" class="btn" {{action "requestDietitian" basicprofile}}>Request</button>
+    </li>
+    {{else}}
+  
+    {{/if}}
+{{/each}}
+</ul>
+
+ {{/if}}
+
+
+
+{{/if}}
+
+ {{else}}
+
+
+Login as client user to do this
+{{/if}}
+
+{{yield}}
