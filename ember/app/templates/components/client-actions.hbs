@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div id="notmyModal" class="modal fade" role="dialog">
+<div id="modal{{prof.basicinfo.id}}" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notmyModal">Actions</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal{{prof.basicinfo.id}}">Actions</button>
 
 
 {{yield}}
