@@ -83,9 +83,8 @@ body.modal-open {
           {{/bs-modal}}
           {{else}}
           {{/if}}
-
           <button class="btn navbar-btn btn-danger" type="button" {{action "showNotifications"}}>
-            alerts <span class="badge">1</span>
+            alerts <span class="badge">{{numAlert}}</span>
           </button>
           {{else}}
           <button class="btn navbar-btn" type="button" {{action "showNotifications"}}>no alerts</button>

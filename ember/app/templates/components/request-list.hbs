@@ -1,4 +1,16 @@
-{{!-- {{test}} --}}
-First Name: {{client.basicinfo.firstname}}<br>
-Last Name: {{client.basicinfo.lastname}}<br>
-<button type="submit" class="btn" {{action "approveClient" client}}>Approve</button>
+
+<div class="thumbnail">
+	<img src="https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAe2AAAAJDVmNzA4MzBmLWI3NzgtNGNjYS04NTg0LWU0ZWM1MTU0NTIwYg.jpg" height="242" width="200">
+	<div class="caption">
+		<h3>{{client.basicinfo.firstname}} {{client.basicinfo.lastname}}</h3>
+		<p>
+		{{#if isTrain}}
+			<button type="submit" class="btn btn-info" {{action "approvetClient" client}}>Approve</button>
+			<button type="submit" class="btn btn-warning" {{action "rejecttClient" client}}>Reject</button>
+		{{else}}
+		`	<button type="submit" class="btn btn-info" {{action "approvedClient" client}}>Approve</button>
+			<button type="submit" class="btn btn-warning" {{action "rejectdClient" client}}>Reject</button>
+		{{/if}}
+		</p>
+	</div>
+</div>{{!-- {{test}} --}}

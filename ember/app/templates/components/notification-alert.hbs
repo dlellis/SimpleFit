@@ -9,22 +9,14 @@
 {{!-- {{#each model as |client|}}
 {{client.id}}
 {{/each}} --}}
+<div class="row">
 {{#each auth.user.basicprofile.trainerprofile.trainerpending as |clientprofile|}}
-	
-	<table class="table">
-	<div class="container-fluid">
-	{{request-list client=clientprofile}}
-  	
 
-	
-
-    
-   	</div>
-
-   	</table>
-  
-
+  <div class="col-sm-6 col-md-4">
+	{{request-list client=clientprofile isTrain=true}}
+  </div>
 {{/each}}
+</div>
 
 {{!-- {{/each}} --}}
 {{/if}}
@@ -39,22 +31,14 @@
 {{!-- {{#each model as |client|}}
 {{client.id}}
 {{/each}} --}}
+<div class="row">
 {{#each auth.user.basicprofile.dietitianprofile.dietitianpending as |clientprofile|}}
 	
-	<table class="table">
-	<div class="container-fluid">
-	{{request-list client=clientprofile}}
-  	
-
-	
-
-    
-   	</div>
-
-   	</table>
-  
-
+	<div class="col-sm-6 col-md-4">
+		{{request-list client=clientprofile isTrain=false}}
+  	</div>
 {{/each}}
+</div>
 
 {{!-- {{/each}} --}}
 
