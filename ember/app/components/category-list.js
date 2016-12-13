@@ -63,7 +63,8 @@ export default Ember.Component.extend({
   errorhere: '',
   exdict: [],
   workname: '',
-  ok: 'hihi',
+  aftercreated: '',
+  
 
   nums: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],  
   actions: {
@@ -123,6 +124,9 @@ export default Ember.Component.extend({
       this.set('exdict', l);      
 
     },
+    createAnother: function(value){
+      this.set('aftercreated', '');
+    },
     saveWorkout: function(ex){
       // const exs = []
       var val;
@@ -156,8 +160,9 @@ export default Ember.Component.extend({
         idea.expanded.clear();
         idea.exercises.clear();
         idea.exdict.clear();
-        idea.get('routing').transitionTo('viewworkouts', idea.get('model.basicprofile.id'));
-
+        idea.set('errorhere','');
+        idea.set('workname','');
+        idea.set('aftercreated', 'Workout Created');
         });
         
 
