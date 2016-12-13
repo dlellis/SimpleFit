@@ -1,37 +1,54 @@
-<h2>Notification:</h2> 
-
-
+<h1><small>Potential Clients</small></h1>
 
 {{!-- Checks if user is trainer --}}
 {{#if (eq auth.user.basicprofile.membertype "trainer")}}
 
 
 {{!-- Checks if has notifications (by checking if trainerpending exists) --}}
-{{#if auth.user.basicprofile.trainerprofile.trainerpending}}
+	{{#if auth.user.basicprofile.trainerprofile.trainerpending}}
 
 
-{{#each auth.user.basicprofile.trainerprofile.trainerpending as |clientprofile|}}
-	
-	<table class="table">
-	<div class="container-fluid">
-		{{request-list client=clientprofile}}
-   	</div>
-   	</table>
-  
-{{/each}}
+		{{#each auth.user.basicprofile.trainerprofile.trainerpending as |clientprofile|}}
+			
+			<table class="table">
+			<div class="container-fluid">
+				{{request-list client=clientprofile isTrain=true}}
+		   	</div>
+		   	</table>
+		  
+		{{/each}}
 
-{{!-- Else for no notifications --}}
-{{else}}
-You have no notifications
+	{{!-- Else for no notifications --}}
+	{{else}}
+	You have no notifications
 
 
-{{/if}}
+	{{/if}}
+
+{{else if (eq auth.user.basicprofile.membertype "dietitian")}}
+
+
+{{!-- Checks if has notifications (by checking if trainerpending exists) --}}
+	{{#if auth.user.basicprofile.dietitianprofile.dietitianpending}}
+
+
+		{{#each auth.user.basicprofile.dietitianprofile.dietitianpending as |clientprofile|}}
+			
+			<table class="table">
+			<div class="container-fluid">
+				{{request-list client=clientprofile isTrain=false}}
+		   	</div>
+		   	</table>
+		  
+		{{/each}}
+	{{else}}
+	You have no notifications
+
+
+	{{/if}}
 {{!-- End of check for notifications --}}
 
 
 {{else}}
-You must login as trainer to view trainer trainer notifications
-
+You must login as trainer or dietitian to view notifications
 {{/if}}
-{{!-- End check for trainer --}}
-
