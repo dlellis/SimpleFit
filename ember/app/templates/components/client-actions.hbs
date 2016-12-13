@@ -14,8 +14,10 @@
         <h4>Age: {{prof.basicinfo.age}}</h4>
         <a class="btn btn-info" href="/vchat?id={{prof.basicinfo.id}}" onclick="$('#myModal').modal('hide')">Initiate Video Conference</a>
         {{#if isTrain}}
-          {{#link-to "createworkout" prof tagName="button" class="btn btn-info"}}Create Workout{{/link-to}}<hr>
-          {{#link-to "viewworkouts" prof tagName="button" class="btn btn-info"}}View Workout{{/link-to}}
+        <a class="btn btn-info" href="/createworkout/{{prof.basicinfo.id}}" onclick="$('#myModal').modal('hide')">Create Workout</a>
+        <a class="btn btn-info" href="/viewworkouts/{{prof.basicinfo.id}}" onclick="$('#myModal').modal('hide')">View Workouts</a>
+          {{!-- {{#link-to "createworkout" prof tagName="button" class="btn btn-info" }}Create Workout{{/link-to}}<hr> --}}
+          {{!-- {{#link-to "viewworkouts" prof tagName="button" class="btn btn-info"}}View Workout{{/link-to}} --}}
           <button type="submit" class="btn btn-danger" data-dismiss="modal" {{action "rmTrain" prof}}>Remove Client</button>
         {{else}}
           <button type="submit" class="btn btn-danger" data-dismiss="modal" {{action "rmDiet" prof}}>Remove Client</button>
