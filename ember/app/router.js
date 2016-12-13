@@ -25,6 +25,7 @@ Router.map(function() {
   this.route('fakeroute');
   this.route('dmarket');
   this.route('createworkout');
+  this.route('viewworkouts');
 });
 
 export default Router;

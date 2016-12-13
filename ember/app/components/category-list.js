@@ -55,17 +55,15 @@ function replacerep(newitem, list){
 }
 
 
-
-
-
-
 export default Ember.Component.extend({
   store: Ember.inject.service(),
+  routing: Ember.inject.service('-routing'),
   expanded: [],
   exercises: [],
   errorhere: '',
   exdict: [],
   workname: '',
+  ok: 'hihi',
 
   nums: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],  
   actions: {
@@ -126,53 +124,45 @@ export default Ember.Component.extend({
 
     },
     saveWorkout: function(ex){
+      // const exs = []
+      var val;
+      var idea = this;
+
+      // for (var i=0; i < this.exdict.length; i++) {
+      //     val.addObject(this.exdict[i]);
+
+      // };
+
+
       var work = this.get('store').createRecord('clientworkout', {
           name: this.get('workname'),
           //exercise: exs,
 
-      });
-      work.save()
-      var exs = []
-          for (var i=0; i < this.exdict.length; i++) {
-      console.log('Workout: ' +this.get('workname') );
-      console.log(this.exdict[i].name +' '+ this.exdict[i].sset + ' ' + this.exdict[i].srep);
+      }); 
 
-      var ex = this.get('store').createRecord('clientexercise', {
-        name: this.exdict[i].name,
-        suggestsets: this.exdict[i].sset,
-        suggestreps: this.exdict[i].srep,
-        workout: work,
-      });
-      ex.save();
-      // exs.addObject(ex);
-      // console.log(this.exdict[0].sset);
+      work.save().then(function(workd){
+        for (var i=0; i < idea.exdict.length; i++) {
+        const ex2 = idea.get('store').createRecord('clientexercise', {
+            name: idea.exdict[i].name,
+            suggestsets: idea.exdict[i].sset,
+            suggestreps: idea.exdict[i].srep,
+            workout: work,
+            
+          });
+        ex2.save()        
+        
+        };
+        idea.expanded.clear();
+        idea.exercises.clear();
+        idea.exdict.clear();
+        idea.get('routing').transitionTo('viewworkouts');
+
+        });
+        
+
+  
+      },
 
 
-
-      //ex.save()
-    }
-    // this.get('router').transitionTo('index')
-
-      // console.log(this.exdict[0].name)
-      // console.log('saving workout')
-    },
-
-  }
+  },
 });
-
-//   actions: {
-//     addclient: function() {
-//       var client = this.store.createRecord('client', {
-//         firstname: this.get('firstname'),
-//         lastname: this.get('lastname'),
-//       });
-//       client.save();
-//       console.log(this.get('firstname'));
-//     },
-//     delclient: function(client) {
-//       var del = this.store.findRecord('client', client.id, { backgroundReload: false }).then(function(post) {
-//   post.destroyRecord(); // => DELETE to /posts/2
-// });
-//       console.log(client.get('firstname'));
-//     },
-//   }

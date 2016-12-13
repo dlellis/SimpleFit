@@ -6,7 +6,7 @@ from rest_framework_json_api.relations import ResourceRelatedField
 
 class ClientWorkoutSerializer(serializers.HyperlinkedModelSerializer):
 	exercise = ResourceRelatedField(
-	#queryset = User.objects)
+	#queryset = ClientExercise.objects,
 	many=True,
 	read_only=True)
 
@@ -18,8 +18,8 @@ class ClientWorkoutSerializer(serializers.HyperlinkedModelSerializer):
 
 class ClientExerciseSerializer(serializers.HyperlinkedModelSerializer):
 	workout = ResourceRelatedField(
-	#queryset = User.objects)
-	read_only=True)
+	queryset = ClientWorkout.objects,
+	read_only=False)
 
 	class Meta:
 		model = ClientExercise
