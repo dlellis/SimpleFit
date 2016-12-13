@@ -1,15 +1,13 @@
-<style>
-.market {
-  border: 1px solid black;
-}
 
-</style>
 {{!-- Search --}}
 {{#if (eq auth.user.basicprofile.membertype "client")}}
 
 {{#if auth.user.basicprofile.clientprofile.trainer.id}}
-<div class="page-header">
-  <h1><small>You already have a trainer!</small></h1>
+<div class="jumbotron">
+  <h1>You already have a trainer!</h1>
+  <p>Name of trainer you are paired with: {{auth.user.basicprofile.clientprofile.trainer.basicinfo.firstname}} {{auth.user.basicprofile.clientprofile.trainer.basicinfo.lastname}}</p>
+  <p>Need to remove your trainer for any reason?</p>
+  <p><button type="submit" class="btn btn-lg btn-danger" {{action "rmTrain"}}>Remove</button></p>
 </div>
 
 {{else}}
@@ -36,7 +34,7 @@
 {{#each model as |prof|}}
     <div class="col-sm-6 col-md-4">
       <div class="thumbnail">
-        <img src="https://avatars1.githubusercontent.com/u/14190058?v=3&s=400" alt="alt" height="242" width="200">
+        <img src="https://lh4.googleusercontent.com/--i_3HHU_4vY/AAAAAAAAAAI/AAAAAAAABQ0/W68swESYuio/photo.jpg" alt="alt" height="242" width="200">
         <div class="caption">
           <h3>{{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h3>
           <p>...</p>

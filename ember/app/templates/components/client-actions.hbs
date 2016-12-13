@@ -1,6 +1,5 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Actions</button>
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="notmyModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -11,7 +10,7 @@
       </div>
       <div class="modal-body">
         <p><a href="/vchat" onclick="$('#myModal').modal('hide')">Initiate Video Conference</a></p>
-
+        <h4>Name: {{prof.basicinfo.firstname}} {{prof.basicinfo.firstname}}</h4>
         <h4>Gender: {{prof.basicinfo.gender}}</h4>
         <h4>Age: {{prof.basicinfo.age}}</h4>
         {{#if isTrain}}
@@ -27,5 +26,8 @@
 
   </div>
 </div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notmyModal">Actions</button>
+
 
 {{yield}}

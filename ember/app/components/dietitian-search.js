@@ -18,6 +18,12 @@ export default Ember.Component.extend({
         c.set('dietitianpending',null)
         c.save();    
     },
+    rmDiet() {
+        var cid = this.get('auth.user.basicprofile.clientprofile.id')
+        let c = this.get('store').peekRecord('clientprofile',cid)
+        c.set('dietitian',null)
+        c.save();    
+    },
    
     }
 });
