@@ -1,4 +1,11 @@
+{{#if aftercreated}}
+<h1>{{aftercreated}}</h1><hr>
+<a class="btn btn-info" href="/viewworkouts/{{model.basicprofile.id}}" onclick="$('#myModal').modal('hide')">View Workouts</a>
+<button class="btn btn-info"{{action "createAnother"}}>Create Another</button><hr>
+{{else}}
+
 <h1>Create Workout for {{model.basicprofile.firstname}}</h1><hr>
+
 
 <div class="col-md-4">
 
@@ -26,6 +33,7 @@
 
 
 </div>
+{{/if}}
 <div class="col-md-7">
 
 {{#if exdict}}
@@ -94,49 +102,8 @@
 {{else}}
 {{/if}}
 
-{{!-- {{#each model.workout.exercise as |ex|}}
-<div class="list-group-item">
 
 
-
-
-
-
-<div class="row">
-	<div class="col-md-4">
-		{{ex.name}}
-	</div>
-	<div class="col-md-3">
-		<select class="form-control">
-			{{#each nums as |num|}}
-		    <option value={{one}}>{{num}}</option>
-			{{/each}}
-		</select>
-	</div>
-
-
-	<div class="col-md-3">
-		<select class="form-control">
-			{{#each nums as |num|}}
-		    <option value={{one}}>{{num}}</option>
-			{{/each}}
-		</select>
-	</div>
-
-
-	<div class="col-md-1">
-		<button type="submit" class="glyphicon glyphicon-remove"{{action "removeExercise" ex}}></button>
-	</div>
-
-
-</div>
-	
-
-
-
-</div>
-{{/each}}
- --}}
 
 
 </div>
