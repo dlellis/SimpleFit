@@ -41,13 +41,6 @@ body{
   padding-right: 20px;
 }
 
-ul.meallog {
-    border: 1px solid black;
-    background-color: #4169E1;
-    color: white;
-
-}
-
 .wrap {
   min-height: 100%;
   background-color: white;

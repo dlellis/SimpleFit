@@ -1,15 +1,13 @@
-<style>
-.market {
-  border: 1px solid black;
-}
 
-</style>
 {{!-- Search --}}
 {{#if (eq auth.user.basicprofile.membertype "client")}}
 
 {{#if auth.user.basicprofile.clientprofile.dietitian.id}}
-<div class="page-header">
-  <h1><small>You already have a dietitian!</small></h1>
+<div class="jumbotron">
+  <h1>You already have a dietitian!</h1>
+  <p>Name of dietitian you are paired with: {{auth.user.basicprofile.clientprofile.dietitian.basicinfo.firstname}} {{auth.user.basicprofile.clientprofile.dietitian.basicinfo.lastname}}</p>
+  <p>Need to remove your dietitian for any reason?</p>
+  <p><button type="submit" class="btn btn-lg btn-danger" {{action "rmDiet"}}>Remove</button></p>
 </div>
 
 {{else}}
