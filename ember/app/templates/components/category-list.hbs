@@ -26,15 +26,117 @@
 
 
 </div>
-<div class="col-md-4 margin33">
+<div class="col-md-7">
 
+{{#if exdict}}
+<h3>Name Workout</h3>
+{{input type="text" value=(mut workname) class='form-control reg-input-field' placeholder="name workout"}}<hr>
+{{else}}
+{{/if}}
 {{errorhere}}
-{{#each model.workout.exercise as |ex|}}
+{{#each exdict as |e|}}
 <div class="list-group-item">
-{{ex.name}}<br>
+
+
+
+
+
+
+<div class="row">
+	<div class="col-md-2 margin33">
+		{{e.name}}
+	</div>
+	<div class="col-md-4">
+	Suggest Sets
+
+		<select name="ssets" class="form-control" onchange={{action "addSet" value='target.value' label="target.label"}}>
+			{{#each nums as |num|}}
+			{{#if (eq2 e.sset num)}}
+			<option selected="selected" value={{concat e.name "|" num}}>{{num}}</option>
+			{{else}}
+		    <option value={{concat e.name "|" num}}>{{num}}</option>
+		    {{/if}}
+			{{/each}}
+		</select>
+	</div>
+
+
+	<div class="col-md-4">
+	Suggested Reps
+		<select name="sreps"class="form-control" onchange={{action "addRep" value='target.value' label="target.label"}}>
+			{{#each nums as |num|}}
+			{{#if (eq2 e.srep num)}}
+			<option selected="selected" value={{concat e.name "|" num}}>{{num}}</option>
+			{{else}}
+		    <option value={{concat e.name "|" num}}>{{num}}</option>
+		    {{/if}}
+			{{/each}}
+		</select>
+	</div>
+
+
+	<div class="col-md-1 margin33">
+		<button type="" class="btn btn-danger"{{action "removeExercise" e.name}}>Remove</button>
+	</div>
+
+
+
+</div>
+	
+
+
+
+</div>
+
+{{/each}}
+{{#if exdict}}
+<button type="submit" class="btn btn-primary pull-right"{{action "saveWorkout"}}>Save</button>
+{{else}}
+{{/if}}
+
+{{!-- {{#each model.workout.exercise as |ex|}}
+<div class="list-group-item">
+
+
+
+
+
+
+<div class="row">
+	<div class="col-md-4">
+		{{ex.name}}
+	</div>
+	<div class="col-md-3">
+		<select class="form-control">
+			{{#each nums as |num|}}
+		    <option value={{one}}>{{num}}</option>
+			{{/each}}
+		</select>
+	</div>
+
+
+	<div class="col-md-3">
+		<select class="form-control">
+			{{#each nums as |num|}}
+		    <option value={{one}}>{{num}}</option>
+			{{/each}}
+		</select>
+	</div>
+
+
+	<div class="col-md-1">
+		<button type="submit" class="glyphicon glyphicon-remove"{{action "removeExercise" ex}}></button>
+	</div>
+
+
+</div>
+	
+
+
+
 </div>
 {{/each}}
-
+ --}}
 
 
 </div>
