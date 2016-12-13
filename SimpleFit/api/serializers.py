@@ -10,6 +10,8 @@ class ClientWorkoutSerializer(serializers.HyperlinkedModelSerializer):
 	many=True,
 	read_only=True)
 
+	clientprofile = ResourceRelatedField(
+		queryset = ClientProfile.objects)
 	class Meta:
 		model = ClientWorkout
 		fields = '__all__'
@@ -158,6 +160,10 @@ class ClientProfileSerializer(serializers.HyperlinkedModelSerializer):
 		queryset = DietitianProfile.objects,
 		allow_null=True,
 		)
+
+	workout = ResourceRelatedField(
+		read_only=True,
+		many=True)
 
 	class Meta:
 		model = ClientProfile

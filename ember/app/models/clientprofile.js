@@ -7,4 +7,5 @@ export default DS.Model.extend({
 	trainerpending: DS.belongsTo('trainerprofile', {async: true, inverse: 'trainerpending'}),
 	dietitian: DS.belongsTo('dietitianprofile', {async: true, inverse: 'dietitian'}),
 	dietitianpending: DS.belongsTo('dietitianprofile', {async: true, inverse: 'dietitianpending'}),
+	workout: DS.hasMany('clientworkout', {async: true}),
 });
