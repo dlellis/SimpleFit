@@ -32,10 +32,10 @@ class ClientWorkout(models.Model):
 
 class ClientExercise(models.Model):
 	name = models.CharField(max_length=30, default=None)
-	suggestreps = models.PositiveIntegerField(default=0)
-	suggestsets = models.PositiveIntegerField(default=0)
-	actualreps = models.PositiveIntegerField(default=0)
-	actualsets = models.PositiveIntegerField(default=0)
+	suggestreps = models.PositiveIntegerField(blank=True, null=True, default=0)
+	suggestsets = models.PositiveIntegerField(blank=True, null=True, default=0)
+	actualreps = models.PositiveIntegerField(blank=True, null=True, default=0)
+	actualsets = models.PositiveIntegerField(blank=True, null=True, default=0)
 	workout = models.ForeignKey(ClientWorkout,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
 
 	class JSONAPIMeta:

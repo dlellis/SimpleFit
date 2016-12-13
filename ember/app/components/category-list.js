@@ -126,6 +126,12 @@ export default Ember.Component.extend({
 
     },
     saveWorkout: function(ex){
+      var work = this.get('store').createRecord('clientworkout', {
+          name: this.get('workname'),
+          //exercise: exs,
+
+      });
+      work.save()
       var exs = []
           for (var i=0; i < this.exdict.length; i++) {
       console.log('Workout: ' +this.get('workname') );
@@ -135,17 +141,13 @@ export default Ember.Component.extend({
         name: this.exdict[i].name,
         suggestsets: this.exdict[i].sset,
         suggestreps: this.exdict[i].srep,
-        //workout: work,
+        workout: work,
       });
       ex.save();
-      exs.addObject(ex);
+      // exs.addObject(ex);
       // console.log(this.exdict[0].sset);
-            var work = this.get('store').createRecord('clientworkout', {
-          name: this.get('workname'),
-          exercise: exs,
 
-      });
-      //work.save()
+
 
       //ex.save()
     }

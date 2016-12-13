@@ -35,8 +35,12 @@ class ExerciseInlineAdmin(admin.TabularInline):
 class CategoryAdmin(admin.ModelAdmin):
 	inlines = [ExerciseInlineAdmin]
 
+class ClientExerciseAdmin(admin.ModelAdmin):
+	pass
+
 admin.site.register(ClientProfile, ClientAdmin)
 admin.site.register(BasicProfile, BasicProfileAdmin)
 admin.site.register(TrainerProfile, TrainerProfileAdmin)
 admin.site.register(ClientWorkout, ClientWorkoutAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(ClientExercise, ClientExerciseAdmin)
