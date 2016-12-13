@@ -136,6 +136,7 @@ export default Ember.Component.extend({
 
       var work = this.get('store').createRecord('clientworkout', {
           name: this.get('workname'),
+          clientprofile: this.get('model.basicprofile.clientprofile')
           //exercise: exs,
 
       }); 
@@ -155,7 +156,7 @@ export default Ember.Component.extend({
         idea.expanded.clear();
         idea.exercises.clear();
         idea.exdict.clear();
-        idea.get('routing').transitionTo('viewworkouts');
+        idea.get('routing').transitionTo('viewworkouts', idea.get('model.basicprofile.id'));
 
         });
         

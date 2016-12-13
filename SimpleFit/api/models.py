@@ -97,8 +97,9 @@ class ClientProfile(models.Model):
 	class Admin(admin.ModelAdmin):
 		list_display = ('trainer',)
 
+	##if everything breaks, make this singular
 	class JSONAPIMeta:
-		resource_name = "clientprofile"
+		resource_name = "clientprofiles"
 
 
 class Client(models.Model):

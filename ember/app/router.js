@@ -24,8 +24,8 @@ Router.map(function() {
   this.route('tregister');
   this.route('fakeroute');
   this.route('dmarket');
-  this.route('createworkout');
-  this.route('viewworkouts');
+  this.route('createworkout', {path: 'createworkout/:basicprofile_id'});
+  this.route('viewworkouts', {path: 'viewworkouts/:basicprofile_id'});
 });
 
 export default Router;
