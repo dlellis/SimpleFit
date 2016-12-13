@@ -6,50 +6,18 @@ from django.contrib.auth.models import *
 from django.contrib import admin
 
 
-# class ClientProfile(models.Model):
-# 	trainer = 'trainer'
-# 	dietitian = 'dietitian'
-# 	both = 'both'
-# 	none = 'none'
+class Category(models.Model):
+	name = models.CharField(max_length=30, default=None)
 
+	class JSONAPIMeta:
+		resource_name = "category"
 
-# 	service_choices = (
-# 		(trainer, trainer),
-# 		(dietitian, dietitian),
-# 		(both, both),
-# 		(none, none),
-# 		)
+class Exercise(models.Model):
+	name = models.CharField(max_length=30, default=None)
+	category = models.ForeignKey(Category,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
 
-
-
-
-# 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-# 	firstname = models.CharField(max_length=30)
-# 	lastname = models.CharField(max_length=30)
-# 	#roles = models.CharField(max_length=200, blank=False, default="{\"admin\": false}")
-# 	gender = models.CharField(max_length=100, blank=False, default=None)
-# 	age = models.IntegerField(blank=False, default=0)
-# 	#educationlevel = models.CharField(max_length=200, blank=False)
-# 	city = models.CharField(max_length=200, blank=False, default=None)
-# 	state = models.CharField(max_length=200, blank=False, default=None)
-# 	ip = models.CharField(max_length=200, blank=False, default=None)
-# 	service = models.CharField(max_length=30, choices=service_choices, default=none)
-
-	
-# 	def __str__(self):
-# 		return self.user.username
-
-# 	class Admin(admin.ModelAdmin):
-# 		list_display = ('user',)
-
-# 	class JSONAPIMeta:
-# 		resource_name = "clientprofiles"
-
-
-
-
-
-
+	class JSONAPIMeta:
+		resource_name = "exercise"
 
 
 
@@ -65,11 +33,17 @@ class BasicProfile(models.Model):
 	(client, client),
 	)
 
+	gender_choices = (
+		('Male', 'Male'),
+		('Female', 'Female'),
+		('Other', 'Other'),
+		)
+
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	firstname = models.CharField(max_length=30, default=None)
 	lastname = models.CharField(max_length=30, default=None)
-	gender = models.CharField(max_length=100, blank=False, default=None)
+	gender = models.CharField(max_length=100, choices=gender_choices, blank=False, default=None)
 	age = models.IntegerField(blank=False, default=0)
 	city = models.CharField(max_length=200, blank=False, default=None)
 	state = models.CharField(max_length=200, blank=False, default=None)
@@ -85,7 +59,7 @@ class BasicProfile(models.Model):
 
 class DietitianProfile(models.Model):
 	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
-	
+	specialty = models.CharField(max_length=30, default=None)
 
 	def __str__(self):
 		return self.basicinfo.firstname+" "+self.basicinfo.lastname
@@ -114,17 +88,18 @@ class TrainerProfile(models.Model):
 class ClientProfile(models.Model):
 	basicinfo = models.OneToOneField(BasicProfile, on_delete=models.CASCADE)
 	trainer = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="trainer")
-	dietitian = models.ForeignKey(DietitianProfile,null=True,blank=True, on_delete=models.CASCADE)
+	dietitian = models.ForeignKey(DietitianProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="dietitian")
 	trainerpending = models.ForeignKey(TrainerProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="trainerpending")
-
+	dietitianpending = models.ForeignKey(DietitianProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="dietitianpending")
 	def __str__(self):
 		return self.basicinfo.firstname+" "+self.basicinfo.lastname
 
 	class Admin(admin.ModelAdmin):
 		list_display = ('trainer',)
 
+	##if everything breaks, make this singular
 	class JSONAPIMeta:
-		resource_name = "clientprofile"
+		resource_name = "clientprofiles"
 
 
 class Client(models.Model):
@@ -153,4 +128,27 @@ class Client(models.Model):
 
 	def __str__(self):
 		return self.firstname
+
+class ClientWorkout(models.Model):
+	name = models.CharField(max_length=30, default=None)
+	clientprofile = models.ForeignKey(ClientProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="workout")
+
+
+	def __str__(self):
+		return self.name
+
+	class JSONAPIMeta:
+		resource_name = "clientworkouts"
+
+
+class ClientExercise(models.Model):
+	name = models.CharField(max_length=30, default=None)
+	suggestreps = models.PositiveIntegerField(blank=True, null=True, default=0)
+	suggestsets = models.PositiveIntegerField(blank=True, null=True, default=0)
+	actualreps = models.PositiveIntegerField(blank=True, null=True, default=0)
+	actualsets = models.PositiveIntegerField(blank=True, null=True, default=0)
+	workout = models.ForeignKey(ClientWorkout,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
+
+	class JSONAPIMeta:
+		resource_name = "clientexercises"
 

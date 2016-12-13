@@ -1,5 +1,13 @@
-<div>
-    <iframe id='iframechat' src="https://appear.in/secwebdev" style="border: 0" height="600" width="100%"></iframe>
+<style>
+.main {
+     margin: 0 auto;
+     text-align: center;
+     height: 100%;
+}
+</style>
+
+<div class="main">
+    <iframe id='iframechat' src={{concat "https://appear.in/secwebdev" id}} width="1024" height="720" frameborder="0"></iframe>
 </div>
 <!-- UPDATE APPEAR TO BE DYNAMIC WITH TRIANER USER NAME OR SPECIAL ID-->
 {{outlet}}

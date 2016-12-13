@@ -1,0 +1,83 @@
+
+{{!-- Search --}}
+{{#if (eq auth.user.basicprofile.membertype "client")}}
+
+{{#if auth.user.basicprofile.clientprofile.dietitian.id}}
+<div class="jumbotron">
+  <h1>You already have a dietitian!</h1>
+  <p>Name of dietitian you are paired with: {{auth.user.basicprofile.clientprofile.dietitian.basicinfo.firstname}} {{auth.user.basicprofile.clientprofile.dietitian.basicinfo.lastname}}</p>
+  <p>Need to remove your dietitian for any reason?</p>
+  <p><button type="submit" class="btn btn-lg btn-danger" {{action "rmDiet"}}>Remove</button></p>
+</div>
+
+{{else}}
+
+{{!-- if for if you have a pending request --}}
+{{#if auth.user.basicprofile.clientprofile.dietitianpending.id}}
+<div class="jumbotron">
+  <h1>You have a pending dietitian request.</h1>
+  <p>Name of dietitian you requested: {{auth.user.basicprofile.clientprofile.dietitianpending.basicinfo.firstname}} {{auth.user.basicprofile.clientprofile.dietitianpending.basicinfo.lastname}}</p>
+  <p>Need to cancel the request?</p>
+  <p><button type="submit" class="btn btn-lg btn-danger" {{action "cancelRequest"}}>Cancel</button></p>
+</div>
+   
+    
+
+ {{!-- else for if you have a pending request --}}
+{{else}}
+<div class="page-header">
+  <h1><small>Available Dietitians</small></h1>
+</div>
+<div class="row">
+{{#each model as |prof|}}
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="https://avatars1.githubusercontent.com/u/14190058?v=3&s=400" alt="alt" height="242" width="200">
+        <div class="caption">
+          <h3>{{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h3>
+          <p>...</p>
+          <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal{{prof.basicinfo.id}}">Info</button> <button type="submit" class="btn btn-warning" {{action "requestDietitian" prof}}>Request</button></p>
+        </div>
+      </div>
+    </div>
+
+<!-- Modal -->
+<div id="modal{{prof.basicinfo.id}}" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Dietitian Information</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+
+        <h4>Gender: {{prof.basicinfo.gender}}</h4>
+        <h4>Age: {{prof.basicinfo.age}}</h4>
+        <h4>Certification: {{prof.specialty}}</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{{/each}}
+</div>
+
+ {{/if}}
+
+
+
+{{/if}}
+
+ {{else}}
+
+
+Login as client user to do this
+{{/if}}
+
+{{yield}}

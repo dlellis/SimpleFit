@@ -9,9 +9,14 @@ from rest_framework_nested import routers
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'clients', ClientViewSet)
-router.register(r'clientprofiles', ClientProfileViewSet),
-router.register(r'basicprofiles', BasicProfileViewSet),
-router.register(r'trainerprofiles', TrainerProfileViewSet),
+router.register(r'clientprofiles', ClientProfileViewSet)
+router.register(r'basicprofiles', BasicProfileViewSet)
+router.register(r'trainerprofiles', TrainerProfileViewSet)
+router.register(r'dietitianprofiles', DietitianProfileViewSet)
+router.register(r'categories',CategoryViewSet)
+router.register(r'exercises',ExerciseViewSet)
+router.register(r'clientworkouts',ClientWorkoutViewSet)
+router.register(r'clientexercises',ClientExerciseViewSet)
 
 
 
@@ -22,9 +27,9 @@ urlpatterns = [
     
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
 	url(r'^session/', csrf_exempt(Session.as_view())),
-	#url(r'^register', csrf_exempt(Register.as_view())),
 	url(r'^tregister', csrf_exempt(Tregister.as_view())),
 	url(r'^cregister', csrf_exempt(Cregister.as_view())),
+	url(r'^dregister', csrf_exempt(Dregister.as_view())),
 	url(r'^', include(router.urls)),
 
 ]

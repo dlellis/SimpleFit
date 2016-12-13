@@ -18,10 +18,12 @@ Router.map(function() {
   this.route('user', {path: 'users/:user_url'});
   this.route('register');
   this.route('newfeature');
-  this.route('testing');
   this.route('cregister');
   this.route('dregister');
   this.route('tregister');
+  this.route('dmarket');
+  this.route('createworkout', {path: 'createworkout/:basicprofile_id'});
+  this.route('viewworkouts', {path: 'viewworkouts/:basicprofile_id'});
 });
 
 export default Router;

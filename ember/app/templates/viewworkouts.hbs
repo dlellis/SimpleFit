@@ -1,0 +1,21 @@
+<h1>Workouts Created for {{model.firstname}}</h1><hr>
+<div class="col-md-6">
+{{#each model.clientprofile.workout as |workout|}}
+<h3>
+{{workout.name}}
+</h3>
+{{#each workout.exercise as |ex|}} 
+<div class="list-group-item">
+<h4>{{ex.name}}</h4>
+<hr>
+Suggested # of Reps: {{ex.suggestreps}}<br>
+Suggested # of Sets: {{ex.suggestsets}}
+</div>
+{{/each}}
+
+<hr>
+
+
+{{/each}}
+</div>
+{{outlet}}

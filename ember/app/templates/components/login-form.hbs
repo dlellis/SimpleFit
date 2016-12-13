@@ -21,9 +21,7 @@
 		{{input type="checkbox" checked=auth.remember}}
 		Remember me
 	</label>
-	<button type="button" class="btn btn-default btn-sm" {{action "login"}}>Sign in</button>
+	<button type="submit" class="btn btn-default btn-sm" {{action "login"}}>Sign in</button>
 	<br>
-	<p class="right margin-3">Don't have an account? 
-		{{#link-to "register"}}Register Now.{{/link-to}}
-	</p>
+	<p class="right margin-3">Don't have an account yet? {{register-modal}}</p>
 </form>

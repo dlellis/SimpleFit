@@ -1,3 +1,4 @@
+
 {{#if (eq auth.user.basicprofile.membertype "trainer")}}
 
 
@@ -8,26 +9,40 @@
 {{!-- {{#each model as |client|}}
 {{client.id}}
 {{/each}} --}}
+<div class="row">
 {{#each auth.user.basicprofile.trainerprofile.trainerpending as |clientprofile|}}
-	
-	<table class="table">
-	<div class="container-fluid">
-	{{request-list client=clientprofile}}
-  	
 
-	
-
-    
-   	</div>
-
-   	</table>
-  
-
+  <div class="col-sm-6 col-md-4">
+	{{request-list client=clientprofile isTrain=true}}
+  </div>
 {{/each}}
+</div>
+
+{{!-- {{/each}} --}}
+{{/if}}
+
+{{#if (eq auth.user.basicprofile.membertype "dietitian")}}
+
+
+
+{{!-- {{#each model as |basicprofile|}} --}}
+{{!-- {{basicprofile.clientprofile.id}}
+{{basic}} --}}
+{{!-- {{#each model as |client|}}
+{{client.id}}
+{{/each}} --}}
+<div class="row">
+{{#each auth.user.basicprofile.dietitianprofile.dietitianpending as |clientprofile|}}
+	
+	<div class="col-sm-6 col-md-4">
+		{{request-list client=clientprofile isTrain=false}}
+  	</div>
+{{/each}}
+</div>
 
 {{!-- {{/each}} --}}
 
 {{else}}
-You must login as trainer to view trainer trainer notifications
+You must login as a trainer or dietitian to view notifications
 
 {{/if}}

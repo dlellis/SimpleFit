@@ -1,0 +1,37 @@
+<!-- Modal -->
+<div id="{{prof.basicinfo.id}}modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Client Actions</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Name: {{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h4>
+        <h4>Gender: {{prof.basicinfo.gender}}</h4>
+        <h4>Age: {{prof.basicinfo.age}}</h4>
+        <a class="btn btn-info" href="/vchat?id={{prof.basicinfo.id}}" onclick="$('#myModal').modal('hide')">Initiate Video Conference</a>
+        {{#if isTrain}}
+        <a class="btn btn-info" href="/createworkout/{{prof.basicinfo.id}}" onclick="$('#myModal').modal('hide')">Create Workout</a>
+        <a class="btn btn-info" href="/viewworkouts/{{prof.basicinfo.id}}" onclick="$('#myModal').modal('hide')">View Workouts</a>
+          {{!-- {{#link-to "createworkout" prof tagName="button" class="btn btn-info" }}Create Workout{{/link-to}}<hr> --}}
+          {{!-- {{#link-to "viewworkouts" prof tagName="button" class="btn btn-info"}}View Workout{{/link-to}} --}}
+          <button type="submit" class="btn btn-danger" data-dismiss="modal" {{action "rmTrain" prof}}>Remove Client</button>
+        {{else}}
+          <button type="submit" class="btn btn-danger" data-dismiss="modal" {{action "rmDiet" prof}}>Remove Client</button>
+        {{/if}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{prof.basicinfo.id}}modal">Actions</button>
+
+
+{{yield}}

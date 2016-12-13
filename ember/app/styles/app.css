@@ -1,3 +1,5 @@
+
+
 /* navbar */
 .navbar-default{
     background-color: #2E94EA;
@@ -33,20 +35,19 @@
 }
 
 body{
-  padding-top: 70px;
+  padding-top: 60px;
   height: 100%;
-}
-
-ul.meallog {
-    border: 1px solid black;
-    background-color: #4169E1;
-    color: white;
-
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .wrap {
   min-height: 100%;
   background-color: white;
+}
+
+.margin33{
+  margin-top: 10px;
 }
 
 
@@ -60,7 +61,7 @@ ul.block-grid-3 {
    box-sizing: border-box;
 }
 ul.block-grid-3 > li {
-   width: 33.33333%;
+   width: 25%;
    float: left;
    padding: 0 12px 12px;
    display: block;
@@ -69,6 +70,10 @@ ul.block-grid-3 > li {
    -moz-box-sizing: border-box;
    box-sizing: border-box;
 }
-ul.block-grid-3 > li:nth-of-type(3n+1) {
+ul.block-grid-3 > li:nth-of-type(4n+1) {
    clear: left;
+}
+
+button:focus {
+ outline:0;
 }
