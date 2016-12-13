@@ -20,26 +20,7 @@ class Exercise(models.Model):
 		resource_name = "exercise"
 
 
-class ClientWorkout(models.Model):
-	name = models.CharField(max_length=30, default=None)
 
-	def __str__(self):
-		return self.name
-
-	class JSONAPIMeta:
-		resource_name = "clientworkouts"
-
-
-class ClientExercise(models.Model):
-	name = models.CharField(max_length=30, default=None)
-	suggestreps = models.PositiveIntegerField(blank=True, null=True, default=0)
-	suggestsets = models.PositiveIntegerField(blank=True, null=True, default=0)
-	actualreps = models.PositiveIntegerField(blank=True, null=True, default=0)
-	actualsets = models.PositiveIntegerField(blank=True, null=True, default=0)
-	workout = models.ForeignKey(ClientWorkout,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
-
-	class JSONAPIMeta:
-		resource_name = "clientexercises"
 
 class BasicProfile(models.Model):
 	trainer = 'trainer'
@@ -146,4 +127,27 @@ class Client(models.Model):
 
 	def __str__(self):
 		return self.firstname
+
+class ClientWorkout(models.Model):
+	name = models.CharField(max_length=30, default=None)
+	clientprofile = models.ForeignKey(ClientProfile,null=True,blank=True, on_delete=models.CASCADE, related_name="workout")
+
+
+	def __str__(self):
+		return self.name
+
+	class JSONAPIMeta:
+		resource_name = "clientworkouts"
+
+
+class ClientExercise(models.Model):
+	name = models.CharField(max_length=30, default=None)
+	suggestreps = models.PositiveIntegerField(blank=True, null=True, default=0)
+	suggestsets = models.PositiveIntegerField(blank=True, null=True, default=0)
+	actualreps = models.PositiveIntegerField(blank=True, null=True, default=0)
+	actualsets = models.PositiveIntegerField(blank=True, null=True, default=0)
+	workout = models.ForeignKey(ClientWorkout,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
+
+	class JSONAPIMeta:
+		resource_name = "clientexercises"
 
