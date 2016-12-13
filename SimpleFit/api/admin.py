@@ -28,8 +28,15 @@ class ClientExerciseInlineAdmin(admin.TabularInline):
 class ClientWorkoutAdmin(admin.ModelAdmin):
 	inlines = [ClientExerciseInlineAdmin]
 
+class ExerciseInlineAdmin(admin.TabularInline):
+	model = Exercise
+	fk_name = "category"
+
+class CategoryAdmin(admin.ModelAdmin):
+	inlines = [ExerciseInlineAdmin]
 
 admin.site.register(ClientProfile, ClientAdmin)
 admin.site.register(BasicProfile, BasicProfileAdmin)
 admin.site.register(TrainerProfile, TrainerProfileAdmin)
 admin.site.register(ClientWorkout, ClientWorkoutAdmin)
+admin.site.register(Category, CategoryAdmin)

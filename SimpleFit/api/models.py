@@ -27,7 +27,7 @@ class ClientWorkout(models.Model):
 		return self.name
 
 	class JSONAPIMeta:
-		resource_name = "clientworkout"
+		resource_name = "clientworkouts"
 
 
 class ClientExercise(models.Model):
@@ -39,7 +39,7 @@ class ClientExercise(models.Model):
 	workout = models.ForeignKey(ClientWorkout,null=True,blank=True, on_delete=models.CASCADE, related_name="exercise")
 
 	class JSONAPIMeta:
-		resource_name = "clientexercise"
+		resource_name = "clientexercises"
 
 class BasicProfile(models.Model):
 	trainer = 'trainer'
