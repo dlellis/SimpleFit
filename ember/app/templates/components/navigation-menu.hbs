@@ -9,7 +9,7 @@ body.modal-open {
   <div class="container-fluid">
     <div class="navbar-header">
       {{#link-to 'application' class="navbar-brand"}}
-      SimpleFit
+        SimpleFit
       {{/link-to}}
     </div>
       {{#if auth.isLoggedIn}}
@@ -22,7 +22,7 @@ body.modal-open {
           <li>{{#link-to "index"}}Client Home{{/link-to}}</li>
           <li>{{#link-to "dclient"}}Diet Home{{/link-to}}</li>
           <li>{{#link-to "recipes"}}Recipes{{/link-to}}</li>
-          <li>{{#link-to "vchat"}}Video Chat{{/link-to}}</li>
+          <li>{{#link-to "vchat" (query-params id=auth.user.basicprofile.id)}}Video Chat{{/link-to}}</li>
         {{/bs-dropdown-menu}}
         {{/bs-dropdown}}
         {{/if}}
