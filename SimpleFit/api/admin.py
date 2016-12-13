@@ -14,6 +14,9 @@ class ClientPendingInlineAdmin(admin.TabularInline):
 class ClientAdmin(admin.ModelAdmin):
 	pass
 
+class DietitianProfileAdmin(admin.ModelAdmin):
+	pass
+
 class BasicProfileAdmin(admin.ModelAdmin):
 	pass
 
@@ -44,3 +47,4 @@ admin.site.register(TrainerProfile, TrainerProfileAdmin)
 admin.site.register(ClientWorkout, ClientWorkoutAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(ClientExercise, ClientExerciseAdmin)
+admin.site.register(DietitianProfile, DietitianProfileAdmin)
