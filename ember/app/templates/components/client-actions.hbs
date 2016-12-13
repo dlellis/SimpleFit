@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div id="notmyModal" class="modal fade" role="dialog">
+<div id="{{prof.basicinfo.id}}modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -9,14 +9,14 @@
         <h4 class="modal-title">Client Actions</h4>
       </div>
       <div class="modal-body">
-        <p><a href="/vchat" onclick="$('#myModal').modal('hide')">Initiate Video Conference</a></p>
-        <h4>Name: {{prof.basicinfo.firstname}} {{prof.basicinfo.firstname}}</h4>
+        <p><a href="/vchat?id={{prof.basicinfo.id}}" onclick="$('#myModal').modal('hide')">Initiate Video Conference</a></p>
+        <h4>Name: {{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h4>
         <h4>Gender: {{prof.basicinfo.gender}}</h4>
         <h4>Age: {{prof.basicinfo.age}}</h4>
         {{#if isTrain}}
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Remove Client</button>
+          <button type="submit" class="btn btn-danger" data-dismiss="modal" {{action "rmTrain" prof}}>Remove Client</button>
         {{else}}
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Remove Client</button>
+          <button type="submit" class="btn btn-danger" data-dismiss="modal" {{action "rmDiet" prof}}>Remove Client</button>
         {{/if}}
       </div>
       <div class="modal-footer">
@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notmyModal">Actions</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{prof.basicinfo.id}}modal">Actions</button>
 
 
 {{yield}}
