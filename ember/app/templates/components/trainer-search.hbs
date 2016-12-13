@@ -38,13 +38,13 @@
         <div class="caption">
           <h3>{{prof.basicinfo.firstname}} {{prof.basicinfo.lastname}}</h3>
           <p>...</p>
-          <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Info</button> <button type="submit" class="btn btn-warning" {{action "requestTrainer" prof}}>Request</button></p>
+          <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal{{prof.basicinfo.id}}">Info</button> <button type="submit" class="btn btn-warning" {{action "requestTrainer" prof}}>Request</button></p>
         </div>
       </div>
     </div>
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="modal{{prof.basicinfo.id}}" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
