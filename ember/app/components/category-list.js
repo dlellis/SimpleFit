@@ -55,12 +55,9 @@ function replacerep(newitem, list){
 }
 
 
-
-
-
-
 export default Ember.Component.extend({
   store: Ember.inject.service(),
+  routing: Ember.inject.service('-routing'),
   expanded: [],
   exercises: [],
   errorhere: '',
@@ -155,7 +152,11 @@ export default Ember.Component.extend({
         ex2.save()        
         
         };
-        idea.transitionTo('index');
+        idea.expanded.clear();
+        idea.exercises.clear();
+        idea.exdict.clear();
+        idea.get('routing').transitionTo('viewworkouts');
+
         });
         
 
